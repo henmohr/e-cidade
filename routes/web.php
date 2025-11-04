@@ -37,6 +37,15 @@ Route::group(['middleware' => ['legacySession', 'authEcidadeUser', 'auth.basic']
     });
 });
 
+// Test route for modern/legacy routing
+Route::get('/test-modern', function() {
+    return response()->json([
+        'status' => 'working',
+        'type' => 'modern',
+        'message' => 'Sistema de roteamento moderno/legado funcionando!'
+    ]);
+});
+
 Route::fallback(function () {
     abort(404);
 });

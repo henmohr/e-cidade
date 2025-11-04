@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V2\ExampleController;
 use App\Http\Controllers\RedesimController;
 use Illuminate\Support\Facades\Route;
 
@@ -13,6 +14,18 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+// Modern API v2 Routes
+Route::prefix('v2')->group(function () {
+    Route::get('/example', [ExampleController::class, 'index'])
+        ->name('api.v2.example.index');
+    
+    Route::apiResource('examples', ExampleController::class)
+        ->names('api.v2.examples');
+    
+    Route::get('/legacy-integration', [ExampleController::class, 'legacyIntegration'])
+        ->name('api.v2.legacy.integration');
+});
 
 Route::group(['middleware' => ['redesimAuth']], function () {
     //redesim

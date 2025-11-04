@@ -2,7 +2,13 @@
 
 try {
 
-    if (preg_match('/[^?]*api\/v\d\//', $_SERVER['REQUEST_URI'])) {
+    // API v2 is handled by Laravel (modern routes)
+    if (preg_match('/[^?]*api\/v2\//' , $_SERVER['REQUEST_URI'])) {
+        return require_once 'public/index.php';
+    }
+
+    // API v1 is handled by Silex (legacy)
+    if (preg_match('/[^?]*api\/v1\//' , $_SERVER['REQUEST_URI'])) {
         return require_once 'api/api.php';
     }
 
