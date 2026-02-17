@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\V2\ExampleController;
+use App\Http\Controllers\HealthController;
 use App\Http\Controllers\RedesimController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +15,12 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+// Modern API v2 Routes
+Route::prefix('health')->group(function () {
+    Route::get('/live', [HealthController::class, 'live'])->name('api.health.live');
+    Route::get('/ready', [HealthController::class, 'ready'])->name('api.health.ready');
+});
 
 // Modern API v2 Routes
 Route::prefix('v2')->group(function () {

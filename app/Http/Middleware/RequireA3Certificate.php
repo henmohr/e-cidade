@@ -9,9 +9,14 @@ use Illuminate\Support\Facades\Log;
 
 class RequireA3Certificate
 {
-    public function __construct(
-        private A3CertificateVerifier $verifier
-    ) {
+    /**
+     * @var A3CertificateVerifier
+     */
+    private $verifier;
+
+    public function __construct(A3CertificateVerifier $verifier)
+    {
+        $this->verifier = $verifier;
     }
 
     public function handle(Request $request, Closure $next)

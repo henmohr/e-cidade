@@ -11,8 +11,8 @@ Legenda de status:
 
 - Total avaliado (macroitens): 26
 - `Atende`: 7
-- `Parcial`: 16
-- `Não atende`: 3
+- `Parcial`: 18
+- `Não atende`: 1
 - Conclusão: **há base funcional forte**, mas os requisitos obrigatórios de **infra cloud, segurança avançada e autenticação** ainda têm gaps relevantes para PoC.
 
 ## Matriz
@@ -20,11 +20,11 @@ Legenda de status:
 | Requisito | Status | Evidência atual | Gap principal | Prioridade | Ação sugerida |
 |---|---|---|---|---|---|
 | 1.1.1 Datacenter com capacidade e componentes exigidos | Parcial | Há `docker/` e configuração de app, mas sem comprovação formal de ambiente cloud produtivo | Faltam evidências operacionais/auditoria da infraestrutura | Alta | Documentar arquitetura alvo e comprovar ambiente de produção na PoC |
-| 1.1.2 Comprovação em tempo real de datacenter e BD | Não atende | Sem painéis/artefatos de observabilidade prontos no repositório | Falta demonstração operacional auditável em tempo real | Alta | Preparar runbook PoC com dashboard de infra, banco e disponibilidade |
+| 1.1.2 Comprovação em tempo real de datacenter e BD | Parcial | Endpoints de saúde e coleta operacional implementados (`routes/api.php`, `app/Http/Controllers/HealthController.php`, `app/Console/Commands/OpsHealthSnapshot.php`) | Falta painel em tempo real e integração com monitoramento institucional | Alta | Integrar a coleta em dashboard operacional com alertas e retenção de métricas |
 | 1.1.3 Datacenter próprio/terceirizado aderente ao TR | Parcial | Estrutura de deploy existe, sem termo/evidência contratual no código | Faltam comprovantes formais (fornecedor/certificações/escopo) | Alta | Levantar documentação técnica e contratual da hospedagem |
 | 1.1.4 Atualização contínua de base tecnológica | Parcial | Há componentes antigos (ex.: PHP 7.4 em `README.md:11`) | Processo de patching e atualização de segurança não está evidenciado | Alta | Definir política formal de atualização e trilha de execução |
 | 1.1.5 Boas práticas de segurança e alta disponibilidade | Parcial | Existem configs de segurança pontuais (`config/session.php`, `config/cors.php`) | Falta desenho completo de HA + controles operacionais | Alta | Padronizar baseline de segurança e checklist de operação |
-| 1.1.6 SLA 99,9% comprovado | Não atende | Sem métricas/SLO/SLA formal no repositório | Falta medição e prova histórica de disponibilidade | Alta | Instrumentar monitoramento e relatório de SLA |
+| 1.1.6 SLA 99,9% comprovado | Parcial | Relatório de disponibilidade implementado (`app/Console/Commands/OpsSlaReport.php`) com meta configurável em `config/observability.php` | Falta histórico contínuo e validação oficial em janela contratual | Alta | Executar coleta contínua em homologação/produção e anexar relatório formal por período |
 | 1.1.7 ISO 27001 | Não atende | Nenhuma evidência documental no código | Falta certificação/equivalente do ambiente | Alta | Vincular provedor certificado ou plano de conformidade |
 | 1.1.8 ISO 9001 | Não atende | Nenhuma evidência documental no código | Falta certificação/equivalente do ambiente | Média | Levantar certificação da operação/provedor |
 | 1.1.9 Preferência SGBD Open Source | Atende | Uso de PostgreSQL (`README.md:12`, `.env.example:12`) | Sem gap relevante | Média | Manter evidência técnica na PoC |

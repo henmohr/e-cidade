@@ -89,6 +89,26 @@ Passo a passo de demonstracao para o requisito 1.2.5:
 
 ---
 
+#### [sprint3_checklist_execucao.md](./sprint3_checklist_execucao.md)
+**Checklist Executavel da Sprint 3**
+
+Plano da sprint de disponibilidade e observabilidade:
+- endpoints de saude (live/ready);
+- coleta de amostras operacionais;
+- relatorio de SLA por janela.
+
+---
+
+#### [runbook_observabilidade_sla_poc.md](./runbook_observabilidade_sla_poc.md)
+**Runbook de Observabilidade e SLA para PoC**
+
+Guia de demonstracao:
+- saude da aplicacao em tempo real;
+- coleta periodica para evidencias;
+- calculo de disponibilidade com meta configuravel.
+
+---
+
 #### [PAPEL_ARQUITETO_MODERNIZACAO.md](./PAPEL_ARQUITETO_MODERNIZACAO.md)
 **Diretriz Operacional do Papel Arquitetural**
 
@@ -202,6 +222,8 @@ Documentação técnica completa do sistema de migração gradual de código leg
 | 2026-02-17 | politica_rbac_backup.md | Politica RBAC de acesso aos artefatos de backup |
 | 2026-02-17 | desenho_fluxo_a3_backup.md | Desenho tecnico do fluxo de download com certificado A3 |
 | 2026-02-17 | runbook_a3_backup_download_poc.md | Runbook para validacao do download de backup com A3 |
+| 2026-02-17 | sprint3_checklist_execucao.md | Checklist da Sprint 3 (HA, observabilidade e SLA) |
+| 2026-02-17 | runbook_observabilidade_sla_poc.md | Runbook operacional de saude e medicao de SLA |
 
 ---
 
