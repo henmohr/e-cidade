@@ -28,6 +28,17 @@ Catálogo completo dos **61 módulos** atualmente implementados no sistema, orga
 
 ### 🗺️ Planejamento e Roadmap
 
+#### [PLANO_MODERNIZACAO_ECIDADE_2026.md](./PLANO_MODERNIZACAO_ECIDADE_2026.md)
+**Plano de Modernizacao Tecnica (2026)**
+
+Plano estrategico de modernizacao incremental do e-cidade com foco em:
+- seguranca e LGPD;
+- evolucao arquitetural por fases;
+- qualidade, testes, DevOps e governanca;
+- continuidade operacional para municipios.
+
+---
+
 #### [PAPEL_ARQUITETO_MODERNIZACAO.md](./PAPEL_ARQUITETO_MODERNIZACAO.md)
 **Diretriz Operacional do Papel Arquitetural**
 
@@ -135,6 +146,7 @@ Documentação técnica completa do sistema de migração gradual de código leg
 | 2025-11-04 | ROADMAP_CHECKLIST.md | Criação de checklist resumido |
 | 2025-11-04 | MODERN_LEGACY_ROUTING.md | Sistema de roteamento implementado e documentado |
 | 2026-02-17 | PAPEL_ARQUITETO_MODERNIZACAO.md | Registro do papel arquitetural para guiar planejamento e execucao |
+| 2026-02-17 | PLANO_MODERNIZACAO_ECIDADE_2026.md | Plano tecnico de modernizacao incremental (versao 1.0) |
 
 ---
 
