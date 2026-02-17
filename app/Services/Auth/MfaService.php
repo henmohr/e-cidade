@@ -21,6 +21,27 @@ class MfaService
             return false;
         }
 
+        if ((bool) config('mfa.allow_admin_bypass', false) && $user->isAdmin()) {
+            return false;
+        }
+
+        $requiredUsers = $this->parseIntegerList((string) config('mfa.required_users', ''));
+        if (in_array((int) $user->getAuthIdentifier(), $requiredUsers, true)) {
+            return true;
+        }
+
+        $requiredGroups = $this->parseStringList((string) config('mfa.required_groups', ''));
+        if (!empty($requiredGroups)) {
+            $userGroups = $this->resolveGroupsForUser($user);
+            foreach ($requiredGroups as $group) {
+                if (in_array($group, $userGroups, true)) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         if (!config('mfa.admins_only', true)) {
             return true;
         }
@@ -113,5 +134,72 @@ class MfaService
             ]);
         }
     }
-}
 
+    /**
+     * @return array<int, int>
+     */
+    private function parseIntegerList(string $value): array
+    {
+        $items = $this->parseStringList($value);
+        $ids = [];
+
+        foreach ($items as $item) {
+            $id = (int) $item;
+            if ($id > 0) {
+                $ids[] = $id;
+            }
+        }
+
+        return array_values(array_unique($ids));
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    private function parseStringList(string $value): array
+    {
+        $parts = array_map('trim', explode(',', $value));
+        $parts = array_filter($parts, static function (string $part): bool {
+            return $part !== '';
+        });
+
+        return array_values(array_unique($parts));
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    private function resolveGroupsForUser(User $user): array
+    {
+        $groups = ['default'];
+
+        if ($user->isAdmin()) {
+            $groups[] = 'admin';
+        }
+
+        if ((int) ($user->usuext ?? 0) === 1) {
+            $groups[] = 'external';
+        }
+
+        $mapping = $this->decodeAssoc((string) config('mfa.user_groups_json', '{}'));
+        $idKey = (string) $user->getAuthIdentifier();
+        if (isset($mapping[$idKey]) && is_array($mapping[$idKey])) {
+            foreach ($mapping[$idKey] as $group) {
+                if (is_string($group) && trim($group) !== '') {
+                    $groups[] = trim($group);
+                }
+            }
+        }
+
+        return array_values(array_unique($groups));
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function decodeAssoc(string $json): array
+    {
+        $decoded = json_decode($json, true);
+        return is_array($decoded) ? $decoded : [];
+    }
+}

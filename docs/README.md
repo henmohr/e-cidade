@@ -161,6 +161,16 @@ Guia de validacao do requisito 1.3.28:
 
 ---
 
+#### [runbook_mfa_politica_poc.md](./runbook_mfa_politica_poc.md)
+**Runbook de MFA por Perfil/Grupo/Usuario**
+
+Guia de validacao incremental do MFA:
+- exigencia por usuario e por grupo;
+- fallback com politica de admins;
+- evidencias funcionais e de log para PoC.
+
+---
+
 #### [sprint6_checklist_execucao.md](./sprint6_checklist_execucao.md)
 **Checklist Executavel da Sprint 6**
 
