@@ -151,6 +151,67 @@ Guia de validacao de recursos:
 
 ---
 
+#### [sprint6_checklist_execucao.md](./sprint6_checklist_execucao.md)
+**Checklist Executavel da Sprint 6**
+
+Plano de fechamento da PoC:
+- roteiro oficial de demonstracao;
+- simulacao integral com evidencias;
+- pacote documental final para banca.
+
+---
+
+#### [roteiro_oficial_demonstracao_poc.md](./roteiro_oficial_demonstracao_poc.md)
+**Roteiro Oficial de Demonstracao da PoC**
+
+Sequencia padronizada de apresentacao:
+- seguranca, auditoria e sessoes;
+- backup/restore e SLA;
+- acessibilidade e modulos funcionais prioritarios.
+
+---
+
+#### [simulacao_integral_poc.md](./simulacao_integral_poc.md)
+**Simulacao Integral da PoC**
+
+Registro de ensaio completo pre-banca:
+- preparacao de ambiente e equipe;
+- execucao por etapas;
+- consolidacao de pendencias e aptidao para apresentacao oficial.
+
+---
+
+#### [pacote_documental_poc.md](./pacote_documental_poc.md)
+**Pacote Documental Final da PoC**
+
+Indice de artefatos para entrega:
+- documentos obrigatorios de governanca;
+- evidencias funcionais por sistema;
+- evidencias operacionais de seguranca e continuidade.
+
+---
+
+#### [checklist_evidencias_contabilidade_publica_poc.md](./checklist_evidencias_contabilidade_publica_poc.md)
+**Checklist de Evidencias - Contabilidade Publica (PoC)**
+
+Checklist objetivo para decisao de atingimento no escopo contabil:
+- cobertura funcional dos modulos;
+- fluxo ponta a ponta;
+- auditoria e rastreabilidade;
+- relatorios e requisitos transversais.
+
+---
+
+#### [checklist_evidencias_demais_sistemas_poc.md](./checklist_evidencias_demais_sistemas_poc.md)
+**Checklist de Evidencias - Demais Sistemas (PoC)**
+
+Matriz consolidada para os demais sistemas da licitacao:
+- status por sistema (atingido/parcial/nao atingido);
+- criterios minimos de evidencia;
+- bloco padrao de registro e aceite funcional.
+
+---
+
 #### [PAPEL_ARQUITETO_MODERNIZACAO.md](./PAPEL_ARQUITETO_MODERNIZACAO.md)
 **Diretriz Operacional do Papel Arquitetural**
 
@@ -270,6 +331,8 @@ Documentação técnica completa do sistema de migração gradual de código leg
 | 2026-02-17 | runbook_sessoes_auditoria_poc.md | Runbook de validacao de sessoes ativas e revogacao |
 | 2026-02-17 | sprint5_checklist_execucao.md | Checklist da Sprint 5 (acessibilidade minima obrigatoria) |
 | 2026-02-17 | runbook_acessibilidade_poc.md | Runbook de validacao de contraste, fonte e daltonismo |
+| 2026-02-17 | checklist_evidencias_contabilidade_publica_poc.md | Checklist de atingimento para Contabilidade Publica na PoC |
+| 2026-02-17 | checklist_evidencias_demais_sistemas_poc.md | Checklist consolidado de evidencias para os demais sistemas da licitacao |
 
 ---
 
