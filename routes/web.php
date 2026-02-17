@@ -21,7 +21,7 @@ Route::prefix('web/idp')->group(function () {
     Route::post('/callback', [ExternalIdentityController::class, 'callback'])->name('idp.callback');
 });
 
-Route::group(['middleware' => ['legacySession', 'authEcidadeUser', 'auth.basic'], 'prefix' => 'web'], function () {
+Route::group(['middleware' => ['legacySession', 'authEcidadeUser', 'auth.basic', 'webAuditTrail'], 'prefix' => 'web'], function () {
     Route::get('/welcome', function () {
         return view('modelo');
     })->name('welcome');

@@ -8,6 +8,7 @@ use App\Http\Middleware\LegacyProxyMiddleware;
 use App\Http\Middleware\LegacySessionMiddleware;
 use App\Http\Middleware\RedesimAuth;
 use App\Http\Middleware\RequireA3Certificate;
+use App\Http\Middleware\WebAuditTrailMiddleware;
 use Fruitcake\Cors\HandleCors;
 use App\Http\Middleware\EncryptCookies;
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
@@ -95,5 +96,6 @@ class Kernel extends HttpKernel
         'authEcidadeUser' => AuthEcidadeUser::class,
         'redesimAuth' => RedesimAuth::class,
         'requireA3Certificate' => RequireA3Certificate::class,
+        'webAuditTrail' => WebAuditTrailMiddleware::class,
     ];
 }

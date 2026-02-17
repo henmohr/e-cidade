@@ -181,6 +181,16 @@ Guia de validacao da ponte de identidade externa:
 
 ---
 
+#### [runbook_auditoria_web_transversal_poc.md](./runbook_auditoria_web_transversal_poc.md)
+**Runbook de Auditoria Web Transversal**
+
+Guia de evidencias para trilha operacional:
+- middleware de auditoria no escopo web autenticado;
+- logs estruturados por usuario, rota, status e duracao;
+- filtro de campos sensiveis em entrada.
+
+---
+
 #### [sprint6_checklist_execucao.md](./sprint6_checklist_execucao.md)
 **Checklist Executavel da Sprint 6**
 
