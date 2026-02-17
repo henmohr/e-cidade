@@ -64,6 +64,16 @@ class User extends Authenticatable
         return $this->remember_token;
     }
 
+    public function getCpfAttribute(): ?string
+    {
+        $cpf = $this->cgm?->z01_cgccpf ?? null;
+        if (empty($cpf)) {
+            return null;
+        }
+
+        return preg_replace('/\D+/', '', (string) $cpf);
+    }
+
     /**
      * @param string $token
      * @return void

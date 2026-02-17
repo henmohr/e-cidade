@@ -1,10 +1,17 @@
 <?php
 
 use App\Http\Controllers\AuditController;
+use App\Http\Controllers\Auth\MfaController;
 use App\Http\Controllers\IptuFotosController;
 use App\Http\Controllers\RedesimController;
 use App\Http\Controllers\Modules\Patrimonial\Licitacoes\Procedimentos\JulgamentoPorLance\FaseDeLances\FaseDeLancesController;
 use Illuminate\Support\Facades\Route;
+
+Route::group(['middleware' => ['legacySession', 'authEcidadeUser'], 'prefix' => 'web/mfa'], function () {
+    Route::get('/challenge', [MfaController::class, 'show'])->name('mfa.challenge');
+    Route::post('/verify', [MfaController::class, 'verify'])->name('mfa.verify');
+    Route::post('/resend', [MfaController::class, 'resend'])->name('mfa.resend');
+});
 
 Route::group(['middleware' => ['legacySession', 'authEcidadeUser', 'auth.basic'], 'prefix' => 'web'], function () {
     Route::get('/welcome', function () {

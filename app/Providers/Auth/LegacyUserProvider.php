@@ -65,7 +65,24 @@ class LegacyUserProvider implements UserProvider
      */
     public function retrieveByCredentials(array $credentials)
     {
-        return User::query()->where('login', $credentials['login'])->first();
+        $rawLogin = trim((string) ($credentials['login'] ?? ''));
+        if ($rawLogin === '') {
+            return null;
+        }
+
+        $normalizedCpf = preg_replace('/\D+/', '', $rawLogin);
+
+        $query = User::query()
+            ->with('cgm')
+            ->where('login', $rawLogin);
+
+        if (!empty($normalizedCpf)) {
+            $query->orWhereHas('cgm', function ($subQuery) use ($normalizedCpf) {
+                $subQuery->whereRaw("regexp_replace(z01_cgccpf, '[^0-9]', '', 'g') = ?", [$normalizedCpf]);
+            });
+        }
+
+        return $query->first();
     }
 
     /**
@@ -75,7 +92,7 @@ class LegacyUserProvider implements UserProvider
     {
         if (!$user->isActive()) {
             throw ValidationException::withMessages([
-                $user->login => 'Usuário inativo',
+                $user->login => 'Usuario inativo',
             ]);
         }
 
