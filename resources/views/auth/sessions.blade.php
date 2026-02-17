@@ -21,6 +21,12 @@
         </div>
     @endif
 
+    @if (session('auth_warning'))
+        <div style="color: #8a6d3b;">
+            {{ session('auth_warning') }}
+        </div>
+    @endif
+
     @if (empty($sessions))
         <p>Nenhuma sessao ativa registrada.</p>
     @else
@@ -59,6 +65,32 @@
                                 Sessao atual
                             @endif
                         </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    @endif
+
+    <h2>Ultimos acessos e tentativas</h2>
+    @if (empty($authEvents))
+        <p>Nenhum evento recente de autenticacao.</p>
+    @else
+        <table border="1" cellpadding="6" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Tipo</th>
+                    <th>Horario</th>
+                    <th>IP</th>
+                    <th>User-Agent</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($authEvents as $event)
+                    <tr>
+                        <td>{{ $event['type'] ?? '-' }}</td>
+                        <td>{{ $event['timestamp'] ?? '-' }}</td>
+                        <td>{{ $event['ip'] ?? '-' }}</td>
+                        <td>{{ $event['user_agent'] ?? '-' }}</td>
                     </tr>
                 @endforeach
             </tbody>

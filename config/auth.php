@@ -117,4 +117,8 @@ return [
         'block_tertiary_seconds' => env('AUTH_LOGIN_BLOCK_TERTIARY_SECONDS', 1800),
     ],
 
+    'auth_events' => [
+        'retention_days' => env('AUTH_EVENTS_RETENTION_DAYS', 7),
+    ],
+
 ];

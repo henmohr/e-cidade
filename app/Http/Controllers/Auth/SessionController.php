@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Services\Auth\AuthEventService;
 use App\Services\Auth\SessionActivityService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -12,7 +13,7 @@ use Illuminate\View\View;
 
 class SessionController extends Controller
 {
-    public function index(SessionActivityService $service): View
+    public function index(SessionActivityService $service, AuthEventService $eventService): View
     {
         $user = Auth::user();
         if (!$user) {
@@ -21,6 +22,7 @@ class SessionController extends Controller
 
         return view('auth.sessions', [
             'sessions' => $service->listForUser($user),
+            'authEvents' => $eventService->listRecentEventsForUser($user),
             'currentSessionId' => (string) session()->getId(),
         ]);
     }

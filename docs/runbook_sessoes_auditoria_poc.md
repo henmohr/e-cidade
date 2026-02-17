@@ -19,6 +19,7 @@ Objetivo:
 Resultado esperado:
 - sessao secundaria perde acesso (401) apos revogacao;
 - sessao principal permanece ativa.
+- historico de autenticacao exibe ultimos acessos e tentativas com falha.
 
 ## 3. Evidencias para PoC
 
@@ -27,6 +28,7 @@ Resultado esperado:
 3. Captura da sessao revogada bloqueada.
 4. Trecho de log com evento:
    - `User session revoked`
+5. Captura do alerta de tentativas de login mal sucedidas (quando houver).
 
 ## 4. Limites Conhecidos
 

@@ -36,7 +36,8 @@ Escopo tecnico principal:
 ## Dia 6-8: Auditoria
 
 - [x] `S4-05` Registrar log de revogacao de sessao com contexto.
-- [ ] `S4-06` Cobrir trilha de auditoria em outros fluxos criticos da sprint.
+- [x] `S4-06` Cobrir trilha de auditoria em outros fluxos criticos da sprint.
+  Observacao: historico de sucesso/falha recente integrado na tela de sessoes.
 
 ## Dia 8-10: Fechamento
 

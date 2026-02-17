@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Services\Auth\AuthEventService;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -68,6 +69,7 @@ class LoginController extends Controller
     protected function sendFailedLoginResponse(Request $request)
     {
         $this->registerProgressiveFailure($request);
+        app(AuthEventService::class)->registerFailure($request, (string) $request->input('login'));
 
         Log::warning('Authentication failed', [
             'login' => $request->input('login'),
@@ -80,6 +82,13 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
     {
         $this->clearProgressiveLock($request);
+        /** @var AuthEventService $eventService */
+        $eventService = app(AuthEventService::class);
+        $eventService->registerSuccess($request, $user);
+        $failureCount = $eventService->absorbPendingFailuresForUser($user);
+        if ($failureCount > 0) {
+            session()->flash('auth_warning', "Detectamos {$failureCount} tentativa(s) de acesso mal sucedida(s) antes deste login.");
+        }
 
         Log::info('Authentication succeeded', [
             'user_id' => $user->getAuthIdentifier(),
