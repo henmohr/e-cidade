@@ -96,16 +96,17 @@ class LegacyUserProvider implements UserProvider
             ]);
         }
 
-        $pass = $this->hasher->check(
-            $credentials['senha'],
-            $user->getAuthPassword()
-        );
+        $storedHash = (string) $user->getAuthPassword();
 
-        if (empty($pass)) {
-            return $this->validateLegacyCredentials($user, $credentials);
+        if ($this->isModernHash($storedHash)) {
+            return $this->hasher->check($credentials['senha'], $storedHash);
         }
 
-        return true;
+        if (!$this->isLegacyHash($storedHash)) {
+            return false;
+        }
+
+        return $this->validateLegacyCredentials($user, $credentials);
     }
 
     /**
@@ -118,8 +119,13 @@ class LegacyUserProvider implements UserProvider
     public function validateLegacyCredentials(User $user, array $credentials): bool
     {
         $plain = $credentials['senha'];
+        $storedHash = (string) $user->getAuthPassword();
 
-        if (md5(sha1($plain)) !== $user->getAuthPassword()) {
+        if (!$this->isLegacyHash($storedHash)) {
+            return false;
+        }
+
+        if (md5(sha1($plain)) !== $storedHash) {
             return false;
         }
 
@@ -139,5 +145,18 @@ class LegacyUserProvider implements UserProvider
     {
         $user->senha = $this->hasher->make($password);
         $user->save();
+    }
+
+    private function isModernHash(string $hash): bool
+    {
+        return str_starts_with($hash, '$2y$')
+            || str_starts_with($hash, '$2a$')
+            || str_starts_with($hash, '$argon2i$')
+            || str_starts_with($hash, '$argon2id$');
+    }
+
+    private function isLegacyHash(string $hash): bool
+    {
+        return (bool) preg_match('/^[a-f0-9]{32}$/i', $hash);
     }
 }

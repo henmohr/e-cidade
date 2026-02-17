@@ -61,7 +61,7 @@ return [
 
     'providers' => [
         'users' => [
-            'driver' => 'eloquent',
+            'driver' => env('AUTH_USERS_PROVIDER', 'legacy'),
             'model' => App\Models\User::class,
         ],
 
@@ -107,5 +107,14 @@ return [
     */
 
     'password_timeout' => 10800,
+
+    'login_hardening' => [
+        'max_attempts' => env('AUTH_LOGIN_MAX_ATTEMPTS', 5),
+        'decay_minutes' => env('AUTH_LOGIN_DECAY_MINUTES', 2),
+        'progressive_window_minutes' => env('AUTH_LOGIN_PROGRESSIVE_WINDOW_MINUTES', 60),
+        'block_primary_seconds' => env('AUTH_LOGIN_BLOCK_PRIMARY_SECONDS', 120),
+        'block_secondary_seconds' => env('AUTH_LOGIN_BLOCK_SECONDARY_SECONDS', 600),
+        'block_tertiary_seconds' => env('AUTH_LOGIN_BLOCK_TERTIARY_SECONDS', 1800),
+    ],
 
 ];

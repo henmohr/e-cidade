@@ -11,8 +11,8 @@ Legenda de status:
 
 - Total avaliado (macroitens): 26
 - `Atende`: 7
-- `Parcial`: 12
-- `Não atende`: 7
+- `Parcial`: 14
+- `Não atende`: 5
 - Conclusão: **há base funcional forte**, mas os requisitos obrigatórios de **infra cloud, segurança avançada e autenticação** ainda têm gaps relevantes para PoC.
 
 ## Matriz
@@ -42,8 +42,8 @@ Legenda de status:
 | 1.3.4 Ambiente de homologação com dados da contratante | Parcial | Não há processo formal versionado no repositório | Falta protocolo de homologação/mascaramento de dados | Média | Definir processo e critérios de promoção |
 | 1.3.7/1.3.8/1.3.9 Logs de autenticação e sessões ativas | Parcial | Auditoria existe (`routes/web.php` + módulo de auditoria), sessão legada compartilhada (`config/modern_routes.php:100`) | Falta centralização e UX de sessão ativa/alerta de falhas | Alta | Criar trilha de autenticação central e tela de sessões |
 | 1.3.11/1.3.12 Arquitetura nativa web, multiabas, multiusuário | Parcial | Sistema web consolidado, mas com forte legado PHP | PoC exige prova explícita sem emulação/limitações | Média | Demonstrar cenários de uso simultâneo em múltiplas abas |
-| 1.3.14 Autenticação única por CPF + provedores (Google, GOVBR etc.) + A1/A3 | Não atende | Guard principal é sessão padrão (`config/auth.php:40`) e não há evidência clara de IdP externo completo | Falta SSO/IdP e fluxo unificado obrigatório | Crítica | Implementar camada de identidade unificada (incluindo GOVBR/A1/A3 conforme TR) |
-| 1.3.15.d MFA obrigatório | Não atende | Sem evidência de MFA nativo nas rotas/auth | Requisito obrigatório de segurança não cumprido | Crítica | Implementar MFA e política de obrigatoriedade por perfil |
+| 1.3.14 Autenticação única por CPF + provedores (Google, GOVBR etc.) + A1/A3 | Parcial | Login por CPF no provider legado e hardening em `app/Providers/Auth/LegacyUserProvider.php` e `config/auth.php` | Ainda faltam integrações externas/SSO (Google, GOVBR, A1/A3) e fechamento de fluxo único completo | Crítica | Concluir camada de identidade unificada com provedores externos exigidos |
+| 1.3.15.d MFA obrigatório | Parcial | MFA implementado com enforcement em rotas protegidas (`app/Services/Auth/MfaService.php`, `app/Http/Middleware/AuthEcidadeUser.php`, `routes/web.php`) | Política atual cobre cenário inicial (admins); falta ampliar cobertura total por perfil e canais de entrega | Crítica | Expandir política de MFA por perfil e evidências operacionais completas |
 | 1.3.17/1.3.18 Cadastro único compartilhado | Parcial | Há módulos integrados e base comum em várias áreas (`docs/MODULOS_IMPLEMENTADOS.md`) | Necessita prova prática de unicidade sem redundância | Alta | Mapear entidade mestre e fluxos cross-módulo para PoC |
 | 1.3.21 Trilhas de auditoria completas | Parcial | Existe módulo de auditoria (`routes/web.php:20`) | Falta prova de cobertura total em todas as rotinas críticas | Alta | Definir matriz de cobertura de auditoria por módulo |
 | 1.3.24/1.3.25 Gerador de consultas/relatórios com recursos avançados | Parcial | Há base de relatórios e consultas, mas sem validação formal de todos os recursos exigidos | Falta comprovação item a item na PoC | Média | Montar roteiro de demonstração com checklist de cada subitem |
@@ -53,7 +53,7 @@ Legenda de status:
 
 ## Backlog Imediato (30 dias)
 
-1. Implementar `MFA` e plano de autenticação unificada (incluindo requisitos de 1.3.14 e 1.3.15.d).
+1. Expandir `MFA` e concluir autenticação unificada com provedores externos (1.3.14 e 1.3.15.d).
 2. Estruturar trilha de `backup/restore` com retenção exigida e evidência de teste (1.1.11, 1.2.3, 1.2.4, 1.2.5).
 3. Definir e comprovar arquitetura de `HA + SLA` para PoC (1.1.6, 1.1.10, 1.1.12, 1.3.1).
 4. Fechar lacunas de `auditoria e sessões` (1.3.7, 1.3.8, 1.3.9, 1.3.21).

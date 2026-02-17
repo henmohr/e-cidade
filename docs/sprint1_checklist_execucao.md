@@ -52,7 +52,7 @@ Escopo técnico principal:
   Arquivo alvo: `app/Providers/Auth/LegacyUserProvider.php`.
   Aceite: autenticação funciona por login e por CPF sem regressão de hash legado.
 
-- [ ] `S1-06` Garantir rehash seguro de senha legado e bloquear formatos inválidos.
+- [x] `S1-06` Garantir rehash seguro de senha legado e bloquear formatos inválidos.
   Arquivo alvo: `app/Providers/Auth/LegacyUserProvider.php`.
   Aceite: autenticação com senha antiga migra para hash atual com sucesso.
 
@@ -72,11 +72,11 @@ Escopo técnico principal:
 
 ## Dia 6-7: Recuperação de Senha e Hardening
 
-- [ ] `S1-10` Revisar fluxo de recuperação de senha para aderência mínima.
+- [x] `S1-10` Revisar fluxo de recuperação de senha para aderência mínima.
   Arquivos alvo: `app/Http/Controllers/Auth/ForgotPasswordController.php`, `app/Http/Controllers/Auth/ResetPasswordController.php`.
   Aceite: fluxo funcionando e sem exposição de informação sensível.
 
-- [ ] `S1-11` Definir política de senha e bloqueio progressivo em tentativas inválidas.
+- [x] `S1-11` Definir política de senha e bloqueio progressivo em tentativas inválidas.
   Arquivos alvo: `config/auth.php`, `app/Http/Controllers/Auth/LoginController.php`.
   Aceite: limite de tentativas ativo e validações reforçadas.
 
@@ -92,15 +92,15 @@ Escopo técnico principal:
 
 ## Dia 8-10: Testes, Evidências e Fechamento
 
-- [ ] `S1-14` Criar/ajustar testes dos cenários críticos de autenticação.
+- [x] `S1-14` Criar/ajustar testes dos cenários críticos de autenticação.
   Escopo: login por CPF, MFA obrigatório, bloqueio por tentativa, rehash legado.
   Aceite: casos críticos cobertos e executáveis no ambiente do projeto.
 
-- [ ] `S1-15` Preparar roteiro de demonstração PoC do tema autenticação.
+- [x] `S1-15` Preparar roteiro de demonstração PoC do tema autenticação.
   Entregável: passo a passo reproduzível com evidências (logs/telas).
   Aceite: execução ponta a ponta sem intervenção manual fora do roteiro.
 
-- [ ] `S1-16` Atualizar matriz de gaps após entrega da sprint.
+- [x] `S1-16` Atualizar matriz de gaps após entrega da sprint.
   Arquivo alvo: `docs/matriz_gap_poc_100.md`.
   Aceite: status atualizado para cada requisito impactado.
 
