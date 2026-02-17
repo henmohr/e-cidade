@@ -28,6 +28,19 @@ Catálogo completo dos **61 módulos** atualmente implementados no sistema, orga
 
 ### 🗺️ Planejamento e Roadmap
 
+#### [PAPEL_ARQUITETO_MODERNIZACAO.md](./PAPEL_ARQUITETO_MODERNIZACAO.md)
+**Diretriz Operacional do Papel Arquitetural**
+
+Documento base com o papel a ser seguido nas execucoes do projeto:
+- modernizacao incremental sem ruptura operacional;
+- seguranca, LGPD e rastreabilidade como prioridade;
+- estrategia de qualidade, testes, APIs, DevOps e governanca;
+- formato padrao de entrega (diagnostico, acao, esforco, dependencia e metrica).
+
+**Uso recomendado**: leitura obrigatoria antes de planejar sprints e propostas arquiteturais.
+
+---
+
 #### [ROADMAP_MELHORIAS.md](./ROADMAP_MELHORIAS.md)
 **Roadmap de Melhorias e Novos Módulos**
 
@@ -121,6 +134,7 @@ Documentação técnica completa do sistema de migração gradual de código leg
 | 2025-11-04 | ROADMAP_MELHORIAS.md | Criação inicial com 27 melhorias planejadas |
 | 2025-11-04 | ROADMAP_CHECKLIST.md | Criação de checklist resumido |
 | 2025-11-04 | MODERN_LEGACY_ROUTING.md | Sistema de roteamento implementado e documentado |
+| 2026-02-17 | PAPEL_ARQUITETO_MODERNIZACAO.md | Registro do papel arquitetural para guiar planejamento e execucao |
 
 ---
 
