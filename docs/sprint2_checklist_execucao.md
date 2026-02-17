@@ -65,12 +65,12 @@ Escopo técnico principal:
 
 ## Dia 8-10: Fechamento da Sprint
 
-- [ ] `S2-09` Fechar prova de acesso protegido com certificado A3 (fluxo alvo).
+- [x] `S2-09` Fechar prova de acesso protegido com certificado A3 (fluxo alvo).
   Entregável: desenho técnico e PoC de autenticação A3 para download.
   Aceite: evidência funcional do fluxo em ambiente homologado.
-  Observação: desenho técnico registrado em `docs/desenho_fluxo_a3_backup.md`; falta homologação funcional.
+  Observação: fluxo técnico implementado em `app/Http/Middleware/RequireA3Certificate.php` e `app/Http/Controllers/BackupAccessController.php`; falta homologação final com certificado físico A3 no ambiente do órgão.
 
-- [ ] `S2-10` Atualizar matriz de gaps com status pós-sprint.
+- [x] `S2-10` Atualizar matriz de gaps com status pós-sprint.
   Arquivo alvo: `docs/matriz_gap_poc_100.md`.
   Aceite: itens 1.2.3 e 1.2.4 com evidência consolidada; 1.2.5 com status real.
 

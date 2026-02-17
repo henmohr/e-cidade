@@ -79,6 +79,16 @@ Documento tecnico do fluxo alvo para requisito 1.2.5:
 
 ---
 
+#### [runbook_a3_backup_download_poc.md](./runbook_a3_backup_download_poc.md)
+**Runbook de Validacao A3 para Backup**
+
+Passo a passo de demonstracao para o requisito 1.2.5:
+- acesso permitido com certificado A3 valido;
+- bloqueio sem certificado;
+- coleta de evidencias de log para PoC.
+
+---
+
 #### [PAPEL_ARQUITETO_MODERNIZACAO.md](./PAPEL_ARQUITETO_MODERNIZACAO.md)
 **Diretriz Operacional do Papel Arquitetural**
 
@@ -191,6 +201,7 @@ Documentação técnica completa do sistema de migração gradual de código leg
 | 2026-02-17 | runbook_backup_restore_poc.md | Runbook de backup/restore com evidencias para PoC |
 | 2026-02-17 | politica_rbac_backup.md | Politica RBAC de acesso aos artefatos de backup |
 | 2026-02-17 | desenho_fluxo_a3_backup.md | Desenho tecnico do fluxo de download com certificado A3 |
+| 2026-02-17 | runbook_a3_backup_download_poc.md | Runbook para validacao do download de backup com A3 |
 
 ---
 

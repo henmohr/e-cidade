@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuditController;
 use App\Http\Controllers\Auth\MfaController;
+use App\Http\Controllers\BackupAccessController;
 use App\Http\Controllers\IptuFotosController;
 use App\Http\Controllers\RedesimController;
 use App\Http\Controllers\Modules\Patrimonial\Licitacoes\Procedimentos\JulgamentoPorLance\FaseDeLances\FaseDeLancesController;
@@ -41,6 +42,14 @@ Route::group(['middleware' => ['legacySession', 'authEcidadeUser', 'auth.basic']
     Route::prefix('datagrid')->group(function () {
         Route::get('/get-liclicita', [FaseDeLancesController::class, 'getLiclicita'])->name('datagrid.getLiclicita');
         Route::get('/get-liclicita-item', [FaseDeLancesController::class, 'getLiclicitaItens'])->name('datagrid.getLiclicitaItens');
+    });
+
+    Route::prefix('backup')->middleware(['requireA3Certificate'])->group(function () {
+        Route::get('/', [BackupAccessController::class, 'index'])->name('backup.index');
+        Route::post('/link', [BackupAccessController::class, 'generateDownloadLink'])->name('backup.link');
+        Route::get('/download/{tier}/{file}', [BackupAccessController::class, 'download'])
+            ->middleware(['signed'])
+            ->name('backup.download');
     });
 });
 
