@@ -171,6 +171,16 @@ Guia de validacao incremental do MFA:
 
 ---
 
+#### [runbook_identidade_externa_poc.md](./runbook_identidade_externa_poc.md)
+**Runbook de Identidade Externa (GOVBR/Google/A1-A3)**
+
+Guia de validacao da ponte de identidade externa:
+- callback assinado por provedor;
+- vinculo de usuario por CPF/login;
+- sessao compativel com fluxo legado web.
+
+---
+
 #### [sprint6_checklist_execucao.md](./sprint6_checklist_execucao.md)
 **Checklist Executavel da Sprint 6**
 

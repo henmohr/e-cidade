@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuditController;
+use App\Http\Controllers\Auth\ExternalIdentityController;
 use App\Http\Controllers\Auth\MfaController;
 use App\Http\Controllers\Auth\SessionController;
 use App\Http\Controllers\BackupAccessController;
@@ -13,6 +14,11 @@ Route::group(['middleware' => ['legacySession', 'authEcidadeUser'], 'prefix' => 
     Route::get('/challenge', [MfaController::class, 'show'])->name('mfa.challenge');
     Route::post('/verify', [MfaController::class, 'verify'])->name('mfa.verify');
     Route::post('/resend', [MfaController::class, 'resend'])->name('mfa.resend');
+});
+
+Route::prefix('web/idp')->group(function () {
+    Route::get('/providers', [ExternalIdentityController::class, 'providers'])->name('idp.providers');
+    Route::post('/callback', [ExternalIdentityController::class, 'callback'])->name('idp.callback');
 });
 
 Route::group(['middleware' => ['legacySession', 'authEcidadeUser', 'auth.basic'], 'prefix' => 'web'], function () {
