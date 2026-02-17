@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Services\Auth\AccessPolicyService;
 use App\Services\Auth\MfaService;
 use App\Services\Auth\SessionActivityService;
 use App\Support\Session\LegacySession;
@@ -10,6 +11,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class AuthEcidadeUser
 {
@@ -47,6 +49,32 @@ class AuthEcidadeUser
         }
 
         $sessionService->touch($user, $request);
+
+        /** @var AccessPolicyService $accessPolicy */
+        $accessPolicy = app(AccessPolicyService::class);
+        $policyCheck = $accessPolicy->evaluate($user);
+        if (!$policyCheck['allowed']) {
+            Log::warning('Access denied by access policy', [
+                'user_id' => $user->getAuthIdentifier(),
+                'login' => $user->login ?? null,
+                'ip' => $request->ip(),
+                'reason' => $policyCheck['reason'] ?? 'unknown',
+                'detail' => $policyCheck['detail'] ?? '',
+            ]);
+
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'message' => (string) config('auth_access.deny_message', 'Acesso bloqueado pela politica de horario/perfil.')
+                ], 403);
+            }
+
+            return redirect()->route('login')
+                ->withErrors(['auth' => (string) config('auth_access.deny_message', 'Acesso bloqueado pela politica de horario/perfil.')]);
+        }
 
         /** @var MfaService $mfaService */
         $mfaService = app(MfaService::class);

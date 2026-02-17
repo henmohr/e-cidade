@@ -49,7 +49,7 @@ Legenda de status:
 | 1.3.24/1.3.25 Gerador de consultas/relatórios com recursos avançados | Parcial | Há base de relatórios e consultas, mas sem validação formal de todos os recursos exigidos | Falta comprovação item a item na PoC | Média | Montar roteiro de demonstração com checklist de cada subitem |
 | 1.3.26 Integrações imprescindíveis (Compras, Almox., Tributos, RH, Patrimônio) | Atende | Evidência de múltiplos módulos integrados (`docs/MODULOS_IMPLEMENTADOS.md`) | Requer prova funcional ao vivo | Alta | Preparar cenários integrados ponta a ponta |
 | 1.3.27 Acessibilidade (zoom/contraste + daltonismo) | Parcial | Toolbar de acessibilidade implementada com contraste, ajuste de fonte e filtros de daltonismo (`public/assets/css/accessibility.css`, `public/assets/js/accessibility.js`) | Falta expandir cobertura para todo o legado fora do escopo web moderno | Alta | Estender os recursos de acessibilidade para telas legadas e consolidar validação funcional completa |
-| 1.3.28 Políticas de acesso por dia/horário/grupo/expiração | Parcial | Existe gerenciamento de usuários/perfis (base) | Falta política completa por janela de acesso e expiração avançada | Alta | Evoluir controle de acesso temporal e por grupo |
+| 1.3.28 Políticas de acesso por dia/horário/grupo/expiração | Parcial | Política técnica implementada em `config/auth_access.php`, `app/Services/Auth/AccessPolicyService.php` e enforcement em `app/Http/Middleware/AuthEcidadeUser.php` com parâmetros `AUTH_ACCESS_*` | Falta homologação funcional completa no ambiente do contratante com evidências formais da banca | Alta | Executar PoC guiada (`docs/runbook_politica_acesso_poc.md`) e anexar evidências de aceite |
 
 ## Backlog Imediato (30 dias)
 

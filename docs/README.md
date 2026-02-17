@@ -151,6 +151,16 @@ Guia de validacao de recursos:
 
 ---
 
+#### [runbook_politica_acesso_poc.md](./runbook_politica_acesso_poc.md)
+**Runbook de Politica de Acesso (Dia/Horario/Grupo/Expiracao)**
+
+Guia de validacao do requisito 1.3.28:
+- regras por dia e horario;
+- regras por grupo e por usuario;
+- bloqueio por expiracao e evidencias em log.
+
+---
+
 #### [sprint6_checklist_execucao.md](./sprint6_checklist_execucao.md)
 **Checklist Executavel da Sprint 6**
 
