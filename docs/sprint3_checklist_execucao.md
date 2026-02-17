@@ -43,6 +43,8 @@ Escopo tecnico principal:
 
 - [x] `S3-07` Publicar runbook de observabilidade e SLA.
 - [x] `S3-08` Atualizar matriz de gaps com status pos-sprint.
+- [x] `S3-09` Habilitar coleta automatizada via scheduler com configuracao por ambiente.
+- [x] `S3-10` Persistir relatorio de SLA para trilha historica de evidencias.
 
 ## Comandos de Verificacao
 
@@ -52,6 +54,8 @@ php -l app/Console/Commands/OpsHealthSnapshot.php
 php -l app/Console/Commands/OpsSlaReport.php
 php artisan ops:health-snapshot --base-url=http://localhost:8282 --append-log
 php artisan ops:sla-report --hours=24
+php artisan ops:sla-report --hours=24 --format=json --append-log
+php artisan schedule:work
 ```
 
 ## Critério de Pronto da Sprint 3 (incremental)

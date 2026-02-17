@@ -16,7 +16,24 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        if (!config('observability.schedule_enabled', false)) {
+            return;
+        }
+
+        $interval = max(1, (int) config('observability.health_snapshot_interval_minutes', 5));
+        $baseUrl = (string) config('observability.health_snapshot_base_url', config('app.url'));
+        $slaHours = max(1, (int) config('observability.sla_report_hours', 24));
+
+        $schedule->command('ops:health-snapshot', [
+            '--base-url' => $baseUrl,
+            '--append-log' => true,
+        ])->cron("*/{$interval} * * * *")->withoutOverlapping();
+
+        $schedule->command('ops:sla-report', [
+            '--hours' => $slaHours,
+            '--format' => 'json',
+            '--append-log' => true,
+        ])->hourly()->withoutOverlapping();
     }
 
     /**
