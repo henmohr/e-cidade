@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>MFA - e-Cidade</title>
+    <link rel="stylesheet" href="{{ asset('assets/css/accessibility.css') }}">
 </head>
 <body>
     <h1>Validação MFA</h1>
@@ -32,6 +33,8 @@
         @csrf
         <button type="submit">Reenviar código</button>
     </form>
+
+    @include('layouts.accessibility-toolbar')
+    <script src="{{ asset('assets/js/accessibility.js') }}"></script>
 </body>
 </html>
-

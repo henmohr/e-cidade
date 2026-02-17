@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Backups - e-Cidade</title>
+    <link rel="stylesheet" href="{{ asset('assets/css/accessibility.css') }}">
 </head>
 <body>
     <h1>Backups da PoC</h1>
@@ -60,5 +61,8 @@
             </table>
         @endif
     @endforeach
+
+    @include('layouts.accessibility-toolbar')
+    <script src="{{ asset('assets/js/accessibility.js') }}"></script>
 </body>
 </html>

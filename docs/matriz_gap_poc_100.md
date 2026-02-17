@@ -48,7 +48,7 @@ Legenda de status:
 | 1.3.21 Trilhas de auditoria completas | Parcial | Existe módulo de auditoria (`routes/web.php:20`) | Falta prova de cobertura total em todas as rotinas críticas | Alta | Definir matriz de cobertura de auditoria por módulo |
 | 1.3.24/1.3.25 Gerador de consultas/relatórios com recursos avançados | Parcial | Há base de relatórios e consultas, mas sem validação formal de todos os recursos exigidos | Falta comprovação item a item na PoC | Média | Montar roteiro de demonstração com checklist de cada subitem |
 | 1.3.26 Integrações imprescindíveis (Compras, Almox., Tributos, RH, Patrimônio) | Atende | Evidência de múltiplos módulos integrados (`docs/MODULOS_IMPLEMENTADOS.md`) | Requer prova funcional ao vivo | Alta | Preparar cenários integrados ponta a ponta |
-| 1.3.27 Acessibilidade (zoom/contraste + daltonismo) | Não atende | Sem evidência clara de recursos de contraste/daltonismo no front | Gap direto de UX/acessibilidade | Alta | Implementar pacote mínimo de acessibilidade exigido |
+| 1.3.27 Acessibilidade (zoom/contraste + daltonismo) | Parcial | Toolbar de acessibilidade implementada com contraste, ajuste de fonte e filtros de daltonismo (`public/assets/css/accessibility.css`, `public/assets/js/accessibility.js`) | Falta expandir cobertura para todo o legado fora do escopo web moderno | Alta | Estender os recursos de acessibilidade para telas legadas e consolidar validação funcional completa |
 | 1.3.28 Políticas de acesso por dia/horário/grupo/expiração | Parcial | Existe gerenciamento de usuários/perfis (base) | Falta política completa por janela de acesso e expiração avançada | Alta | Evoluir controle de acesso temporal e por grupo |
 
 ## Backlog Imediato (30 dias)

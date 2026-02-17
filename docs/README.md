@@ -129,6 +129,28 @@ Guia de validacao:
 
 ---
 
+#### [sprint5_checklist_execucao.md](./sprint5_checklist_execucao.md)
+**Checklist Executavel da Sprint 5**
+
+Plano da sprint de acessibilidade:
+- contraste alto;
+- ajuste de fonte;
+- filtros de daltonismo;
+- cobertura nas telas web modernas da PoC.
+
+---
+
+#### [runbook_acessibilidade_poc.md](./runbook_acessibilidade_poc.md)
+**Runbook de Acessibilidade para PoC**
+
+Guia de validacao de recursos:
+- contraste;
+- zoom de leitura;
+- modos de daltonismo;
+- persistencia de preferencia.
+
+---
+
 #### [PAPEL_ARQUITETO_MODERNIZACAO.md](./PAPEL_ARQUITETO_MODERNIZACAO.md)
 **Diretriz Operacional do Papel Arquitetural**
 
@@ -246,6 +268,8 @@ Documentação técnica completa do sistema de migração gradual de código leg
 | 2026-02-17 | runbook_observabilidade_sla_poc.md | Runbook operacional de saude e medicao de SLA |
 | 2026-02-17 | sprint4_checklist_execucao.md | Checklist da Sprint 4 (auditoria e gestao de sessoes) |
 | 2026-02-17 | runbook_sessoes_auditoria_poc.md | Runbook de validacao de sessoes ativas e revogacao |
+| 2026-02-17 | sprint5_checklist_execucao.md | Checklist da Sprint 5 (acessibilidade minima obrigatoria) |
+| 2026-02-17 | runbook_acessibilidade_poc.md | Runbook de validacao de contraste, fonte e daltonismo |
 
 ---
 
