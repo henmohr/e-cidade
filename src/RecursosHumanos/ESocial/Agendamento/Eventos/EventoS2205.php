@@ -31,8 +31,6 @@ class EventoS2205 extends EventoBase
     {
         $aDadosAPI = array();
         $iSequencial = 1;
-        print_r($this->dados);
-        exit;
         foreach ($this->dados as $oDados) {
 
             $oDadosAPI                                   = new \stdClass;

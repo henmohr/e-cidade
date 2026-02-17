@@ -40,8 +40,11 @@ class PcSubGrupoRepository implements PcMaterRepositoryInterface{
 
     public function getSubgrupo($pc04_codsubgrupo)
     {
-        $sql = "select * from pcsubgrupo where pc04_codsubgrupo = $pc04_codsubgrupo and pc04_instit in (0,".db_getsession('DB_instit').")";
-        return DB::select($sql);
+        $sql = 'select * from pcsubgrupo where pc04_codsubgrupo = ? and pc04_instit in (0, ?)';
+        return DB::select($sql, [
+            (int) $pc04_codsubgrupo,
+            (int) db_getsession('DB_instit')
+        ]);
     }
 
     public function salvarSubgrupos(array $subGrupo):PcSubGrupo

@@ -7,6 +7,7 @@ use App\Repositories\Patrimonial\Licitacao\Sicom\SicomAcodBasicoRepository;
 use App\Repositories\Patrimonial\Materiais\HistoricoMaterialRepository;
 use App\Repositories\Patrimonial\Protocolo\CgmRepository;
 use Illuminate\Database\Capsule\Manager as DB;
+use Illuminate\Support\Facades\Log;
 
 class SalvarGeracaoArquivosService{
     private SicomAcodBasicoRepository $sicomAcodBasicoRepository;
@@ -67,15 +68,16 @@ class SalvarGeracaoArquivosService{
         ];
       } catch (\Illuminate\Database\QueryException $e) {
         DB::rollBack();
-
-        $query = $e->getSql();
-        $bindings = $e->getBindings();
-        
-        $fullQuery = vsprintf(str_replace('?', '%s', $query), array_map(fn($value) => is_numeric($value) ? $value : "'$value'", $bindings));
-
-        echo '<pre>';
-        print_r($fullQuery);
-        exit;
+        Log::error('Erro ao salvar geração de arquivos SICOM', [
+            'message' => $e->getMessage(),
+            'sql' => $e->getSql(),
+            'bindings' => $e->getBindings(),
+        ]);
+        return [
+            'status' => 500,
+            'message' => 'Erro ao salvar dados da geração de arquivos',
+            'data' => []
+        ];
       }catch(\Throwable $e){
         DB::rollBack();
         return [

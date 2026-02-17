@@ -86,7 +86,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests/"
+            "App\\Tests\\": "app/Tests/"
         }
     },
     "scripts": {
@@ -125,7 +125,7 @@
             "vendor/robmorgan/phinx/bin/phinx migrate -e e-cidade"
         ],
         "test": [
-            "php vendor/composer/bin/phpunit -d error_reporting[\"E_ALL & ~E_NOTICE\"] -v --colors=auto app/Tests/Unit"
+            "php vendor/bin/phpunit -d error_reporting[\"E_ALL & ~E_NOTICE\"] -v --colors=auto app/Tests/Unit"
         ],
         "fix-style": "vendor/bin/php-cs-fixer fix"
     },

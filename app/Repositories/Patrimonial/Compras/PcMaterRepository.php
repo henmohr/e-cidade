@@ -82,8 +82,11 @@ class PcMaterRepository implements PcMaterRepositoryInterface{
 
     public function getPcmaterAnterior($pc01_codmaterant)
     {
-        $sql = "select * from pcmater where pc01_codmaterant = $pc01_codmaterant and pc01_instit = ".db_getsession('DB_instit');
-        return DB::select($sql);
+        $sql = 'select * from pcmater where pc01_codmaterant = ? and pc01_instit = ?';
+        return DB::select($sql, [
+            (int) $pc01_codmaterant,
+            (int) db_getsession('DB_instit')
+        ]);
     }
 
 }
