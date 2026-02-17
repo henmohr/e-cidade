@@ -39,6 +39,46 @@ Plano estrategico de modernizacao incremental do e-cidade com foco em:
 
 ---
 
+#### [sprint2_checklist_execucao.md](./sprint2_checklist_execucao.md)
+**Checklist Executavel da Sprint 2**
+
+Plano de execucao do ciclo de backup/restore e dados para PoC:
+- scripts de backup com retencao 15/35 dias;
+- script de restore com protecao operacional;
+- pendencias externas (A3 e RBAC institucional).
+
+---
+
+#### [runbook_backup_restore_poc.md](./runbook_backup_restore_poc.md)
+**Runbook de Backup e Restore para PoC**
+
+Guia pratico de execucao e evidencias:
+- geracao de dump completo + globais;
+- validacao por checksum;
+- restauracao controlada com `pg_restore`.
+
+---
+
+#### [politica_rbac_backup.md](./politica_rbac_backup.md)
+**Politica RBAC para Artefatos de Backup**
+
+Define papeis e controles minimos de acesso:
+- segregacao de funcao para backup/restore;
+- trilha de auditoria e revisao periodica;
+- evidencias esperadas para PoC.
+
+---
+
+#### [desenho_fluxo_a3_backup.md](./desenho_fluxo_a3_backup.md)
+**Desenho de Fluxo A3 para Download de Backup**
+
+Documento tecnico do fluxo alvo para requisito 1.2.5:
+- autenticacao por certificado A3;
+- autorizacao RBAC e URL temporaria assinada;
+- dependencias de homologacao externa.
+
+---
+
 #### [PAPEL_ARQUITETO_MODERNIZACAO.md](./PAPEL_ARQUITETO_MODERNIZACAO.md)
 **Diretriz Operacional do Papel Arquitetural**
 
@@ -147,6 +187,10 @@ Documentação técnica completa do sistema de migração gradual de código leg
 | 2025-11-04 | MODERN_LEGACY_ROUTING.md | Sistema de roteamento implementado e documentado |
 | 2026-02-17 | PAPEL_ARQUITETO_MODERNIZACAO.md | Registro do papel arquitetural para guiar planejamento e execucao |
 | 2026-02-17 | PLANO_MODERNIZACAO_ECIDADE_2026.md | Plano tecnico de modernizacao incremental (versao 1.0) |
+| 2026-02-17 | sprint2_checklist_execucao.md | Checklist de execucao da Sprint 2 (backup/restore e dados) |
+| 2026-02-17 | runbook_backup_restore_poc.md | Runbook de backup/restore com evidencias para PoC |
+| 2026-02-17 | politica_rbac_backup.md | Politica RBAC de acesso aos artefatos de backup |
+| 2026-02-17 | desenho_fluxo_a3_backup.md | Desenho tecnico do fluxo de download com certificado A3 |
 
 ---
 
@@ -183,4 +227,4 @@ Este projeto é mantido pela comunidade e distribui-se sob licença de software 
 
 ---
 
-**Última atualização desta página**: 2025-11-04
+**Ultima atualizacao desta pagina**: 2026-02-17

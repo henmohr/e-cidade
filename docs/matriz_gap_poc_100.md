@@ -11,8 +11,8 @@ Legenda de status:
 
 - Total avaliado (macroitens): 26
 - `Atende`: 7
-- `Parcial`: 14
-- `Não atende`: 5
+- `Parcial`: 15
+- `Não atende`: 4
 - Conclusão: **há base funcional forte**, mas os requisitos obrigatórios de **infra cloud, segurança avançada e autenticação** ainda têm gaps relevantes para PoC.
 
 ## Matriz
@@ -32,9 +32,9 @@ Legenda de status:
 | 1.1.11 Restauração 5 min até 30 dias | Não atende | Não há política técnica de PITR/restore versionada | Falta processo e evidência de restore testado | Alta | Implementar PITR + testes de restauração documentados |
 | 1.1.12 Escalabilidade horizontal | Parcial | Arquitetura modular/híbrida existe | Falta prova operacional de scale-out sem indisponibilidade | Alta | Definir estratégia de scaling e teste de carga |
 | 1.2.2 SGBD relacional | Atende | PostgreSQL é relacional (`README.md:12`) | Sem gap relevante | Média | Manter para evidência |
-| 1.2.3 Backup completo com metadados e restauração íntegra | Parcial | Não há rotina/versionamento de backup no repositório | Falta demonstração de backup/restore fim a fim | Alta | Criar runbook de backup/restore com teste gravado |
-| 1.2.4.a-d Rotina e retenção de backups (15/35 dias) | Não atende | Sem política declarada no código para retenções exigidas | Falta conformidade objetiva de retenção e acesso | Alta | Configurar política de retenção e auditoria |
-| 1.2.5 Download backup com certificado A3 | Não atende | Sem mecanismo A3 específico para esse fluxo | Requisito específico não implementado/evidenciado | Alta | Projetar fluxo de autenticação A3 para acesso a backup |
+| 1.2.3 Backup completo com metadados e restauração íntegra | Parcial | Scripts e runbook adicionados (`docker/scripts/backup-retention.sh`, `docker/scripts/restore-backup.sh`, `docs/runbook_backup_restore_poc.md`) | Falta validação oficial em ambiente de PoC com evidência assinada pelo contratante | Alta | Executar ciclo completo em homologação e anexar evidências formais |
+| 1.2.4.a-d Rotina e retenção de backups (15/35 dias) | Parcial | Retenção técnica 15/35 implementada em script (`docker/scripts/backup-retention.sh`) e parametrizada em `.env.example` | Falta institucionalizar rotina agendada e governança de acesso/entrega para contratante | Alta | Configurar agendamento operacional e trilha de auditoria da retenção |
+| 1.2.5 Download backup com certificado A3 | Não atende | Desenho técnico documentado em `docs/desenho_fluxo_a3_backup.md` | Falta implementação homologada com certificado A3 e evidência funcional em PoC | Alta | Implementar fluxo com validador A3 e executar prova funcional auditável |
 | 1.2.6 Controle de credenciais no BD | Parcial | Há autenticação no sistema (`config/auth.php`), mas sem hardening DB evidenciado | Falta evidência de política de acesso do banco | Alta | Definir RBAC de banco e trilha de auditoria |
 | 1.2.7 Base única por entidade SIAFIC | Parcial | Há gestão por instituição/sessão (`config/modern_routes.php:100`) | Necessita comprovar isolamento e governança de dados | Alta | Validar modelo de dados e controles por entidade |
 | 1.3.1 Múltiplas instâncias back-end | Parcial | Estrutura moderna+legado coexistente (`routes/web.php:9`) | Falta evidência de instâncias simultâneas com HA | Alta | Definir topologia PoC multi-instância |
