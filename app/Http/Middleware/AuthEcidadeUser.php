@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Services\Auth\MfaService;
+use App\Services\Auth\SessionActivityService;
 use App\Support\Session\LegacySession;
 use Closure;
 use Illuminate\Http\RedirectResponse;
@@ -29,10 +30,23 @@ class AuthEcidadeUser
 
         Auth::loginUsingId($loggedUserId);
 
+        $currentSessionId = (string) $request->session()->getId();
+
         $user = Auth::user();
         if (empty($user)) {
             abort(401);
         }
+
+        /** @var SessionActivityService $sessionService */
+        $sessionService = app(SessionActivityService::class);
+        if ($sessionService->isRevoked($currentSessionId)) {
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            abort(401);
+        }
+
+        $sessionService->touch($user, $request);
 
         /** @var MfaService $mfaService */
         $mfaService = app(MfaService::class);

@@ -109,6 +109,26 @@ Guia de demonstracao:
 
 ---
 
+#### [sprint4_checklist_execucao.md](./sprint4_checklist_execucao.md)
+**Checklist Executavel da Sprint 4**
+
+Plano da sprint de auditoria e gestao de sessoes:
+- consulta de sessoes ativas;
+- encerramento remoto de sessao;
+- trilha de log para evidencias de PoC.
+
+---
+
+#### [runbook_sessoes_auditoria_poc.md](./runbook_sessoes_auditoria_poc.md)
+**Runbook de Sessoes e Auditoria para PoC**
+
+Guia de validacao:
+- duas sessoes simultaneas;
+- revogacao remota;
+- bloqueio efetivo da sessao encerrada.
+
+---
+
 #### [PAPEL_ARQUITETO_MODERNIZACAO.md](./PAPEL_ARQUITETO_MODERNIZACAO.md)
 **Diretriz Operacional do Papel Arquitetural**
 
@@ -224,6 +244,8 @@ Documentação técnica completa do sistema de migração gradual de código leg
 | 2026-02-17 | runbook_a3_backup_download_poc.md | Runbook para validacao do download de backup com A3 |
 | 2026-02-17 | sprint3_checklist_execucao.md | Checklist da Sprint 3 (HA, observabilidade e SLA) |
 | 2026-02-17 | runbook_observabilidade_sla_poc.md | Runbook operacional de saude e medicao de SLA |
+| 2026-02-17 | sprint4_checklist_execucao.md | Checklist da Sprint 4 (auditoria e gestao de sessoes) |
+| 2026-02-17 | runbook_sessoes_auditoria_poc.md | Runbook de validacao de sessoes ativas e revogacao |
 
 ---
 
