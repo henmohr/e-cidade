@@ -31,8 +31,14 @@ include("libs/db_sessoes.php");
 include("libs/db_usuariosonline.php");
 include("dbforms/db_funcoes.php");
 use App\Models\MaterCatMat;
-db_postmemory($HTTP_POST_VARS);
-parse_str($HTTP_SERVER_VARS["QUERY_STRING"]);
+db_postmemory($_POST);
+$legacyQueryParams = [];
+parse_str((string) ($_SERVER["QUERY_STRING"] ?? ""), $legacyQueryParams);
+foreach ($legacyQueryParams as $legacyKey => $legacyValue) {
+  if (!isset($$legacyKey)) {
+    $$legacyKey = $legacyValue;
+  }
+}
 $clMaterCatMat = new MaterCatMat();
 
 ?>
@@ -49,7 +55,7 @@ $clMaterCatMat = new MaterCatMat();
         <table width="45%" border="0" align="center" cellspacing="3" class="form-container">
             <tr>
                 <td><label>Código:</label></td>
-                <td><? db_input("faxx_i_codigo",5,$Ifaxx_i_codigo,true,"text",4,"","chave_faxx_i_codigo"); ?></td>
+                <td><?php db_input("faxx_i_codigo",5,$Ifaxx_i_codigo,true,"text",4,"","chave_faxx_i_codigo"); ?></td>
             </tr>
             <tr>
                 <td><label>Descrição:</label></td>
@@ -87,7 +93,7 @@ if (!isset($fa01_i_catmat) && !isset($codigo_barras))  {
 ?>
 </body>
 </html>
-<?
+<?php
 if(isset($fa01_i_catmat)){
 
     $result = $clMaterCatMat->getFirstCatMat('faxx_i_codigo,faxx_i_desc','far_matercatmat.faxx_i_codigo = '.$fa01_i_catmat);

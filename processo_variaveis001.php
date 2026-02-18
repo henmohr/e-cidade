@@ -1,4 +1,4 @@
-<?
+<?php
 /*
  *     E-cidade Software Publico para Gestao Municipal                
  *  Copyright (C) 2009  DBselller Servicos de Informatica             
@@ -30,7 +30,7 @@ require("libs/db_conecta.php");
 include("libs/db_sessoes.php");
 include("libs/db_usuariosonline.php");
 include("dbforms/db_funcoes.php");
-db_postmemory($HTTP_POST_VARS);
+db_postmemory($_POST);
 ?>
 
 <html>
@@ -86,7 +86,7 @@ function js_emite(){
 
   </form>
     </table>
-<?
+<?php
   db_menu(db_getsession("DB_id_usuario"),db_getsession("DB_modulo"),db_getsession("DB_anousu"),db_getsession("DB_instit"));
 ?>
 </body>
@@ -117,7 +117,7 @@ function js_mostratabdesc1(chave1,chave2){
 </script>
 
 
-<?
+<?php
 if(isset($ordem)){
   echo "<script>
        js_emite();

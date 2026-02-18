@@ -1,4 +1,4 @@
-<?
+<?php
 require("libs/db_stdlib.php");
 require("libs/db_conecta.php");
 include("libs/db_sessoes.php");
@@ -20,8 +20,14 @@ $clorcsuplementacaoparametro = new cl_orcsuplementacaoparametro;
 $clorcorgao->rotulo->label();
 $clorcunidade->rotulo->label();
 $clorcdotacao->rotulo->label();
-parse_str($HTTP_SERVER_VARS["QUERY_STRING"]);
-db_postmemory($HTTP_POST_VARS);
+$legacyQueryParams = [];
+parse_str((string) ($_SERVER["QUERY_STRING"] ?? ""), $legacyQueryParams);
+foreach ($legacyQueryParams as $legacyKey => $legacyValue) {
+  if (!isset($$legacyKey)) {
+    $$legacyKey = $legacyValue;
+  }
+}
+db_postmemory($_POST);
 
 if (isset($o58_coddot) && $o58_coddot != "") {
     $filtro = " and o58_coddot = $o58_coddot  ";
@@ -90,13 +96,13 @@ db_fieldsmemory($result, 0);
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
         <tr>
             <td height="430" align="left" valign="top" bgcolor="#CCCCCC">
-                <?
+                <?php
                 include(Modification::getFile("forms/db_frmmanutdotacaobloco.php"));
                 ?>
             </td>
         </tr>
     </table>
-    <?
+    <?php
     db_menu(db_getsession("DB_id_usuario"), db_getsession("DB_modulo"), db_getsession("DB_anousu"), db_getsession("DB_instit"));
     ?>
 </body>

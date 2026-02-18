@@ -1,4 +1,4 @@
-<?
+<?php
 /*
  *     E-cidade Software Publico para Gestao Municipal
  *  Copyright (C) 2014  DBSeller Servicos de Informatica
@@ -34,8 +34,8 @@ require_once("classes/db_proctransfer_classe.php");
 require_once("classes/db_protprocesso_classe.php");
 require_once("classes/db_proctransand_classe.php");
 require_once("dbforms/db_funcoes.php");
-db_postmemory($HTTP_SERVER_VARS);
-db_postmemory($HTTP_POST_VARS);
+db_postmemory($_SERVER);
+db_postmemory($_POST);
 
 $clprocandam    = new cl_procandam;
 $clproctransfer = new cl_proctransfer;
@@ -99,8 +99,8 @@ $db_botao = true;
                         </td>
                     </tr>
                 </table>
-                <?
-                if((isset($HTTP_POST_VARS["db_opcao"]) && $HTTP_POST_VARS["db_opcao"])=="Receber"){
+                <?php
+                if((isset($_POST["db_opcao"]) && $_POST["db_opcao"])=="Receber"){
 
                     echo "<table cellspacing = 0>";
                     echo "  <tr>";
@@ -259,7 +259,7 @@ $db_botao = true;
     </tr>
 </table>
 </center>
-<?
+<?php
 $func_iframe = new janela('db_iframe','');
 $func_iframe->posX=1;
 $func_iframe->posY=20;

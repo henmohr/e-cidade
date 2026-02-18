@@ -1,9 +1,9 @@
-<?
+<?php
 require("libs/db_stdlib.php");
 require("libs/db_conecta.php");
 include("dbforms/db_funcoes.php");
 
-db_postmemory($HTTP_POST_VARS);
+db_postmemory($_POST);
 $clrotulo = new rotulocampo;
 
 $data_inicial     = "";
@@ -25,7 +25,7 @@ $sDBHintMetadata  = "db-action='hint' db-hint-text='O filtro de período deve est
     <meta 
      http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     <meta http-equiv="Expires" CONTENT="0">
-    <?
+    <?php
         db_app::load("estilos.css, grid.style.css");
     ?>
     <script language="JavaScript" type="text/javascript" src="scripts/scripts.js"></script>
@@ -83,7 +83,7 @@ $sDBHintMetadata  = "db-action='hint' db-hint-text='O filtro de período deve est
                     <tr>
                         <td>
                             <b style="padding-left: 6.9rem;">Formato: </b>
-                            <?  $aFormato = array ("pdf" => "&nbsp;PDF", "csv" => "&nbsp;CSV",);
+                            <?php  $aFormato = array ("pdf" => "&nbsp;PDF", "csv" => "&nbsp;CSV",);
                                 db_select('formato', $aFormato, true, 1, "");
                             ?>                 
                         </td>
@@ -104,7 +104,7 @@ $sDBHintMetadata  = "db-action='hint' db-hint-text='O filtro de período deve est
             </table>
         </fieldset>
     </div>
-    <?
+    <?php
     db_menu(db_getsession("DB_id_usuario"), db_getsession("DB_modulo"), db_getsession("DB_anousu"), db_getsession("DB_instit"));
     ?>
 </body>

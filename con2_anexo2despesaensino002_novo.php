@@ -1,4 +1,4 @@
-<?
+<?php
 /*
  *     E-cidade Software Publico para Gestao Municipal
  *  Copyright (C) 2014  DBSeller Servicos de Informatica
@@ -45,7 +45,7 @@ require_once("model/contabilidade/relatorios/ensino/RelatorioReceitaeDespesaEnsi
 $clselorcdotacao = new cl_selorcdotacao();
 $clrotulo = new rotulocampo;
 
-db_postmemory($HTTP_POST_VARS);
+db_postmemory($_POST);
 
 $dtini = implode("-", array_reverse(explode("/", $DBtxt21)));
 $dtfim = implode("-", array_reverse(explode("/", $DBtxt22)));
@@ -591,7 +591,7 @@ ob_start();
                         <tr>
                             <td class="text-row" style="text-align: left; border-left: 1px SOLID #000000;">6 - TOTAL DAS RECEITAS TRANSFERIDAS AO FUNDEB</td>
                             <td class="text-row" style="text-align: right; border-right: 1px SOLID #000000;">
-                                <?
+                                <?php
                                 $nTotalAplicadoEntrada = $nTotalAplicadoEntrada + abs($nTotalContribuicaoFundeb);
                                 echo db_formatar(abs($nTotalContribuicaoFundeb), "f");
                                 ?>

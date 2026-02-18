@@ -1,4 +1,4 @@
-<?
+<?php
 /*
  *     E-cidade Software Publico para Gestao Municipal                
  *  Copyright (C) 2013  DBselller Servicos de Informatica             
@@ -30,7 +30,13 @@ require("libs/db_conecta.php");
 include("libs/db_sessoes.php");
 include("dbforms/db_funcoes.php");
 
-parse_str($HTTP_SERVER_VARS['QUERY_STRING']); // ta com o globals desativado no php -- Crestani
+$legacyQueryParams = [];
+parse_str((string) ($_SERVER['QUERY_STRING'] ?? ''), $legacyQueryParams);
+foreach ($legacyQueryParams as $legacyKey => $legacyValue) {
+  if (!isset($$legacyKey)) {
+    $$legacyKey = $legacyValue;
+  }
+} // ta com o globals desativado no php -- Crestani
 
 class calendario{ 
    var $sem;//Array com os dias da semana como índice 
@@ -174,7 +180,7 @@ $clcalendario->cria(date("d",db_getsession("DB_datausu")),date("$mes_solicitado"
 ?> 
 <script>
 function janela(d,m,a){ 
-  <?
+  <?php
   echo "parent.document.getElementById('".$nome_objeto_data."').value     = (d<10?'0'+d:d)+'/'+(m<10?'0'+m:m)+'/'+a;\n";
   echo "parent.iframe_data_".str_replace(".", "", $nome_objeto_data).".hide();\n";
   echo "parent.DBTextFieldData.getInstance('{$nome_instancia}').fShutdown();";
@@ -186,7 +192,7 @@ function janela(d,m,a){
   ?>
 }
 function janela_zera(){ 
-  <?
+  <?php
   echo "parent.document.getElementById('".$nome_objeto_data."').value     = '';\n";
   echo "parent.iframe_data_".str_replace(".", "", $nome_objeto_data).".hide();\n";
   echo "parent.DBTextFieldData.getInstance('{$nome_instancia}').fShutdown();";
