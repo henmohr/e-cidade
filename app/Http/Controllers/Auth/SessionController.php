@@ -7,6 +7,7 @@ use App\Services\Auth\AuthEventService;
 use App\Services\Auth\AuthEventMetaKeys;
 use App\Services\Auth\AuthMessages;
 use App\Services\Auth\AuthEventTypes;
+use App\Services\Auth\ExportHash;
 use App\Services\Auth\SessionExportEvidencePresenter;
 use App\Services\Auth\SessionActivityService;
 use App\Services\Auth\SessionEventFilters;
@@ -115,10 +116,10 @@ class SessionController extends Controller
         }
 
         $data = $request->validate([
-            'sha256' => 'required|string|size:64|regex:/^[a-fA-F0-9]{64}$/',
+            'sha256' => 'required|string|size:' . ExportHash::LENGTH . '|' . ExportHash::VALIDATION_RULE,
         ]);
 
-        $target = strtolower((string) $data['sha256']);
+        $target = ExportHash::normalize((string) $data['sha256']);
         $matchedEvent = $eventsQuery->findExportHash($user, $target);
 
         if (!$matchedEvent) {

@@ -23,7 +23,7 @@ class SessionExportEvidencePresenter
     {
         return [
             'verified' => true,
-            'hash' => strtolower(trim($hash)),
+            'hash' => ExportHash::normalize($hash),
             'event_type' => (string) ($event[AuthEventMetaKeys::TYPE] ?? ''),
             'timestamp' => (string) ($event[AuthEventMetaKeys::TIMESTAMP] ?? ''),
             'request_id' => (string) ($event[AuthEventMetaKeys::REQUEST_ID] ?? ''),

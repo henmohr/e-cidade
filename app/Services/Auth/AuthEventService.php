@@ -159,8 +159,8 @@ class AuthEventService
      */
     public function findRecentExportEventByHash(User $user, string $sha256): ?array
     {
-        $sha256 = strtolower(trim($sha256));
-        if (!preg_match('/^[a-f0-9]{64}$/', $sha256)) {
+        $sha256 = ExportHash::normalize($sha256);
+        if (!ExportHash::isValid($sha256)) {
             return null;
         }
 
