@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Services\Auth\AuthEventService;
+use App\Services\Auth\AuthEventMetaKeys;
 use App\Services\Auth\AuthMessages;
 use App\Services\Auth\AuthEventTypes;
 use App\Services\Auth\SessionExportEvidencePresenter;
@@ -66,7 +67,7 @@ class SessionController extends Controller
             'ip' => $request->ip(),
         ]);
         app(AuthEventService::class)->registerCustomEvent($request, $user, AuthEventTypes::SESSION_REVOKED, [
-            'target_session_id' => $sessionId,
+            AuthEventMetaKeys::TARGET_SESSION_ID => $sessionId,
         ]);
 
         return back()->with('status', AuthMessages::SESSION_REVOKED_SUCCESS);
@@ -91,8 +92,8 @@ class SessionController extends Controller
         $sha256 = $exportService->computeSha256($csv);
 
         $eventService->registerCustomEvent($request, $user, AuthEventTypes::SESSIONS_EXPORT_CSV, [
-            'row_count' => count($events),
-            'export_sha256' => $sha256,
+            AuthEventMetaKeys::ROW_COUNT => count($events),
+            AuthEventMetaKeys::EXPORT_SHA256 => $sha256,
         ]);
 
         return response($csv, 200, [

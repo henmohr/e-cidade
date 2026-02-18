@@ -3,6 +3,7 @@
 namespace App\Tests\Unit\Auth;
 
 use App\Models\User;
+use App\Services\Auth\AuthEventMetaKeys;
 use App\Services\Auth\AuthEventService;
 use App\Services\Auth\AuthEventTypes;
 use Illuminate\Cache\CacheManager;
@@ -38,26 +39,28 @@ class AuthEventServiceTest extends TestCase
         ]);
 
         $service->registerExternalSuccess($request, $user, 'govbr');
-        $service->registerCustomEvent($request, $user, AuthEventTypes::SESSION_REVOKED, ['target_session_id' => 'abc123']);
+        $service->registerCustomEvent($request, $user, AuthEventTypes::SESSION_REVOKED, [
+            AuthEventMetaKeys::TARGET_SESSION_ID => 'abc123',
+        ]);
         $service->registerCustomEvent($request, $user, AuthEventTypes::SESSIONS_EXPORT_CSV, [
-            'row_count' => 2,
-            'export_sha256' => 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+            AuthEventMetaKeys::ROW_COUNT => 2,
+            AuthEventMetaKeys::EXPORT_SHA256 => 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
         ]);
         $service->registerLogout($request, $user);
 
         $events = $service->listRecentEventsForUser($user);
         $types = array_map(static function (array $event): string {
-            return (string) ($event['type'] ?? '');
+            return (string) ($event[AuthEventMetaKeys::TYPE] ?? '');
         }, $events);
 
         $this->assertContains(AuthEventTypes::LOGIN_EXTERNAL_SUCCESS, $types);
         $this->assertContains(AuthEventTypes::SESSION_REVOKED, $types);
         $this->assertContains(AuthEventTypes::LOGOUT, $types);
-        $this->assertSame('req-test-123', (string) ($events[0]['request_id'] ?? ''));
+        $this->assertSame('req-test-123', (string) ($events[0][AuthEventMetaKeys::REQUEST_ID] ?? ''));
 
         $filteredByType = $service->listRecentEventsForUserFiltered($user, AuthEventTypes::LOGOUT, null, 10);
         $this->assertCount(1, $filteredByType);
-        $this->assertSame(AuthEventTypes::LOGOUT, (string) ($filteredByType[0]['type'] ?? ''));
+        $this->assertSame(AuthEventTypes::LOGOUT, (string) ($filteredByType[0][AuthEventMetaKeys::TYPE] ?? ''));
 
         $filteredByRequest = $service->listRecentEventsForUserFiltered($user, null, 'req-test-123', 10);
         $this->assertNotEmpty($filteredByRequest);
@@ -67,7 +70,7 @@ class AuthEventServiceTest extends TestCase
             'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
         );
         $this->assertNotNull($foundExport);
-        $this->assertSame(AuthEventTypes::SESSIONS_EXPORT_CSV, (string) ($foundExport['type'] ?? ''));
+        $this->assertSame(AuthEventTypes::SESSIONS_EXPORT_CSV, (string) ($foundExport[AuthEventMetaKeys::TYPE] ?? ''));
     }
 
     public function testFilteredListNormalizesLimitBoundaries(): void
@@ -109,7 +112,7 @@ class AuthEventServiceTest extends TestCase
         $service->registerSuccess($request, $user);
         $events = $service->listRecentEventsForUser($user);
 
-        $this->assertSame('req-attribute', (string) ($events[0]['request_id'] ?? ''));
+        $this->assertSame('req-attribute', (string) ($events[0][AuthEventMetaKeys::REQUEST_ID] ?? ''));
     }
 
     private function bootContainer(): void

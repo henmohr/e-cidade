@@ -3,6 +3,7 @@
 namespace App\Tests\Unit\Auth;
 
 use App\Services\Auth\AuthEventTypes;
+use App\Services\Auth\AuthEventMetaKeys;
 use App\Services\Auth\SessionExportEvidencePresenter;
 use PHPUnit\Framework\TestCase;
 
@@ -21,10 +22,10 @@ class SessionExportEvidencePresenterTest extends TestCase
     {
         $presenter = new SessionExportEvidencePresenter();
         $payload = $presenter->verified('ABCDEF', [
-            'type' => AuthEventTypes::SESSIONS_EXPORT_CSV,
-            'timestamp' => '2026-02-18T12:00:00Z',
-            'request_id' => 'req-42',
-            'row_count' => 7,
+            AuthEventMetaKeys::TYPE => AuthEventTypes::SESSIONS_EXPORT_CSV,
+            AuthEventMetaKeys::TIMESTAMP => '2026-02-18T12:00:00Z',
+            AuthEventMetaKeys::REQUEST_ID => 'req-42',
+            AuthEventMetaKeys::ROW_COUNT => 7,
         ]);
 
         $this->assertTrue($payload['verified']);

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Services\Auth\AuthEventMetaKeys;
 use App\Services\Auth\AuthEventService;
 use App\Services\Auth\AuthMessages;
 use App\Services\Auth\AuthEventTypes;
@@ -102,7 +103,7 @@ class ExternalIdentityController extends Controller
         app(AuthEventService::class)->registerExternalSuccess($request, $user, $provider);
         if ($revokedCount > 0) {
             app(AuthEventService::class)->registerCustomEvent($request, $user, AuthEventTypes::SESSION_REVOKE_OTHERS, [
-                'revoked_count' => $revokedCount,
+                AuthEventMetaKeys::REVOKED_COUNT => $revokedCount,
             ]);
         }
 

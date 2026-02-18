@@ -3,6 +3,7 @@
 namespace App\Tests\Unit\Auth;
 
 use App\Services\Auth\AuthEventTypes;
+use App\Services\Auth\AuthEventMetaKeys;
 use App\Services\Auth\SessionEventsExportService;
 use PHPUnit\Framework\TestCase;
 
@@ -13,13 +14,13 @@ class SessionEventsExportServiceTest extends TestCase
         $service = new SessionEventsExportService();
         $events = [
             [
-                'type' => AuthEventTypes::SESSIONS_EXPORT_CSV,
-                'request_id' => 'req-1',
-                'timestamp' => '2026-02-18T10:00:00Z',
-                'ip' => '127.0.0.1',
-                'provider' => '',
-                'revoked_count' => 2,
-                'file' => 'auth.csv',
+                AuthEventMetaKeys::TYPE => AuthEventTypes::SESSIONS_EXPORT_CSV,
+                AuthEventMetaKeys::REQUEST_ID => 'req-1',
+                AuthEventMetaKeys::TIMESTAMP => '2026-02-18T10:00:00Z',
+                AuthEventMetaKeys::IP => '127.0.0.1',
+                AuthEventMetaKeys::PROVIDER => '',
+                AuthEventMetaKeys::REVOKED_COUNT => 2,
+                AuthEventMetaKeys::FILE => 'auth.csv',
             ],
         ];
 

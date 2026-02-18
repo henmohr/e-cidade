@@ -23,36 +23,36 @@ class AuthEventPresenter
     {
         $parts = [];
 
-        if (!empty($event['provider'])) {
-            $parts[] = 'provider=' . strtolower(trim((string) $event['provider']));
+        if (!empty($event[AuthEventMetaKeys::PROVIDER])) {
+            $parts[] = 'provider=' . strtolower(trim((string) $event[AuthEventMetaKeys::PROVIDER]));
         }
 
-        if (!empty($event['revoked_count'])) {
-            $parts[] = 'revoked=' . (int) $event['revoked_count'];
+        if (!empty($event[AuthEventMetaKeys::REVOKED_COUNT])) {
+            $parts[] = 'revoked=' . (int) $event[AuthEventMetaKeys::REVOKED_COUNT];
         }
 
-        if (!empty($event['target_session_id'])) {
-            $parts[] = 'target=' . substr((string) $event['target_session_id'], 0, 40);
+        if (!empty($event[AuthEventMetaKeys::TARGET_SESSION_ID])) {
+            $parts[] = 'target=' . substr((string) $event[AuthEventMetaKeys::TARGET_SESSION_ID], 0, 40);
         }
 
-        if (!empty($event['tier'])) {
-            $parts[] = 'tier=' . strtolower(trim((string) $event['tier']));
+        if (!empty($event[AuthEventMetaKeys::TIER])) {
+            $parts[] = 'tier=' . strtolower(trim((string) $event[AuthEventMetaKeys::TIER]));
         }
 
-        if (!empty($event['file'])) {
-            $parts[] = 'file=' . substr((string) $event['file'], 0, 80);
+        if (!empty($event[AuthEventMetaKeys::FILE])) {
+            $parts[] = 'file=' . substr((string) $event[AuthEventMetaKeys::FILE], 0, 80);
         }
 
-        if (!empty($event['blocked_seconds'])) {
-            $parts[] = 'blocked=' . (int) $event['blocked_seconds'] . 's';
+        if (!empty($event[AuthEventMetaKeys::BLOCKED_SECONDS])) {
+            $parts[] = 'blocked=' . (int) $event[AuthEventMetaKeys::BLOCKED_SECONDS] . 's';
         }
 
-        if (isset($event['row_count'])) {
-            $parts[] = 'rows=' . (int) $event['row_count'];
+        if (isset($event[AuthEventMetaKeys::ROW_COUNT])) {
+            $parts[] = 'rows=' . (int) $event[AuthEventMetaKeys::ROW_COUNT];
         }
 
-        if (!empty($event['export_sha256'])) {
-            $parts[] = 'sha256=' . substr((string) $event['export_sha256'], 0, 16) . '...';
+        if (!empty($event[AuthEventMetaKeys::EXPORT_SHA256])) {
+            $parts[] = 'sha256=' . substr((string) $event[AuthEventMetaKeys::EXPORT_SHA256], 0, 16) . '...';
         }
 
         if (empty($parts)) {

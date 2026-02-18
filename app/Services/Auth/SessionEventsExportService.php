@@ -5,7 +5,14 @@ namespace App\Services\Auth;
 class SessionEventsExportService
 {
     /** @var array<int, string> */
-    public const CSV_HEADER = ['type', 'request_id', 'timestamp', 'ip', 'provider', 'details'];
+    public const CSV_HEADER = [
+        AuthEventMetaKeys::TYPE,
+        AuthEventMetaKeys::REQUEST_ID,
+        AuthEventMetaKeys::TIMESTAMP,
+        AuthEventMetaKeys::IP,
+        AuthEventMetaKeys::PROVIDER,
+        'details',
+    ];
     public const DETAILS_PARTS_SEPARATOR = ';';
 
     /**
@@ -18,11 +25,11 @@ class SessionEventsExportService
 
         foreach ($events as $event) {
             fputcsv($out, [
-                (string) ($event['type'] ?? ''),
-                (string) ($event['request_id'] ?? ''),
-                (string) ($event['timestamp'] ?? ''),
-                (string) ($event['ip'] ?? ''),
-                (string) ($event['provider'] ?? ''),
+                (string) ($event[AuthEventMetaKeys::TYPE] ?? ''),
+                (string) ($event[AuthEventMetaKeys::REQUEST_ID] ?? ''),
+                (string) ($event[AuthEventMetaKeys::TIMESTAMP] ?? ''),
+                (string) ($event[AuthEventMetaKeys::IP] ?? ''),
+                (string) ($event[AuthEventMetaKeys::PROVIDER] ?? ''),
                 $this->detailsCsvColumn($event),
             ]);
         }
@@ -46,24 +53,24 @@ class SessionEventsExportService
     {
         $parts = [];
 
-        if (isset($event['revoked_count'])) {
-            $parts[] = 'revoked_count=' . (int) $event['revoked_count'];
+        if (isset($event[AuthEventMetaKeys::REVOKED_COUNT])) {
+            $parts[] = 'revoked_count=' . (int) $event[AuthEventMetaKeys::REVOKED_COUNT];
         }
 
-        if (!empty($event['target_session_id'])) {
-            $parts[] = 'target_session_id=' . (string) $event['target_session_id'];
+        if (!empty($event[AuthEventMetaKeys::TARGET_SESSION_ID])) {
+            $parts[] = 'target_session_id=' . (string) $event[AuthEventMetaKeys::TARGET_SESSION_ID];
         }
 
-        if (!empty($event['tier'])) {
-            $parts[] = 'tier=' . (string) $event['tier'];
+        if (!empty($event[AuthEventMetaKeys::TIER])) {
+            $parts[] = 'tier=' . (string) $event[AuthEventMetaKeys::TIER];
         }
 
-        if (!empty($event['file'])) {
-            $parts[] = 'file=' . (string) $event['file'];
+        if (!empty($event[AuthEventMetaKeys::FILE])) {
+            $parts[] = 'file=' . (string) $event[AuthEventMetaKeys::FILE];
         }
 
-        if (isset($event['blocked_seconds'])) {
-            $parts[] = 'blocked_seconds=' . (int) $event['blocked_seconds'];
+        if (isset($event[AuthEventMetaKeys::BLOCKED_SECONDS])) {
+            $parts[] = 'blocked_seconds=' . (int) $event[AuthEventMetaKeys::BLOCKED_SECONDS];
         }
 
         return implode(self::DETAILS_PARTS_SEPARATOR, $parts);

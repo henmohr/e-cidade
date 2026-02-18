@@ -28,7 +28,7 @@ class AuthEventService
         }
 
         $entries[] = array_merge(
-            ['type' => AuthEventTypes::LOGIN_FAILED],
+            [AuthEventMetaKeys::TYPE => AuthEventTypes::LOGIN_FAILED],
             $this->baseEventMeta($request)
         );
 
@@ -42,7 +42,7 @@ class AuthEventService
     public function registerSuccess(Request $request, User $user): void
     {
         $this->appendUserEvent($user, array_merge(
-            ['type' => AuthEventTypes::LOGIN_SUCCESS],
+            [AuthEventMetaKeys::TYPE => AuthEventTypes::LOGIN_SUCCESS],
             $this->baseEventMeta($request)
         ));
     }
@@ -51,8 +51,8 @@ class AuthEventService
     {
         $this->appendUserEvent($user, array_merge(
             [
-                'type' => AuthEventTypes::LOGIN_EXTERNAL_SUCCESS,
-                'provider' => $this->normalizeIdentifier($provider),
+                AuthEventMetaKeys::TYPE => AuthEventTypes::LOGIN_EXTERNAL_SUCCESS,
+                AuthEventMetaKeys::PROVIDER => $this->normalizeIdentifier($provider),
             ],
             $this->baseEventMeta($request)
         ));
@@ -61,7 +61,7 @@ class AuthEventService
     public function registerLogout(Request $request, User $user): void
     {
         $this->appendUserEvent($user, array_merge(
-            ['type' => AuthEventTypes::LOGOUT],
+            [AuthEventMetaKeys::TYPE => AuthEventTypes::LOGOUT],
             $this->baseEventMeta($request)
         ));
     }
@@ -78,7 +78,7 @@ class AuthEventService
 
         $event = array_merge(
             $meta,
-            ['type' => $type],
+            [AuthEventMetaKeys::TYPE => $type],
             $this->baseEventMeta($request)
         );
 
@@ -140,11 +140,11 @@ class AuthEventService
         $requestId = trim((string) $requestId);
 
         $events = array_values(array_filter($events, static function (array $event) use ($type, $requestId): bool {
-            if ($type !== '' && strtolower((string) ($event['type'] ?? '')) !== $type) {
+            if ($type !== '' && strtolower((string) ($event[AuthEventMetaKeys::TYPE] ?? '')) !== $type) {
                 return false;
             }
 
-            if ($requestId !== '' && stripos((string) ($event['request_id'] ?? ''), $requestId) === false) {
+            if ($requestId !== '' && stripos((string) ($event[AuthEventMetaKeys::REQUEST_ID] ?? ''), $requestId) === false) {
                 return false;
             }
 
@@ -172,7 +172,7 @@ class AuthEventService
             SessionEventFilters::DEFAULT_EXPORT_LIMIT
         );
         foreach ($events as $event) {
-            $hash = strtolower((string) ($event['export_sha256'] ?? ''));
+            $hash = strtolower((string) ($event[AuthEventMetaKeys::EXPORT_SHA256] ?? ''));
             if ($hash === $sha256) {
                 return $event;
             }
@@ -233,10 +233,10 @@ class AuthEventService
     private function baseEventMeta(Request $request): array
     {
         return [
-            'request_id' => $this->requestId($request),
-            'timestamp' => now()->toIso8601String(),
-            'ip' => (string) $request->ip(),
-            'user_agent' => substr((string) $request->userAgent(), 0, self::USER_AGENT_MAX_LENGTH),
+            AuthEventMetaKeys::REQUEST_ID => $this->requestId($request),
+            AuthEventMetaKeys::TIMESTAMP => now()->toIso8601String(),
+            AuthEventMetaKeys::IP => (string) $request->ip(),
+            AuthEventMetaKeys::USER_AGENT => substr((string) $request->userAgent(), 0, self::USER_AGENT_MAX_LENGTH),
         ];
     }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Services\Auth\AuthEventMetaKeys;
 use App\Services\Auth\AuthEventService;
 use App\Services\Auth\AuthMessages;
 use App\Services\Auth\AuthEventTypes;
@@ -37,7 +38,7 @@ class MfaController extends Controller
         $blockSeconds = $mfaService->currentBlockSecondsForUser($user);
         if ($blockSeconds > 0) {
             app(AuthEventService::class)->registerCustomEvent($request, $user, AuthEventTypes::MFA_VERIFY_BLOCKED, [
-                'blocked_seconds' => $blockSeconds,
+                AuthEventMetaKeys::BLOCKED_SECONDS => $blockSeconds,
             ]);
             return back()->withErrors([
                 'code' => AuthMessages::mfaBlockedTryAgain($blockSeconds),

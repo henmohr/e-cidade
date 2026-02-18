@@ -4,6 +4,7 @@ namespace App\Tests\Unit\Auth;
 
 use App\Services\Auth\AuthEventTypes;
 use App\Models\User;
+use App\Services\Auth\AuthEventMetaKeys;
 use App\Services\Auth\AuthEventPresenter;
 use App\Services\Auth\AuthEventService;
 use App\Services\Auth\SessionEventFilters;
@@ -29,8 +30,8 @@ class SessionEventsQueryServiceTest extends TestCase
         $filters = new SessionEventFilters(AuthEventTypes::LOGIN_SUCCESS, 'req-1', 10);
 
         $rawEvents = [[
-            'type' => AuthEventTypes::LOGIN_SUCCESS,
-            'request_id' => 'req-1',
+            AuthEventMetaKeys::TYPE => AuthEventTypes::LOGIN_SUCCESS,
+            AuthEventMetaKeys::REQUEST_ID => 'req-1',
         ]];
 
         $eventService->shouldReceive('listRecentEventsForUserFiltered')
@@ -56,9 +57,9 @@ class SessionEventsQueryServiceTest extends TestCase
         $eventService->shouldReceive('findRecentExportEventByHash')
             ->once()
             ->with($user, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
-            ->andReturn(['type' => AuthEventTypes::SESSIONS_EXPORT_CSV]);
+            ->andReturn([AuthEventMetaKeys::TYPE => AuthEventTypes::SESSIONS_EXPORT_CSV]);
 
         $event = $service->findExportHash($user, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
-        $this->assertSame(AuthEventTypes::SESSIONS_EXPORT_CSV, $event['type']);
+        $this->assertSame(AuthEventTypes::SESSIONS_EXPORT_CSV, $event[AuthEventMetaKeys::TYPE]);
     }
 }

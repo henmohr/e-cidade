@@ -24,10 +24,10 @@ class SessionExportEvidencePresenter
         return [
             'verified' => true,
             'hash' => strtolower(trim($hash)),
-            'event_type' => (string) ($event['type'] ?? ''),
-            'timestamp' => (string) ($event['timestamp'] ?? ''),
-            'request_id' => (string) ($event['request_id'] ?? ''),
-            'row_count' => (int) ($event['row_count'] ?? 0),
+            'event_type' => (string) ($event[AuthEventMetaKeys::TYPE] ?? ''),
+            'timestamp' => (string) ($event[AuthEventMetaKeys::TIMESTAMP] ?? ''),
+            'request_id' => (string) ($event[AuthEventMetaKeys::REQUEST_ID] ?? ''),
+            'row_count' => (int) ($event[AuthEventMetaKeys::ROW_COUNT] ?? 0),
         ];
     }
 }

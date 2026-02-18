@@ -3,6 +3,7 @@
 namespace App\Tests\Unit\Auth;
 
 use App\Services\Auth\AuthEventPresenter;
+use App\Services\Auth\AuthEventMetaKeys;
 use App\Services\Auth\AuthEventTypes;
 use PHPUnit\Framework\TestCase;
 
@@ -13,8 +14,8 @@ class AuthEventPresenterTest extends TestCase
         $presenter = new AuthEventPresenter();
 
         $event = [
-            'type' => AuthEventTypes::LOGIN_EXTERNAL_SUCCESS,
-            'provider' => 'govbr',
+            AuthEventMetaKeys::TYPE => AuthEventTypes::LOGIN_EXTERNAL_SUCCESS,
+            AuthEventMetaKeys::PROVIDER => 'govbr',
         ];
 
         $this->assertSame('Login externo com sucesso', $presenter->typeLabel($event));
@@ -26,12 +27,12 @@ class AuthEventPresenterTest extends TestCase
         $presenter = new AuthEventPresenter();
 
         $event = [
-            'type' => AuthEventTypes::SESSION_REVOKE_OTHERS,
-            'revoked_count' => 3,
-            'target_session_id' => 'abc123xyz',
-            'tier' => 'archive',
-            'file' => 'backup_2026_02_18.sql',
-            'blocked_seconds' => 120,
+            AuthEventMetaKeys::TYPE => AuthEventTypes::SESSION_REVOKE_OTHERS,
+            AuthEventMetaKeys::REVOKED_COUNT => 3,
+            AuthEventMetaKeys::TARGET_SESSION_ID => 'abc123xyz',
+            AuthEventMetaKeys::TIER => 'archive',
+            AuthEventMetaKeys::FILE => 'backup_2026_02_18.sql',
+            AuthEventMetaKeys::BLOCKED_SECONDS => 120,
         ];
 
         $details = $presenter->details($event);
@@ -47,9 +48,9 @@ class AuthEventPresenterTest extends TestCase
         $presenter = new AuthEventPresenter();
 
         $event = [
-            'type' => AuthEventTypes::SESSIONS_EXPORT_CSV,
-            'row_count' => 12,
-            'export_sha256' => 'abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890',
+            AuthEventMetaKeys::TYPE => AuthEventTypes::SESSIONS_EXPORT_CSV,
+            AuthEventMetaKeys::ROW_COUNT => 12,
+            AuthEventMetaKeys::EXPORT_SHA256 => 'abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890',
         ];
 
         $this->assertSame('Exportacao CSV de eventos', $presenter->typeLabel($event));
