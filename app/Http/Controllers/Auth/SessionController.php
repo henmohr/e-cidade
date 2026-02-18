@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Services\Auth\AuthEventService;
 use App\Services\Auth\AuthEventMetaKeys;
 use App\Services\Auth\AuthMessages;
@@ -35,10 +36,7 @@ class SessionController extends Controller
         SessionEventsQueryService $eventsQuery
     ): View
     {
-        $user = Auth::user();
-        if (!$user) {
-            abort(401);
-        }
+        $user = $this->authenticatedUserOrAbort();
 
         $filters = SessionEventFilters::fromScreenRequest($request);
         $events = $eventsQuery->eventsForScreen($user, $filters);
@@ -57,10 +55,7 @@ class SessionController extends Controller
             'session_id' => 'required|string|max:200',
         ]);
 
-        $user = Auth::user();
-        if (!$user) {
-            abort(401);
-        }
+        $user = $this->authenticatedUserOrAbort();
 
         $sessionId = (string) $request->input('session_id');
         $ok = $service->revokeSession($user, $sessionId);
@@ -88,10 +83,7 @@ class SessionController extends Controller
         SessionEventsExportService $exportService
     ): Response
     {
-        $user = Auth::user();
-        if (!$user) {
-            abort(401);
-        }
+        $user = $this->authenticatedUserOrAbort();
 
         $filters = SessionEventFilters::fromExportRequest($request);
         $events = $eventsQuery->rawFilteredEvents($user, $filters);
@@ -117,10 +109,7 @@ class SessionController extends Controller
         SessionExportEvidencePresenter $presenter
     ): Response
     {
-        $user = Auth::user();
-        if (!$user) {
-            abort(401);
-        }
+        $user = $this->authenticatedUserOrAbort();
 
         $data = $request->validate([
             'sha256' => 'required|string|size:' . ExportHash::LENGTH . '|' . ExportHash::VALIDATION_RULE,
@@ -136,4 +125,13 @@ class SessionController extends Controller
         return response()->json($presenter->verified($target, $matchedEvent));
     }
 
+    private function authenticatedUserOrAbort(): User
+    {
+        $user = Auth::user();
+        if (!$user instanceof User) {
+            abort(401);
+        }
+
+        return $user;
+    }
 }
