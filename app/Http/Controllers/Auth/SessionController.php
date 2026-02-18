@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Services\Auth\AuthEventService;
-use App\Services\Auth\AuthEventPresenter;
 use App\Services\Auth\SessionActivityService;
 use App\Services\Auth\SessionEventFilters;
 use App\Services\Auth\SessionEventsExportService;
+use App\Services\Auth\SessionEventsQueryService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -20,8 +20,7 @@ class SessionController extends Controller
     public function index(
         Request $request,
         SessionActivityService $service,
-        AuthEventService $eventService,
-        AuthEventPresenter $presenter
+        SessionEventsQueryService $eventsQuery
     ): View
     {
         $user = Auth::user();
@@ -30,17 +29,7 @@ class SessionController extends Controller
         }
 
         $filters = SessionEventFilters::fromRequest($request, 50);
-
-        $events = array_map(function (array $event) use ($presenter) {
-            $event['type_label'] = $presenter->typeLabel($event);
-            $event['details'] = $presenter->details($event);
-            return $event;
-        }, $eventService->listRecentEventsForUserFiltered(
-            $user,
-            $filters->eventType(),
-            $filters->eventRequestId(),
-            $filters->eventLimit()
-        ));
+        $events = $eventsQuery->eventsForScreen($user, $filters);
 
         return view('auth.sessions', [
             'sessions' => $service->listForUser($user),
@@ -82,6 +71,7 @@ class SessionController extends Controller
 
     public function exportCsv(
         Request $request,
+        SessionEventsQueryService $eventsQuery,
         AuthEventService $eventService,
         SessionEventsExportService $exportService
     ): Response
@@ -92,13 +82,7 @@ class SessionController extends Controller
         }
 
         $filters = SessionEventFilters::fromRequest($request, 200);
-
-        $events = $eventService->listRecentEventsForUserFiltered(
-            $user,
-            $filters->eventType(),
-            $filters->eventRequestId(),
-            $filters->eventLimit()
-        );
+        $events = $eventsQuery->rawFilteredEvents($user, $filters);
         $filename = 'auth-events-' . date('Ymd-His') . '.csv';
         $csv = $exportService->buildCsv($events);
         $sha256 = $exportService->computeSha256($csv);
@@ -115,7 +99,7 @@ class SessionController extends Controller
         ]);
     }
 
-    public function verifyExportHash(Request $request, AuthEventService $eventService): Response
+    public function verifyExportHash(Request $request, SessionEventsQueryService $eventsQuery): Response
     {
         $user = Auth::user();
         if (!$user) {
@@ -127,7 +111,7 @@ class SessionController extends Controller
         ]);
 
         $target = strtolower((string) $data['sha256']);
-        $matchedEvent = $eventService->findRecentExportEventByHash($user, $target);
+        $matchedEvent = $eventsQuery->findExportHash($user, $target);
 
         if (!$matchedEvent) {
             return response()->json([
