@@ -28,7 +28,13 @@
 require(__DIR__ . "/../libs/db_stdlib.php");
 require(__DIR__ . "/../libs/db_conecta.php");
 
-parse_str(($HTTP_SERVER_VARS['QUERY_STRING']));
+$legacyQueryParams = [];
+parse_str((string) ($_SERVER['QUERY_STRING'] ?? ''), $legacyQueryParams);
+foreach ($legacyQueryParams as $legacyKey => $legacyValue) {
+  if (!isset($$legacyKey)) {
+    $$legacyKey = $legacyValue;
+  }
+}
 
 if(file_exists(base64_decode($arquivo))){
   include(base64_decode($arquivo));
@@ -126,7 +132,7 @@ function js_alterar(nota,valor){
 <form name="form1" method="post" action="">
   <table  border="1" cellpadding="3" cellspacing="0" id="tab">
     <tr bgcolor="#BDC6BD">
-    <?
+    <?php
       $colunas= explode("#",$quais_colunas);
       for($i=0; $i<sizeof($colunas); $i++){
         $coluna="x_".$colunas[$i];
@@ -136,7 +142,7 @@ function js_alterar(nota,valor){
 
     ?>
     </tr>
-    <?
+    <?php
      if(isset($sql) && $sql!=""){
        $coluna="";
        $virgula="";
@@ -185,7 +191,7 @@ function js_alterar(nota,valor){
 </center>
 </body>
 </html>
-<?
+<?php
  $retorno = @unlink(base64_decode($arquivo));
   if($retorno==false){
        echo "<blink>Carregando...</blink>";

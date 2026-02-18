@@ -2,7 +2,13 @@
 
 require_once(modification("libs/db_stdlib.php"));
 require_once(modification("libs/db_conecta.php"));
-parse_str($HTTP_SERVER_VARS['QUERY_STRING']);
+$legacyQueryParams = [];
+parse_str((string) ($_SERVER['QUERY_STRING'] ?? ''), $legacyQueryParams);
+foreach ($legacyQueryParams as $legacyKey => $legacyValue) {
+  if (!isset($$legacyKey)) {
+    $$legacyKey = $legacyValue;
+  }
+}
 if (file_exists(base64_decode($arquivo))) {
 
   require(modification(base64_decode($arquivo)));
@@ -53,7 +59,7 @@ $campos_comparar  = base64_decode((isset($campos_comparar) ? $campos_comparar : 
       border: 1px solid #FFFFFF;
     }
 
-    <?
+    <?php
     if (isset($sql_comparar) && $sql_comparar != "") {
     ?>.corpo_erro {
       font-size: <?= $tamfontecorpo ?>;
@@ -61,7 +67,7 @@ $campos_comparar  = base64_decode((isset($campos_comparar) ? $campos_comparar : 
       background-color: #CD5C5C;
     }
 
-    <?
+    <?php
     }
     ?>.corpo {
       font-size: <?= $tamfontecorpo ?>;
@@ -71,7 +77,7 @@ $campos_comparar  = base64_decode((isset($campos_comparar) ? $campos_comparar : 
   </style>
 
   <script>
-    function js_retorna(qtipo, <? $virgula = "";
+    function js_retorna(qtipo, <?php $virgula = "";
                                 reset($quais_chaves);
                                 for ($ww = 0; $ww < sizeof($quais_chaves); $ww++) {
                                   echo $virgula . "par_$ww";
@@ -85,7 +91,7 @@ $campos_comparar  = base64_decode((isset($campos_comparar) ? $campos_comparar : 
       opcao.setAttribute("value", qtipo);
       parent.document.form1.appendChild(opcao);
 
-      <?
+      <?php
       reset($quais_chaves);
       for ($ww = 0; $ww < sizeof($quais_chaves); $ww++) {
       ?>
@@ -94,7 +100,7 @@ $campos_comparar  = base64_decode((isset($campos_comparar) ? $campos_comparar : 
         chavepri.setAttribute("name", "<?= $quais_chaves[$ww] ?>");
         chavepri.setAttribute("value", par_<?= $ww ?>);
         parent.document.form1.appendChild(chavepri);
-      <?
+      <?php
         next($quais_chaves);
       }
       ?>
@@ -110,7 +116,7 @@ $campos_comparar  = base64_decode((isset($campos_comparar) ? $campos_comparar : 
         <tr>
           <td align="center" valign="top">
             <table border='1px' width="100%" bgcolor="#cccccc" style="" cellspacing="0px" class="tabela_iframe_alterar_excluir">
-              <?
+              <?php
               $result = @db_query($sql);
               $numrows = @pg_numrows($result);
               $numcols = @pg_numfields($result);
@@ -387,7 +393,7 @@ $campos_comparar  = base64_decode((isset($campos_comparar) ? $campos_comparar : 
 </body>
 
 </html>
-<?
+<?php
 $retorno = @unlink(base64_decode($arquivo));
 if ($retorno == false) {
   echo "<blink>Carregando...</blink>";
