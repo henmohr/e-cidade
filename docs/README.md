@@ -618,6 +618,9 @@ Documentação técnica completa do sistema de migração gradual de código leg
 | 2026-02-18 | sprint14_homologacao_externa/checklist_homologacao_externa.md | Checklist de homologacao externa em modo offline com protocolo oficial para fechamento de banca |
 | 2026-02-18 | sprint15_gate_entrega/gate_entrega_licitacao.md | Gate final consolidado da licitacao com decisao automatica de apto_para_entrega |
 | 2026-02-18 | sprint16_relatorio_executivo/relatorio_executivo_licitacao.md | Relatorio executivo consolidado para decisao final de protocolo da proposta |
+| 2026-02-18 | sps_modulos/README.md | Descritivo completo da secao 5 do SPS em arquivos markdown por modulo |
+| 2026-02-18 | sps_modulos_unificados/README.md | Consolidacao com padronizacao de nomes e unificacao de modulos duplicados do SPS |
+| 2026-02-18 | sps_matriz_modulo_status_impl.md | Matriz modulo x status de implementacao com evidencias iniciais por sprint |
 
 ---
 
