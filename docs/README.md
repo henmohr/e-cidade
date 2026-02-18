@@ -611,6 +611,8 @@ Documentação técnica completa do sistema de migração gradual de código leg
 | 2026-02-17 | runbook_acessibilidade_poc.md | Runbook de validacao de contraste, fonte e daltonismo |
 | 2026-02-17 | checklist_evidencias_contabilidade_publica_poc.md | Checklist de atingimento para Contabilidade Publica na PoC |
 | 2026-02-17 | checklist_evidencias_demais_sistemas_poc.md | Checklist consolidado de evidencias para os demais sistemas da licitacao |
+| 2026-02-18 | requisitos_modulo2_orcamento_planejamento.md | Baseline de requisitos de desenvolvimento para Orcamento e Planejamento (PPA/LDO/LOA) |
+| 2026-02-18 | sprint11_cobertura_modulos/cobertura_modulos_financeiros.md | Relatorio automatico da cobertura dos modulos financeiros M1 a M5 |
 
 ---
 
@@ -647,4 +649,4 @@ Este projeto é mantido pela comunidade e distribui-se sob licença de software 
 
 ---
 
-**Ultima atualizacao desta pagina**: 2026-02-17
+**Ultima atualizacao desta pagina**: 2026-02-18

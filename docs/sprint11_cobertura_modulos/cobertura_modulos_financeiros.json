@@ -1,0 +1,62 @@
+{
+    "total_modulos": 5,
+    "totais": {
+        "atingido": 5,
+        "parcial": 0,
+        "pendente": 0
+    },
+    "percentual_global": 100,
+    "status_recomendado": "apto_para_banca",
+    "modulos": [
+        {
+            "id": "M1",
+            "nome": "Contabilidade Publica",
+            "total_checks": 4,
+            "checks_ok": 4,
+            "checks_faltantes": 0,
+            "percentual": 100,
+            "status": "atingido",
+            "faltantes": []
+        },
+        {
+            "id": "M2",
+            "nome": "Orcamento e Planejamento (PPA, LDO e LOA)",
+            "total_checks": 3,
+            "checks_ok": 3,
+            "checks_faltantes": 0,
+            "percentual": 100,
+            "status": "atingido",
+            "faltantes": []
+        },
+        {
+            "id": "M3",
+            "nome": "Execucao Orcamentaria",
+            "total_checks": 3,
+            "checks_ok": 3,
+            "checks_faltantes": 0,
+            "percentual": 100,
+            "status": "atingido",
+            "faltantes": []
+        },
+        {
+            "id": "M4",
+            "nome": "Tesouraria e Fluxo de Caixa",
+            "total_checks": 4,
+            "checks_ok": 4,
+            "checks_faltantes": 0,
+            "percentual": 100,
+            "status": "atingido",
+            "faltantes": []
+        },
+        {
+            "id": "M5",
+            "nome": "Controle de Despesas e Receitas",
+            "total_checks": 4,
+            "checks_ok": 4,
+            "checks_faltantes": 0,
+            "percentual": 100,
+            "status": "atingido",
+            "faltantes": []
+        }
+    ]
+}
