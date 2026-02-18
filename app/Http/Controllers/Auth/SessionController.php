@@ -107,6 +107,37 @@ class SessionController extends Controller
         ]);
     }
 
+    public function verifyExportHash(Request $request, AuthEventService $eventService): Response
+    {
+        $user = Auth::user();
+        if (!$user) {
+            abort(401);
+        }
+
+        $data = $request->validate([
+            'sha256' => 'required|string|size:64|regex:/^[a-fA-F0-9]{64}$/',
+        ]);
+
+        $target = strtolower((string) $data['sha256']);
+        $matchedEvent = $eventService->findRecentExportEventByHash($user, $target);
+
+        if (!$matchedEvent) {
+            return response()->json([
+                'verified' => false,
+                'message' => 'Hash nao encontrado nos eventos recentes de exportacao.',
+            ], 404);
+        }
+
+        return response()->json([
+            'verified' => true,
+            'hash' => $target,
+            'event_type' => (string) ($matchedEvent['type'] ?? ''),
+            'timestamp' => (string) ($matchedEvent['timestamp'] ?? ''),
+            'request_id' => (string) ($matchedEvent['request_id'] ?? ''),
+            'row_count' => (int) ($matchedEvent['row_count'] ?? 0),
+        ]);
+    }
+
     /**
      * @param array<string, mixed> $event
      */

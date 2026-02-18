@@ -57,6 +57,7 @@ Route::group(['middleware' => ['legacySession', 'authEcidadeUser', 'auth.basic',
         Route::get('/', [SessionController::class, 'index'])->name('sessions.index');
         Route::post('/revoke', [SessionController::class, 'revoke'])->name('sessions.revoke');
         Route::get('/export-csv', [SessionController::class, 'exportCsv'])->name('sessions.export');
+        Route::get('/verify-export-hash', [SessionController::class, 'verifyExportHash'])->name('sessions.verifyExportHash');
     });
 
     Route::prefix('backup')->middleware(['requireA3Certificate'])->group(function () {

@@ -91,6 +91,11 @@
             'event_limit' => $eventFilters['event_limit'] ?? 50,
         ]) }}">Exportar CSV</a>
     </form>
+    <form method="get" action="{{ route('sessions.verifyExportHash') }}" target="_blank" style="margin: 0 0 16px 0;">
+        <label for="sha256">Verificar SHA-256:</label>
+        <input id="sha256" name="sha256" maxlength="64" placeholder="cole o hash do header X-Export-SHA256" required>
+        <button type="submit">Validar hash</button>
+    </form>
 
     @if (empty($authEvents))
         <p>Nenhum evento recente de autenticacao.</p>

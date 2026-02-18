@@ -38,6 +38,10 @@ class AuthEventServiceTest extends TestCase
 
         $service->registerExternalSuccess($request, $user, 'govbr');
         $service->registerCustomEvent($request, $user, 'session_revoked', ['target_session_id' => 'abc123']);
+        $service->registerCustomEvent($request, $user, 'sessions_export_csv', [
+            'row_count' => 2,
+            'export_sha256' => 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+        ]);
         $service->registerLogout($request, $user);
 
         $events = $service->listRecentEventsForUser($user);
@@ -56,6 +60,13 @@ class AuthEventServiceTest extends TestCase
 
         $filteredByRequest = $service->listRecentEventsForUserFiltered($user, null, 'req-test-123', 10);
         $this->assertNotEmpty($filteredByRequest);
+
+        $foundExport = $service->findRecentExportEventByHash(
+            $user,
+            'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+        );
+        $this->assertNotNull($foundExport);
+        $this->assertSame('sessions_export_csv', (string) ($foundExport['type'] ?? ''));
     }
 
     private function bootContainer(): void

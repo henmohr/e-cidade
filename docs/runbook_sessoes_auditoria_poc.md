@@ -44,6 +44,7 @@ Resultado esperado:
 11. Validar filtro da tela por `Tipo`, `Request ID` e `Limite` para isolar eventos especificos em atendimento.
 12. Exportar o resultado filtrado em CSV pela opcao `Exportar CSV` e anexar como evidência da PoC.
 13. Registrar hash de integridade do arquivo exportado pelo header `X-Export-SHA256` e correlacionar com evento `sessions_export_csv`.
+14. Validar hash no endpoint `GET /web/sessions/verify-export-hash?sha256=<hash>` e anexar retorno JSON.
 
 ## 4. Limites Conhecidos
 

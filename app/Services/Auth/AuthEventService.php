@@ -166,6 +166,27 @@ class AuthEventService
         return array_slice($events, 0, $limit);
     }
 
+    /**
+     * @return array<string, mixed>|null
+     */
+    public function findRecentExportEventByHash(User $user, string $sha256): ?array
+    {
+        $sha256 = strtolower(trim($sha256));
+        if (!preg_match('/^[a-f0-9]{64}$/', $sha256)) {
+            return null;
+        }
+
+        $events = $this->listRecentEventsForUserFiltered($user, 'sessions_export_csv', null, 200);
+        foreach ($events as $event) {
+            $hash = strtolower((string) ($event['export_sha256'] ?? ''));
+            if ($hash === $sha256) {
+                return $event;
+            }
+        }
+
+        return null;
+    }
+
     private function appendUserEvent(User $user, array $event): void
     {
         $key = $this->userEventsKey((int) $user->getAuthIdentifier());
