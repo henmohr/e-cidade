@@ -1,4 +1,4 @@
-<?
+<?php
 /*
  *     E-cidade Software Publico para Gestao Municipal                
  *  Copyright (C) 2009  DBselller Servicos de Informatica             
@@ -31,15 +31,21 @@ include("libs/db_conecta.php");
 pg_exec("update db_usuariosonline 
          set uol_inativo = ".time()."
 		 where uol_id = ".db_getsession("DB_id_usuario")."
-		 and uol_ip = '".(isset($_SERVER["HTTP_X_FORWARDED_FOR"])?$_SERVER["HTTP_X_FORWARDED_FOR"]:$HTTP_SERVER_VARS['REMOTE_ADDR'])."' 
+		 and uol_ip = '".(isset($_SERVER["HTTP_X_FORWARDED_FOR"])?$_SERVER["HTTP_X_FORWARDED_FOR"]:$_SERVER['REMOTE_ADDR'])."' 
 		 and uol_hora = ".db_getsession("DB_uol_hora")."
 		 ") or die("Erro(26) atualizando db_usuariosonline");
 $result = pg_exec("select uol_sol from db_usuariosonline 
                    where uol_id = ".db_getsession("DB_id_usuario")."
-    		       and uol_ip = '".(isset($_SERVER["HTTP_X_FORWARDED_FOR"])?$_SERVER["HTTP_X_FORWARDED_FOR"]:$HTTP_SERVER_VARS['REMOTE_ADDR'])."' 
+    		       and uol_ip = '".(isset($_SERVER["HTTP_X_FORWARDED_FOR"])?$_SERVER["HTTP_X_FORWARDED_FOR"]:$_SERVER['REMOTE_ADDR'])."' 
 		           and uol_hora = ".db_getsession("DB_uol_hora"));
 $verf = "1";
-parse_str($HTTP_SERVER_VARS['QUERY_STRING']);
+$legacyQueryParams = [];
+parse_str((string) ($_SERVER['QUERY_STRING'] ?? ''), $legacyQueryParams);
+foreach ($legacyQueryParams as $legacyKey => $legacyValue) {
+  if (!isset($$legacyKey)) {
+    $$legacyKey = $legacyValue;
+  }
+}
 if(($str = trim(pg_result($result,0,0))) != "") {// && $verf == "1"
   $str = explode("#",$str);
   $verf = "2";
@@ -55,7 +61,7 @@ if(($str = trim(pg_result($result,0,0))) != "") {// && $verf == "1"
   pg_exec("update db_usuariosonline 
            set uol_sol = ' '
 	  	   where uol_id = ".db_getsession("DB_id_usuario")."
-		   and uol_ip = '".(isset($_SERVER["HTTP_X_FORWARDED_FOR"])?$_SERVER["HTTP_X_FORWARDED_FOR"]:$HTTP_SERVER_VARS['REMOTE_ADDR'])."' 
+		   and uol_ip = '".(isset($_SERVER["HTTP_X_FORWARDED_FOR"])?$_SERVER["HTTP_X_FORWARDED_FOR"]:$_SERVER['REMOTE_ADDR'])."' 
 		   and uol_hora = ".db_getsession("DB_uol_hora")."
 		   ") or die("Erro(33) atualizando db_usuariosonline");
 }

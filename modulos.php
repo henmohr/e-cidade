@@ -27,7 +27,13 @@
 session_start();
 $_SESSION["DB_itemmenu_acessado"] = "0";
 
-parse_str(base64_decode($HTTP_SERVER_VARS['QUERY_STRING']));
+$legacyQueryParams = [];
+parse_str(base64_decode((string) ($_SERVER['QUERY_STRING'] ?? '')), $legacyQueryParams);
+foreach ($legacyQueryParams as $legacyKey => $legacyValue) {
+  if (!isset($$legacyKey)) {
+    $$legacyKey = $legacyValue;
+  }
+}
 
 if (!session_is_registered("DB_instit")) {
 
@@ -100,17 +106,17 @@ if (!session_is_registered("DB_datausu")) {
     db_putsession("DB_datausu", time());
 }
 
-if (!isset($HTTP_POST_VARS["formAnousu"]) && !isset($retorno)) {
+if (!isset($_POST["formAnousu"]) && !isset($retorno)) {
 
     db_putsession("DB_modulo", $modulo);
     db_putsession("DB_nome_modulo", $nomemod);
     db_putsession("DB_anousu", $anousu);
-} else if (isset($HTTP_POST_VARS["formAnousu"]) && $HTTP_POST_VARS["formAnousu"] != "") {
-    db_putsession("DB_anousu", $HTTP_POST_VARS["formAnousu"]);
+} else if (isset($_POST["formAnousu"]) && $_POST["formAnousu"] != "") {
+    db_putsession("DB_anousu", $_POST["formAnousu"]);
 }
 
 // se o exercicio nao for selecionado no modulo, esta acessando o módulo
-if (!isset($HTTP_POST_VARS["formAnousu"])) {
+if (!isset($_POST["formAnousu"])) {
 
     // se o ano da data do exercicio for diferente  do anousu registrado, o sistema utiliza como padrao o anousu da data
     if (db_getsession("DB_anousu") != date("Y", db_getsession("DB_datausu"))) {
@@ -128,7 +134,7 @@ $sSqlUsuariosOnline .= "   set uol_arquivo = '',                  ";
 $sSqlUsuariosOnline .= "       uol_modulo  = '" . $nomemod . "',  ";
 $sSqlUsuariosOnline .= "       uol_inativo = " . time();
 $sSqlUsuariosOnline .= " where uol_id   = " . db_getsession("DB_id_usuario");
-$sSqlUsuariosOnline .= "   and uol_ip   = '" . (isset($_SERVER["HTTP_X_FORWARDED_FOR"]) ? $_SERVER["HTTP_X_FORWARDED_FOR"] : $HTTP_SERVER_VARS['REMOTE_ADDR']) . "'";
+$sSqlUsuariosOnline .= "   and uol_ip   = '" . (isset($_SERVER["HTTP_X_FORWARDED_FOR"]) ? $_SERVER["HTTP_X_FORWARDED_FOR"] : $_SERVER['REMOTE_ADDR']) . "'";
 $sSqlUsuariosOnline .= "   and uol_hora = " . db_getsession("DB_uol_hora");
 db_query($sSqlUsuariosOnline) or die("Erro(26) atualizando db_usuariosonline");
 
@@ -196,7 +202,7 @@ if (pg_numrows($result) == 0) {
         <table width="100%" border="0" cellspacing="0" cellpadding="0">
             <tr>
                 <td valign="top">
-                    <?
+                    <?php
                     //if (db_getsession("DB_id_usuario") == 1) {
 
                     $sSql  = "select db_permissao.id_usuario, anousu   ";
@@ -270,7 +276,7 @@ if (pg_numrows($result) == 0) {
                         <tr>
                             <td>Exercício:</td>
                             <td>
-                                <?
+                                <?php
                                 if (db_getsession("DB_anousu") != date("Y", db_getsession("DB_datausu"))) {
                                     echo "<span class='bold' style='font-size:15px;'>" . db_getsession("DB_anousu") . "</span>";
                                 } else {
@@ -285,7 +291,7 @@ if (pg_numrows($result) == 0) {
                             <td>
                                 <select name="formAnousu" size="1" onChange="document.form1.submit()">
                                     <option value="">&nbsp;</option>
-                                    <?
+                                    <?php
                                     for ($i = 0; $i < pg_numrows($result); $i++) {
                                         echo "<option value=\"" . pg_result($result, $i, "anousu") . "\">" . pg_result($result, $i, "anousu") . "</option>\n";
                                     }
@@ -296,7 +302,7 @@ if (pg_numrows($result) == 0) {
 
                         <tr>
                             <td>
-                                <?
+                                <?php
 
                                 $mostra_menu = false;
 
@@ -413,7 +419,7 @@ if (pg_numrows($result) == 0) {
                 </td>
 
                 <td width="390" valign="top">
-                    <?
+                    <?php
                     if ($mostra_menu == true) {
                     ?>
                         <div id="acessosModulo">
@@ -421,7 +427,7 @@ if (pg_numrows($result) == 0) {
                                 <tr>
                                     <td colspan="3" class="text-center bold">Últimos acessos ao Módulo</td>
                                 </tr>
-                                <?
+                                <?php
                                 $sSql  = "select * from (                                                                          ";
                                 $sSql .= "                select descricao,                                                        ";
                                 $sSql .= "                       data,                                                             ";
@@ -461,7 +467,7 @@ if (pg_numrows($result) == 0) {
                                 ?>
                                         <tr>
                                             <td width="70%" title="<?= $help ?>">
-                                                <?
+                                                <?php
                                                 if ($funcao == "") {
                                                     echo "<a href=\"\" >$descricao</a>";
                                                 } else {
@@ -484,7 +490,7 @@ if (pg_numrows($result) == 0) {
                                             <td align="center" width="10%"><?= $data ?></td>
                                             <td align="center" width="20%"><?= $hora ?></td>
                                         </tr>
-                            <?
+                            <?php
                                     }
                                 }
                                 echo "</table>";
@@ -499,14 +505,14 @@ if (pg_numrows($result) == 0) {
             <table width="100%" height="100%">
                 <tr align="center">
                     <td>
-                        <?
+                        <?php
                         /**
                          * imprimir estoque minimo e ponto de pedido ao acessar mod material
                          */
                         if ($nomemod == "Material") {
                         ?>
                             <iframe frameborder="1" height="100%" width="100%" id="db_estoqponto" name="db_estoqponto" src="mat2_estoqponto.php?coddepto=<?= $coddepto ?>" scrolling="auto"></iframe>
-                        <?
+                        <?php
                         }
                         ?>
                     </td>
@@ -601,7 +607,7 @@ if (pg_numrows($result) == 0) {
         </center>
     </form>
 
-    <?
+    <?php
     if (isset($mostra_menu) && $mostra_menu == true) {
         db_menu(db_getsession("DB_id_usuario"), db_getsession("DB_modulo"), db_getsession("DB_anousu"), db_getsession("DB_instit"));
     }
@@ -612,7 +618,7 @@ if (pg_numrows($result) == 0) {
 <script type="text/javascript">
     parent.bstatus.document.getElementById('dtatual').innerHTML = '<?= date("d/m/Y", db_getsession("DB_datausu")) ?>';
     parent.bstatus.document.getElementById('dtanousu').innerHTML = '<?= (db_getsession("DB_modulo") != 952 ? db_getsession("DB_anousu") : db_anofolha() . "/" . db_mesfolha()) ?>';
-    <?
+    <?php
     if (db_getsession("DB_anousu") != date("Y", db_getsession("DB_datausu"))) {
         echo "alert('Exercício diferente do exercício da data. Verifique!');";
     }

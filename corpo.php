@@ -40,7 +40,7 @@ if(session_is_registered("DB_uol_hora")) {
       uol_modulo = 'Selecionando Módulo' ,
       uol_inativo = ".time()."
             where uol_id = ".db_getsession("DB_id_usuario")."
-      and uol_ip = '".(isset($_SERVER["HTTP_X_FORWARDED_FOR"])?$_SERVER["HTTP_X_FORWARDED_FOR"]:$HTTP_SERVER_VARS['REMOTE_ADDR'])."'
+      and uol_ip = '".(isset($_SERVER["HTTP_X_FORWARDED_FOR"])?$_SERVER["HTTP_X_FORWARDED_FOR"]:$_SERVER['REMOTE_ADDR'])."'
       and uol_hora = ".db_getsession("DB_uol_hora"))
    or die("Erro(26) atualizando db_usuariosonline");
 }
@@ -60,10 +60,16 @@ if(isset($DB_SELLER)){
 
 if(!session_is_registered("DB_instit")) {
   session_register("DB_instit");
-  if(isset($HTTP_POST_VARS["instit"])){
-    db_putsession("DB_instit",$HTTP_POST_VARS["instit"]);
+  if(isset($_POST["instit"])){
+    db_putsession("DB_instit",$_POST["instit"]);
   }else{
-     parse_str(base64_decode($HTTP_SERVER_VARS['QUERY_STRING']));
+     $legacyQueryParams = [];
+parse_str(base64_decode((string) ($_SERVER['QUERY_STRING'] ?? '')), $legacyQueryParams);
+foreach ($legacyQueryParams as $legacyKey => $legacyValue) {
+  if (!isset($$legacyKey)) {
+    $$legacyKey = $legacyValue;
+  }
+}
 
      if(isset($instit)){
       db_putsession("DB_instit",$instit);
@@ -77,7 +83,13 @@ if(!session_is_registered("DB_instit")) {
 
   db_logsmanual_demais("Acesso instituição - Login: ".db_getsession("DB_login"),db_getsession("DB_id_usuario"),0,0,0,db_getsession("DB_instit"));
 }else{
-  parse_str(base64_decode($HTTP_SERVER_VARS['QUERY_STRING']));
+  $legacyQueryParams = [];
+parse_str(base64_decode((string) ($_SERVER['QUERY_STRING'] ?? '')), $legacyQueryParams);
+foreach ($legacyQueryParams as $legacyKey => $legacyValue) {
+  if (!isset($$legacyKey)) {
+    $$legacyKey = $legacyValue;
+  }
+}
   if(isset($area_de_acesso)){
     db_putsession("DB_Area",$area_de_acesso);
 
@@ -130,8 +142,8 @@ if (db_getsession("DB_id_usuario") == 1 || db_getsession("DB_administrador") == 
           where i.itemativo = 1
           and p.id_usuario = ".db_getsession("DB_id_usuario")."
           and p.id_instit = ".db_getsession("DB_instit")."
-          and (p.anousu = ".(isset($HTTP_SESSION_VARS["DB_datausu"])?date("Y",db_getsession("DB_datausu")):date("Y"))."
-           or  p.anousu = ".(isset($HTTP_SESSION_VARS["DB_datausu"])?date("Y",db_getsession("DB_datausu")):date("Y"))."+1)
+          and (p.anousu = ".(isset($_SESSION["DB_datausu"])?date("Y",db_getsession("DB_datausu")):date("Y"))."
+           or  p.anousu = ".(isset($_SESSION["DB_datausu"])?date("Y",db_getsession("DB_datausu")):date("Y"))."+1)
         ) as i
                     inner join db_modulos m
                     on m.id_item = i.id_modulo
@@ -157,8 +169,8 @@ if (db_getsession("DB_id_usuario") == 1 || db_getsession("DB_administrador") == 
          where i.itemativo = 1
          and h.id_usuario = ".db_getsession("DB_id_usuario")."
          and p.id_instit = ".db_getsession("DB_instit")."
-         and (p.anousu = ".(isset($HTTP_SESSION_VARS["DB_datausu"])?date("Y",db_getsession("DB_datausu")):date("Y"))."
-          or  p.anousu = ".(isset($HTTP_SESSION_VARS["DB_datausu"])?date("Y",db_getsession("DB_datausu")):date("Y"))."+1)
+         and (p.anousu = ".(isset($_SESSION["DB_datausu"])?date("Y",db_getsession("DB_datausu")):date("Y"))."
+          or  p.anousu = ".(isset($_SESSION["DB_datausu"])?date("Y",db_getsession("DB_datausu")):date("Y"))."+1)
        ) as i
                    inner join db_modulos m
                    on m.id_item = i.id_modulo
