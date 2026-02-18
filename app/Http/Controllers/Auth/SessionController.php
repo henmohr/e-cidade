@@ -31,7 +31,7 @@ class SessionController extends Controller
             abort(401);
         }
 
-        $filters = SessionEventFilters::fromRequest($request, 50);
+        $filters = SessionEventFilters::fromScreenRequest($request);
         $events = $eventsQuery->eventsForScreen($user, $filters);
 
         return view('auth.sessions', [
@@ -84,7 +84,7 @@ class SessionController extends Controller
             abort(401);
         }
 
-        $filters = SessionEventFilters::fromRequest($request, 200);
+        $filters = SessionEventFilters::fromExportRequest($request);
         $events = $eventsQuery->rawFilteredEvents($user, $filters);
         $filename = 'auth-events-' . date('Ymd-His') . '.csv';
         $csv = $exportService->buildCsv($events);

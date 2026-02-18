@@ -6,24 +6,43 @@ use Illuminate\Http\Request;
 
 class SessionEventFilters
 {
+    public const MIN_LIMIT = 1;
+    public const MAX_LIMIT = 200;
+    public const DEFAULT_SCREEN_LIMIT = 50;
+    public const DEFAULT_EXPORT_LIMIT = 200;
+
     private string $eventType;
     private string $eventRequestId;
     private int $eventLimit;
 
-    public function __construct(string $eventType = '', string $eventRequestId = '', int $eventLimit = 50)
+    public function __construct(
+        string $eventType = '',
+        string $eventRequestId = '',
+        int $eventLimit = self::DEFAULT_SCREEN_LIMIT
+    )
     {
         $this->eventType = trim($eventType);
         $this->eventRequestId = trim($eventRequestId);
         $this->eventLimit = $this->normalizeLimit($eventLimit);
     }
 
-    public static function fromRequest(Request $request, int $defaultLimit = 50): self
+    public static function fromRequest(Request $request, int $defaultLimit = self::DEFAULT_SCREEN_LIMIT): self
     {
         return new self(
             (string) $request->query('event_type', ''),
             (string) $request->query('event_request_id', ''),
             (int) $request->query('event_limit', $defaultLimit)
         );
+    }
+
+    public static function fromScreenRequest(Request $request): self
+    {
+        return self::fromRequest($request, self::DEFAULT_SCREEN_LIMIT);
+    }
+
+    public static function fromExportRequest(Request $request): self
+    {
+        return self::fromRequest($request, self::DEFAULT_EXPORT_LIMIT);
     }
 
     public function eventType(): string
@@ -55,6 +74,6 @@ class SessionEventFilters
 
     private function normalizeLimit(int $limit): int
     {
-        return max(1, min(200, $limit));
+        return max(self::MIN_LIMIT, min(self::MAX_LIMIT, $limit));
     }
 }

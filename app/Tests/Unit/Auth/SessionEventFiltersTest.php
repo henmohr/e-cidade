@@ -37,4 +37,15 @@ class SessionEventFiltersTest extends TestCase
             'event_limit' => 1,
         ], $filters->toArray());
     }
+
+    public function testUsesSemanticDefaultFactories(): void
+    {
+        $request = Request::create('/web/sessions', 'GET');
+
+        $screenFilters = SessionEventFilters::fromScreenRequest($request);
+        $exportFilters = SessionEventFilters::fromExportRequest($request);
+
+        $this->assertSame(SessionEventFilters::DEFAULT_SCREEN_LIMIT, $screenFilters->eventLimit());
+        $this->assertSame(SessionEventFilters::DEFAULT_EXPORT_LIMIT, $exportFilters->eventLimit());
+    }
 }
