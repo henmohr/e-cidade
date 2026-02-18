@@ -26,16 +26,15 @@ class SessionActivityService
 
         $existing = $sessions[$sessionId] ?? [];
         $sessions[$sessionId] = [
-            'session_id' => $sessionId,
-            'started_at' => $existing['started_at'] ?? now()->toIso8601String(),
-            'last_seen_at' => now()->toIso8601String(),
-            'ip' => (string) $request->ip(),
-            'user_agent' => RequestMetaFormatter::userAgent($request),
-            'path' => substr((string) $request->path(), 0, 200),
+            SessionActivityKeys::SESSION_ID => $sessionId,
+            SessionActivityKeys::STARTED_AT => $existing[SessionActivityKeys::STARTED_AT] ?? now()->toIso8601String(),
+            SessionActivityKeys::LAST_SEEN_AT => now()->toIso8601String(),
+            SessionActivityKeys::IP => (string) $request->ip(),
+            SessionActivityKeys::USER_AGENT => RequestMetaFormatter::userAgent($request),
+            SessionActivityKeys::PATH => substr((string) $request->path(), 0, 200),
         ];
 
-        $ttlMinutes = max(10, (int) config('session.lifetime', 120));
-        Cache::put($cacheKey, $sessions, now()->addMinutes($ttlMinutes));
+        Cache::put($cacheKey, $sessions, now()->addMinutes($this->ttlMinutes()));
     }
 
     public function listForUser(User $user): array
@@ -47,7 +46,10 @@ class SessionActivityService
         }
 
         usort($sessions, function (array $a, array $b) {
-            return strcmp((string) ($b['last_seen_at'] ?? ''), (string) ($a['last_seen_at'] ?? ''));
+            return strcmp(
+                (string) ($b[SessionActivityKeys::LAST_SEEN_AT] ?? ''),
+                (string) ($a[SessionActivityKeys::LAST_SEEN_AT] ?? '')
+            );
         });
 
         return array_values($sessions);
@@ -68,7 +70,7 @@ class SessionActivityService
 
         unset($sessions[$sessionId]);
 
-        $ttlMinutes = max(10, (int) config('session.lifetime', 120));
+        $ttlMinutes = $this->ttlMinutes();
         Cache::put($cacheKey, $sessions, now()->addMinutes($ttlMinutes));
         Cache::put($this->revokedSessionKey($sessionId), true, now()->addMinutes($ttlMinutes));
 
@@ -88,7 +90,7 @@ class SessionActivityService
             return 0;
         }
 
-        $ttlMinutes = max(10, (int) config('session.lifetime', 120));
+        $ttlMinutes = $this->ttlMinutes();
         $revoked = 0;
         foreach (array_keys($sessions) as $sessionId) {
             if ((string) $sessionId === $keepSessionId) {
@@ -122,5 +124,10 @@ class SessionActivityService
     private function revokedSessionKey(string $sessionId): string
     {
         return self::REVOKED_PREFIX . $sessionId;
+    }
+
+    private function ttlMinutes(): int
+    {
+        return max(10, (int) config('session.lifetime', 120));
     }
 }

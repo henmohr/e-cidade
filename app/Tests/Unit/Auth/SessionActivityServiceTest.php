@@ -3,6 +3,7 @@
 namespace App\Tests\Unit\Auth;
 
 use App\Models\User;
+use App\Services\Auth\SessionActivityKeys;
 use App\Services\Auth\SessionActivityService;
 use Illuminate\Cache\CacheManager;
 use Illuminate\Config\Repository;
@@ -32,9 +33,9 @@ class SessionActivityServiceTest extends TestCase
         $cacheKey = 'auth:sessions:user:20';
 
         Cache::put($cacheKey, [
-            'keep-session' => ['session_id' => 'keep-session'],
-            'old-session-1' => ['session_id' => 'old-session-1'],
-            'old-session-2' => ['session_id' => 'old-session-2'],
+            'keep-session' => [SessionActivityKeys::SESSION_ID => 'keep-session'],
+            'old-session-1' => [SessionActivityKeys::SESSION_ID => 'old-session-1'],
+            'old-session-2' => [SessionActivityKeys::SESSION_ID => 'old-session-2'],
         ], now()->addMinutes(120));
 
         $revoked = $service->revokeOtherSessions($user, 'keep-session');
