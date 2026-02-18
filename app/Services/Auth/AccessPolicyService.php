@@ -15,11 +15,11 @@ class AccessPolicyService
     public function evaluate(User $user, ?DateTimeInterface $now = null): array
     {
         if (!config('auth_access.enabled', false)) {
-            return ['allowed' => true, 'reason' => 'disabled', 'detail' => 'policy disabled'];
+            return ['allowed' => true, 'reason' => AccessPolicyReasons::DISABLED, 'detail' => 'policy disabled'];
         }
 
         if ((bool) config('auth_access.allow_admin_bypass', false) && $user->isAdmin()) {
-            return ['allowed' => true, 'reason' => 'admin_bypass', 'detail' => 'admin bypass enabled'];
+            return ['allowed' => true, 'reason' => AccessPolicyReasons::ADMIN_BYPASS, 'detail' => 'admin bypass enabled'];
         }
 
         $timezone = (string) config('auth_access.timezone', 'America/Sao_Paulo');
@@ -30,7 +30,7 @@ class AccessPolicyService
         if ($expiresAt !== '') {
             $expires = $this->parseDate($expiresAt, $timezone);
             if ($expires !== null && $date > $expires) {
-                return ['allowed' => false, 'reason' => 'expired', 'detail' => 'user access expired'];
+                return ['allowed' => false, 'reason' => AccessPolicyReasons::EXPIRED, 'detail' => 'user access expired'];
             }
         }
 
@@ -38,7 +38,7 @@ class AccessPolicyService
         if (!empty($allowedWeekdays)) {
             $weekDay = (int) $date->format('N');
             if (!in_array($weekDay, $allowedWeekdays, true)) {
-                return ['allowed' => false, 'reason' => 'weekday', 'detail' => 'access not allowed for weekday'];
+                return ['allowed' => false, 'reason' => AccessPolicyReasons::WEEKDAY, 'detail' => 'access not allowed for weekday'];
             }
         }
 
@@ -48,11 +48,11 @@ class AccessPolicyService
             $current = $date->format('H:i');
             $insideRange = $this->isInsideTimeWindow($current, $startTime, $endTime);
             if (!$insideRange) {
-                return ['allowed' => false, 'reason' => 'hour', 'detail' => 'outside allowed time window'];
+                return ['allowed' => false, 'reason' => AccessPolicyReasons::HOUR, 'detail' => 'outside allowed time window'];
             }
         }
 
-        return ['allowed' => true, 'reason' => 'allowed', 'detail' => 'policy check passed'];
+        return ['allowed' => true, 'reason' => AccessPolicyReasons::ALLOWED, 'detail' => 'policy check passed'];
     }
 
     private function resolveNow(string $timezone, ?DateTimeInterface $now): DateTimeImmutable

@@ -3,6 +3,7 @@
 namespace App\Tests\Unit\Auth;
 
 use App\Models\User;
+use App\Services\Auth\AccessPolicyReasons;
 use App\Services\Auth\AccessPolicyService;
 use DateTimeImmutable;
 use Illuminate\Config\Repository;
@@ -31,7 +32,7 @@ class AccessPolicyServiceTest extends TestCase
         $result = $service->evaluate($this->mockUser(10, false));
 
         $this->assertTrue($result['allowed']);
-        $this->assertSame('disabled', $result['reason']);
+        $this->assertSame(AccessPolicyReasons::DISABLED, $result['reason']);
     }
 
     public function testBlocksWhenOutsideAllowedWeekday(): void
@@ -60,7 +61,7 @@ class AccessPolicyServiceTest extends TestCase
         );
 
         $this->assertFalse($result['allowed']);
-        $this->assertSame('weekday', $result['reason']);
+        $this->assertSame(AccessPolicyReasons::WEEKDAY, $result['reason']);
     }
 
     public function testBlocksWhenOutsideAllowedHourWindow(): void
@@ -89,7 +90,7 @@ class AccessPolicyServiceTest extends TestCase
         );
 
         $this->assertFalse($result['allowed']);
-        $this->assertSame('hour', $result['reason']);
+        $this->assertSame(AccessPolicyReasons::HOUR, $result['reason']);
     }
 
     public function testAllowsInsideOvernightWindow(): void
@@ -118,7 +119,7 @@ class AccessPolicyServiceTest extends TestCase
         );
 
         $this->assertTrue($result['allowed']);
-        $this->assertSame('allowed', $result['reason']);
+        $this->assertSame(AccessPolicyReasons::ALLOWED, $result['reason']);
     }
 
     public function testBlocksWhenUserRuleIsExpired(): void
@@ -147,7 +148,7 @@ class AccessPolicyServiceTest extends TestCase
         );
 
         $this->assertFalse($result['allowed']);
-        $this->assertSame('expired', $result['reason']);
+        $this->assertSame(AccessPolicyReasons::EXPIRED, $result['reason']);
     }
 
     public function testAllowsAdminBypassWhenEnabled(): void
@@ -176,7 +177,7 @@ class AccessPolicyServiceTest extends TestCase
         );
 
         $this->assertTrue($result['allowed']);
-        $this->assertSame('admin_bypass', $result['reason']);
+        $this->assertSame(AccessPolicyReasons::ADMIN_BYPASS, $result['reason']);
     }
 
     /**
