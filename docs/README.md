@@ -302,6 +302,24 @@ Consolidado tecnico para reducao de pendencias:
 
 ---
 
+#### [sprint9_evidencias_tr2_orcamentario.md](./sprint9_evidencias_tr2_orcamentario.md)
+**Evidencias TR 2 - Orcamentario**
+
+Dossie tecnico para classificacao de cobertura:
+- servicos e comandos implementados para balancos e relatorios fiscais;
+- resultado de testes unitarios associados ao escopo orcamentario.
+
+---
+
+#### [sprint9_evidencias_tr3_tesouraria.md](./sprint9_evidencias_tr3_tesouraria.md)
+**Evidencias TR 3 - Tesouraria**
+
+Dossie tecnico para classificacao de cobertura:
+- servicos e comandos de conciliacao, fluxo de caixa, restos e dashboard;
+- resultado de testes unitarios da trilha de tesouraria.
+
+---
+
 #### [roteiro_oficial_demonstracao_poc.md](./roteiro_oficial_demonstracao_poc.md)
 **Roteiro Oficial de Demonstracao da PoC**
 

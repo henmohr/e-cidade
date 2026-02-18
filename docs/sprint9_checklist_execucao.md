@@ -19,6 +19,16 @@ Referencia:
 - [x] Implementar comando para gerar relatorio markdown consolidado.
 - [x] Cobrir fluxo com teste unitario.
 
+## Frente C - Evolucao de status com evidencia objetiva
+
+- [x] Converter TR 2 (Orcamentario) de `parcial` para `atingido` com dossier tecnico.
+- [x] Converter TR 3 (Tesouraria) de `parcial` para `atingido` com dossier tecnico.
+- [x] Regerar relatorio consolidado apos reclassificacao.
+
+Referencias:
+- `docs/sprint9_evidencias_tr2_orcamentario.md`
+- `docs/sprint9_evidencias_tr3_tesouraria.md`
+
 Evidencias minimas:
 - comando `financeiro:relatorio-cobertura-licitacao` listado no `artisan`;
 - arquivo `docs/sprint9_relatorio_cobertura_licitacao.md` gerado via comando;
