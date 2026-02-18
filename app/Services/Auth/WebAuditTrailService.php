@@ -51,7 +51,7 @@ class WebAuditTrailService
         }
 
         $context = [
-            'request_id' => (string) ($request->attributes->get('request_id') ?: $request->headers->get('X-Request-Id', '')),
+            'request_id' => RequestIdResolver::resolve($request),
             'user_id' => $user?->getAuthIdentifier(),
             'login' => $user->login ?? null,
             'instit' => $instit,

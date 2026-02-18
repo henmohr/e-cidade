@@ -65,6 +65,32 @@ class WebAuditTrailServiceTest extends TestCase
         $this->assertNotContains('token', $context['input_keys']);
     }
 
+    public function testBuildContextUsesResolvedRequestId(): void
+    {
+        $this->bootConfig([
+            'web_audit' => [
+                'enabled' => true,
+                'include_query' => false,
+                'include_input_keys' => false,
+                'sensitive_keys' => [],
+                'exclude_paths' => [],
+            ],
+        ]);
+
+        $request = Request::create('/web/audit', 'GET', [], [], [], [
+            'HTTP_X_REQUEST_ID' => 'req-header-77',
+        ]);
+        $request->attributes->set('request_id', 'req-attr-88');
+        $request->setRouteResolver(static function () {
+            return null;
+        });
+
+        $service = new WebAuditTrailService();
+        $context = $service->buildContext($request, 204, 10);
+
+        $this->assertSame('req-attr-88', $context['request_id']);
+    }
+
     /**
      * @param array<string, mixed> $config
      */

@@ -233,20 +233,10 @@ class AuthEventService
     private function baseEventMeta(Request $request): array
     {
         return [
-            AuthEventMetaKeys::REQUEST_ID => $this->requestId($request),
+            AuthEventMetaKeys::REQUEST_ID => RequestIdResolver::resolve($request),
             AuthEventMetaKeys::TIMESTAMP => now()->toIso8601String(),
             AuthEventMetaKeys::IP => (string) $request->ip(),
             AuthEventMetaKeys::USER_AGENT => substr((string) $request->userAgent(), 0, self::USER_AGENT_MAX_LENGTH),
         ];
-    }
-
-    private function requestId(Request $request): string
-    {
-        $id = (string) $request->attributes->get('request_id', '');
-        if ($id !== '') {
-            return $id;
-        }
-
-        return (string) $request->headers->get('X-Request-Id', '');
     }
 }
