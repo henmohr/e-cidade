@@ -101,7 +101,10 @@ class AuthEventService
         }
 
         usort($all, function (array $a, array $b) {
-            return strcmp((string) ($a['timestamp'] ?? ''), (string) ($b['timestamp'] ?? ''));
+            return strcmp(
+                (string) ($a[AuthEventMetaKeys::TIMESTAMP] ?? ''),
+                (string) ($b[AuthEventMetaKeys::TIMESTAMP] ?? '')
+            );
         });
 
         foreach ($all as $event) {
@@ -119,7 +122,10 @@ class AuthEventService
         }
 
         usort($events, function (array $a, array $b) {
-            return strcmp((string) ($b['timestamp'] ?? ''), (string) ($a['timestamp'] ?? ''));
+            return strcmp(
+                (string) ($b[AuthEventMetaKeys::TIMESTAMP] ?? ''),
+                (string) ($a[AuthEventMetaKeys::TIMESTAMP] ?? '')
+            );
         });
 
         return array_values($events);
