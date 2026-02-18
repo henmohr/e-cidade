@@ -1,4 +1,4 @@
-<?
+<?php
 //MODULO: empenho
 //CLASSE DA ENTIDADE empagemovconta
 class cl_empagemovconta { 
@@ -27,7 +27,7 @@ class cl_empagemovconta {
    function cl_empagemovconta() { 
      //classes dos rotulos dos campos
      $this->rotulo = new rotulo("empagemovconta"); 
-     $this->pagina_retorno =  basename($GLOBALS["HTTP_SERVER_VARS"]["PHP_SELF"]);
+     $this->pagina_retorno =  basename($_SERVER["PHP_SELF"]);
    }
    //funcao erro 
    function erro($mostra,$retorna) { 
@@ -41,10 +41,10 @@ class cl_empagemovconta {
    // funcao para atualizar campos
    function atualizacampos($exclusao=false) {
      if($exclusao==false){
-       $this->e98_codmov = ($this->e98_codmov == ""?@$GLOBALS["HTTP_POST_VARS"]["e98_codmov"]:$this->e98_codmov);
-       $this->e98_contabanco = ($this->e98_contabanco == ""?@$GLOBALS["HTTP_POST_VARS"]["e98_contabanco"]:$this->e98_contabanco);
+       $this->e98_codmov = ($this->e98_codmov == ""?@$_POST["e98_codmov"]:$this->e98_codmov);
+       $this->e98_contabanco = ($this->e98_contabanco == ""?@$_POST["e98_contabanco"]:$this->e98_contabanco);
      }else{
-       $this->e98_codmov = ($this->e98_codmov == ""?@$GLOBALS["HTTP_POST_VARS"]["e98_codmov"]:$this->e98_codmov);
+       $this->e98_codmov = ($this->e98_codmov == ""?@$_POST["e98_codmov"]:$this->e98_codmov);
      }
    }
    // funcao para inclusao
@@ -116,7 +116,7 @@ class cl_empagemovconta {
       $this->atualizacampos();
      $sql = " update empagemovconta set ";
      $virgula = "";
-     if(trim($this->e98_codmov)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e98_codmov"])){ 
+     if(trim($this->e98_codmov)!="" || isset($_POST["e98_codmov"])){ 
        $sql  .= $virgula." e98_codmov = $this->e98_codmov ";
        $virgula = ",";
        if(trim($this->e98_codmov) == null ){ 
@@ -129,7 +129,7 @@ class cl_empagemovconta {
          return false;
        }
      }
-     if(trim($this->e98_contabanco)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e98_contabanco"])){ 
+     if(trim($this->e98_contabanco)!="" || isset($_POST["e98_contabanco"])){ 
        $sql  .= $virgula." e98_contabanco = $this->e98_contabanco ";
        $virgula = ",";
        if(trim($this->e98_contabanco) == null ){ 
@@ -152,9 +152,9 @@ class cl_empagemovconta {
          $resac = pg_query("select nextval('db_acount_id_acount_seq') as acount");
          $acount = pg_result($resac,0,0);
          $resac = pg_query("insert into db_acountkey values($acount,7100,'$this->e98_codmov','A')");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e98_codmov"]))
+         if(isset($_POST["e98_codmov"]))
            $resac = pg_query("insert into db_acount values($acount,1175,7100,'".AddSlashes(pg_result($resaco,$conresaco,'e98_codmov'))."','$this->e98_codmov',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e98_contabanco"]))
+         if(isset($_POST["e98_contabanco"]))
            $resac = pg_query("insert into db_acount values($acount,1175,7101,'".AddSlashes(pg_result($resaco,$conresaco,'e98_contabanco'))."','$this->e98_contabanco',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
        }
      }

@@ -1,4 +1,4 @@
-<?
+<?php
 //MODULO: empenho
 //CLASSE DA ENTIDADE empagemov
 class cl_empagemov { 
@@ -36,7 +36,7 @@ class cl_empagemov {
    function cl_empagemov() { 
      //classes dos rotulos dos campos
      $this->rotulo = new rotulo("empagemov"); 
-     $this->pagina_retorno =  basename($GLOBALS["HTTP_SERVER_VARS"]["PHP_SELF"]);
+     $this->pagina_retorno =  basename($_SERVER["PHP_SELF"]);
    }
    //funcao erro 
    function erro($mostra,$retorna) { 
@@ -50,20 +50,20 @@ class cl_empagemov {
    // funcao para atualizar campos
    function atualizacampos($exclusao=false) {
      if($exclusao==false){
-       $this->e81_codmov = ($this->e81_codmov == ""?@$GLOBALS["HTTP_POST_VARS"]["e81_codmov"]:$this->e81_codmov);
-       $this->e81_codage = ($this->e81_codage == ""?@$GLOBALS["HTTP_POST_VARS"]["e81_codage"]:$this->e81_codage);
-       $this->e81_numemp = ($this->e81_numemp == ""?@$GLOBALS["HTTP_POST_VARS"]["e81_numemp"]:$this->e81_numemp);
-       $this->e81_valor = ($this->e81_valor == ""?@$GLOBALS["HTTP_POST_VARS"]["e81_valor"]:$this->e81_valor);
+       $this->e81_codmov = ($this->e81_codmov == ""?@$_POST["e81_codmov"]:$this->e81_codmov);
+       $this->e81_codage = ($this->e81_codage == ""?@$_POST["e81_codage"]:$this->e81_codage);
+       $this->e81_numemp = ($this->e81_numemp == ""?@$_POST["e81_numemp"]:$this->e81_numemp);
+       $this->e81_valor = ($this->e81_valor == ""?@$_POST["e81_valor"]:$this->e81_valor);
        if($this->e81_cancelado == ""){
-         $this->e81_cancelado_dia = ($this->e81_cancelado_dia == ""?@$GLOBALS["HTTP_POST_VARS"]["e81_cancelado_dia"]:$this->e81_cancelado_dia);
-         $this->e81_cancelado_mes = ($this->e81_cancelado_mes == ""?@$GLOBALS["HTTP_POST_VARS"]["e81_cancelado_mes"]:$this->e81_cancelado_mes);
-         $this->e81_cancelado_ano = ($this->e81_cancelado_ano == ""?@$GLOBALS["HTTP_POST_VARS"]["e81_cancelado_ano"]:$this->e81_cancelado_ano);
+         $this->e81_cancelado_dia = ($this->e81_cancelado_dia == ""?@$_POST["e81_cancelado_dia"]:$this->e81_cancelado_dia);
+         $this->e81_cancelado_mes = ($this->e81_cancelado_mes == ""?@$_POST["e81_cancelado_mes"]:$this->e81_cancelado_mes);
+         $this->e81_cancelado_ano = ($this->e81_cancelado_ano == ""?@$_POST["e81_cancelado_ano"]:$this->e81_cancelado_ano);
          if($this->e81_cancelado_dia != ""){
             $this->e81_cancelado = $this->e81_cancelado_ano."-".$this->e81_cancelado_mes."-".$this->e81_cancelado_dia;
          }
        }
      }else{
-       $this->e81_codmov = ($this->e81_codmov == ""?@$GLOBALS["HTTP_POST_VARS"]["e81_codmov"]:$this->e81_codmov);
+       $this->e81_codmov = ($this->e81_codmov == ""?@$_POST["e81_codmov"]:$this->e81_codmov);
      }
    }
    // funcao para inclusao
@@ -187,7 +187,7 @@ class cl_empagemov {
       $this->atualizacampos();
      $sql = " update empagemov set ";
      $virgula = "";
-     if(trim($this->e81_codmov)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e81_codmov"])){ 
+     if(trim($this->e81_codmov)!="" || isset($_POST["e81_codmov"])){ 
        $sql  .= $virgula." e81_codmov = $this->e81_codmov ";
        $virgula = ",";
        if(trim($this->e81_codmov) == null ){ 
@@ -200,7 +200,7 @@ class cl_empagemov {
          return false;
        }
      }
-     if(trim($this->e81_codage)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e81_codage"])){ 
+     if(trim($this->e81_codage)!="" || isset($_POST["e81_codage"])){ 
        $sql  .= $virgula." e81_codage = $this->e81_codage ";
        $virgula = ",";
        if(trim($this->e81_codage) == null ){ 
@@ -213,7 +213,7 @@ class cl_empagemov {
          return false;
        }
      }
-     if(trim($this->e81_numemp)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e81_numemp"])){ 
+     if(trim($this->e81_numemp)!="" || isset($_POST["e81_numemp"])){ 
        $sql  .= $virgula." e81_numemp = $this->e81_numemp ";
        $virgula = ",";
        if(trim($this->e81_numemp) == null ){ 
@@ -226,7 +226,7 @@ class cl_empagemov {
          return false;
        }
      }
-     if(trim($this->e81_valor)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e81_valor"])){ 
+     if(trim($this->e81_valor)!="" || isset($_POST["e81_valor"])){ 
        $sql  .= $virgula." e81_valor = $this->e81_valor ";
        $virgula = ",";
        if(trim($this->e81_valor) == null ){ 
@@ -239,11 +239,11 @@ class cl_empagemov {
          return false;
        }
      }
-     if(trim($this->e81_cancelado)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e81_cancelado_dia"]) &&  ($GLOBALS["HTTP_POST_VARS"]["e81_cancelado_dia"] !="") ){ 
+     if(trim($this->e81_cancelado)!="" || isset($_POST["e81_cancelado_dia"]) &&  ($_POST["e81_cancelado_dia"] !="") ){ 
        $sql  .= $virgula." e81_cancelado = '$this->e81_cancelado' ";
        $virgula = ",";
      }     else{ 
-       if(isset($GLOBALS["HTTP_POST_VARS"]["e81_cancelado_dia"])){ 
+       if(isset($_POST["e81_cancelado_dia"])){ 
          $sql  .= $virgula." e81_cancelado = null ";
          $virgula = ",";
        }
@@ -258,15 +258,15 @@ class cl_empagemov {
          $resac = pg_query("select nextval('db_acount_id_acount_seq') as acount");
          $acount = pg_result($resac,0,0);
          $resac = pg_query("insert into db_acountkey values($acount,6172,'$this->e81_codmov','A')");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e81_codmov"]))
+         if(isset($_POST["e81_codmov"]))
            $resac = pg_query("insert into db_acount values($acount,995,6172,'".AddSlashes(pg_result($resaco,$conresaco,'e81_codmov'))."','$this->e81_codmov',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e81_codage"]))
+         if(isset($_POST["e81_codage"]))
            $resac = pg_query("insert into db_acount values($acount,995,6173,'".AddSlashes(pg_result($resaco,$conresaco,'e81_codage'))."','$this->e81_codage',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e81_numemp"]))
+         if(isset($_POST["e81_numemp"]))
            $resac = pg_query("insert into db_acount values($acount,995,6174,'".AddSlashes(pg_result($resaco,$conresaco,'e81_numemp'))."','$this->e81_numemp',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e81_valor"]))
+         if(isset($_POST["e81_valor"]))
            $resac = pg_query("insert into db_acount values($acount,995,6175,'".AddSlashes(pg_result($resaco,$conresaco,'e81_valor'))."','$this->e81_valor',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e81_cancelado"]))
+         if(isset($_POST["e81_cancelado"]))
            $resac = pg_query("insert into db_acount values($acount,995,6176,'".AddSlashes(pg_result($resaco,$conresaco,'e81_cancelado'))."','$this->e81_cancelado',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
        }
      }

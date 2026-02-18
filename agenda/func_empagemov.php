@@ -1,12 +1,18 @@
-<?
+<?php
 require("libs/db_stdlib.php");
 require("libs/db_conecta.php");
 include("libs/db_sessoes.php");
 include("libs/db_usuariosonline.php");
 include("dbforms/db_funcoes.php");
 include("classes/db_empagemov_classe.php");
-db_postmemory($HTTP_POST_VARS);
-parse_str($HTTP_SERVER_VARS["QUERY_STRING"]);
+db_postmemory($_POST);
+$legacyQueryParams = [];
+parse_str((string) ($_SERVER["QUERY_STRING"] ?? ""), $legacyQueryParams);
+foreach ($legacyQueryParams as $legacyKey => $legacyValue) {
+  if (!isset($$legacyKey)) {
+    $$legacyKey = $legacyValue;
+  }
+}
 $clempagemov = new cl_empagemov;
 $clempagemov->rotulo->label("e81_codmov");
 $clempagemov->rotulo->label("e81_numemp");
@@ -28,7 +34,7 @@ $clempagemov->rotulo->label("e81_numemp");
               <?=$Le81_codmov?>
             </td>
             <td width="96%" align="left" nowrap> 
-              <?
+              <?php
 		       db_input("e81_codmov",6,$Ie81_codmov,true,"text",4,"","chave_e81_codmov");
 		       ?>
             </td>
@@ -38,7 +44,7 @@ $clempagemov->rotulo->label("e81_numemp");
               <?=$Le81_numemp?>
             </td>
             <td width="96%" align="left" nowrap> 
-              <?
+              <?php
 		       db_input("e81_numemp",10,$Ie81_numemp,true,"text",4,"","chave_e81_numemp");
 		       ?>
             </td>
@@ -56,7 +62,7 @@ $clempagemov->rotulo->label("e81_numemp");
   </tr>
   <tr> 
     <td align="center" valign="top"> 
-      <?
+      <?php
       if(!isset($pesquisa_chave)){
         if(isset($campos)==false){
            if(file_exists("funcoes/db_func_empagemov.php")==true){
@@ -92,11 +98,11 @@ $clempagemov->rotulo->label("e81_numemp");
 </table>
 </body>
 </html>
-<?
+<?php
 if(!isset($pesquisa_chave)){
   ?>
   <script>
   </script>
-  <?
+  <?php
 }
 ?>
