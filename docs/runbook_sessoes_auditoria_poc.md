@@ -40,6 +40,7 @@ Resultado esperado:
    - `revoked_count` para encerramento de sessoes anteriores;
    - `tier/file` para acoes de backup.
 9. Confirmar presenca de `request_id` comum entre evento funcional e log tecnico correlato.
+10. Confirmar exibicao da coluna `Request ID` na tela de sessoes para rastreio rapido de cada evento.
 
 ## 4. Limites Conhecidos
 

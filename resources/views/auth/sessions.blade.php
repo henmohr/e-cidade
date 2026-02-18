@@ -81,6 +81,7 @@
                 <tr>
                     <th>Tipo</th>
                     <th>Detalhes</th>
+                    <th>Request ID</th>
                     <th>Horario</th>
                     <th>IP</th>
                     <th>User-Agent</th>
@@ -91,6 +92,7 @@
                     <tr>
                         <td>{{ $event['type_label'] ?? ($event['type'] ?? '-') }}</td>
                         <td>{{ $event['details'] ?? '-' }}</td>
+                        <td><code>{{ $event['request_id'] ?? '-' }}</code></td>
                         <td>{{ $event['timestamp'] ?? '-' }}</td>
                         <td>{{ $event['ip'] ?? '-' }}</td>
                         <td>{{ $event['user_agent'] ?? '-' }}</td>
