@@ -1,12 +1,19 @@
-<?
+<?php
 require("libs/db_stdlib.php");
 require("libs/db_conecta.php");
 include("libs/db_sessoes.php");
 include("libs/db_usuariosonline.php");
 include("dbforms/db_funcoes.php");
 include("classes/db_empageconfgera_classe.php");
-db_postmemory($HTTP_POST_VARS);
-parse_str($HTTP_SERVER_VARS["QUERY_STRING"]);
+db_postmemory($_POST);
+
+$legacyQueryParams = [];
+parse_str((string) ($_SERVER["QUERY_STRING"] ?? ""), $legacyQueryParams);
+foreach ($legacyQueryParams as $legacyKey => $legacyValue) {
+  if (!isset($$legacyKey)) {
+    $$legacyKey = $legacyValue;
+  }
+}
 $clempageconfgera = new cl_empageconfgera;
 $clempageconfgera->rotulo->label("e90_codmov");
 $clempageconfgera->rotulo->label("e90_codgera");
@@ -29,7 +36,7 @@ $clempageconfgera->rotulo->label("e90_codmov");
               <?=$Le90_codmov?>
             </td>
             <td width="96%" align="left" nowrap> 
-              <?
+              <?php
 		       db_input("e90_codmov",6,$Ie90_codmov,true,"text",4,"","chave_e90_codmov");
 		       ?>
             </td>
@@ -39,7 +46,7 @@ $clempageconfgera->rotulo->label("e90_codmov");
               <?=$Le90_codgera?>
             </td>
             <td width="96%" align="left" nowrap> 
-              <?
+              <?php
 		       db_input("e90_codgera",6,$Ie90_codgera,true,"text",4,"","chave_e90_codgera");
 		       ?>
             </td>
@@ -67,7 +74,7 @@ $clempageconfgera->rotulo->label("e90_codmov");
   </tr>
   <tr> 
     <td align="center" valign="top"> 
-      <?
+      <?php
       if(!isset($pesquisa_chave)){
         if(isset($campos)==false){
            if(file_exists("funcoes/db_func_empageconfgera.php")==true){
@@ -103,11 +110,11 @@ $clempageconfgera->rotulo->label("e90_codmov");
 </table>
 </body>
 </html>
-<?
+<?php
 if(!isset($pesquisa_chave)){
   ?>
   <script>
   </script>
-  <?
+  <?php
 }
 ?>

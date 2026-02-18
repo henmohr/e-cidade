@@ -1,4 +1,4 @@
-<?
+<?php
 //MODULO: empenho
 //CLASSE DA ENTIDADE empageconfgera
 class cl_empageconfgera { 
@@ -36,7 +36,7 @@ class cl_empageconfgera {
    function cl_empageconfgera() { 
      //classes dos rotulos dos campos
      $this->rotulo = new rotulo("empageconfgera"); 
-     $this->pagina_retorno =  basename($GLOBALS["HTTP_SERVER_VARS"]["PHP_SELF"]);
+     $this->pagina_retorno =  basename($_SERVER["PHP_SELF"]);
    }
    //funcao erro 
    function erro($mostra,$retorna) { 
@@ -50,21 +50,21 @@ class cl_empageconfgera {
    // funcao para atualizar campos
    function atualizacampos($exclusao=false) {
      if($exclusao==false){
-       $this->e90_codmov = ($this->e90_codmov == ""?@$GLOBALS["HTTP_POST_VARS"]["e90_codmov"]:$this->e90_codmov);
-       $this->e90_codgera = ($this->e90_codgera == ""?@$GLOBALS["HTTP_POST_VARS"]["e90_codgera"]:$this->e90_codgera);
-       $this->e90_correto = ($this->e90_correto == "f"?@$GLOBALS["HTTP_POST_VARS"]["e90_correto"]:$this->e90_correto);
+       $this->e90_codmov = ($this->e90_codmov == ""?@$_POST["e90_codmov"]:$this->e90_codmov);
+       $this->e90_codgera = ($this->e90_codgera == ""?@$_POST["e90_codgera"]:$this->e90_codgera);
+       $this->e90_correto = ($this->e90_correto == "f"?@$_POST["e90_correto"]:$this->e90_correto);
        if($this->e90_dataret == ""){
-         $this->e90_dataret_dia = ($this->e90_dataret_dia == ""?@$GLOBALS["HTTP_POST_VARS"]["e90_dataret_dia"]:$this->e90_dataret_dia);
-         $this->e90_dataret_mes = ($this->e90_dataret_mes == ""?@$GLOBALS["HTTP_POST_VARS"]["e90_dataret_mes"]:$this->e90_dataret_mes);
-         $this->e90_dataret_ano = ($this->e90_dataret_ano == ""?@$GLOBALS["HTTP_POST_VARS"]["e90_dataret_ano"]:$this->e90_dataret_ano);
+         $this->e90_dataret_dia = ($this->e90_dataret_dia == ""?@$_POST["e90_dataret_dia"]:$this->e90_dataret_dia);
+         $this->e90_dataret_mes = ($this->e90_dataret_mes == ""?@$_POST["e90_dataret_mes"]:$this->e90_dataret_mes);
+         $this->e90_dataret_ano = ($this->e90_dataret_ano == ""?@$_POST["e90_dataret_ano"]:$this->e90_dataret_ano);
          if($this->e90_dataret_dia != ""){
             $this->e90_dataret = $this->e90_dataret_ano."-".$this->e90_dataret_mes."-".$this->e90_dataret_dia;
          }
        }
-       $this->e90_codret = ($this->e90_codret == ""?@$GLOBALS["HTTP_POST_VARS"]["e90_codret"]:$this->e90_codret);
+       $this->e90_codret = ($this->e90_codret == ""?@$_POST["e90_codret"]:$this->e90_codret);
      }else{
-       $this->e90_codmov = ($this->e90_codmov == ""?@$GLOBALS["HTTP_POST_VARS"]["e90_codmov"]:$this->e90_codmov);
-       $this->e90_codgera = ($this->e90_codgera == ""?@$GLOBALS["HTTP_POST_VARS"]["e90_codgera"]:$this->e90_codgera);
+       $this->e90_codmov = ($this->e90_codmov == ""?@$_POST["e90_codmov"]:$this->e90_codmov);
+       $this->e90_codgera = ($this->e90_codgera == ""?@$_POST["e90_codgera"]:$this->e90_codgera);
      }
    }
    // funcao para inclusao
@@ -157,7 +157,7 @@ class cl_empageconfgera {
       $this->atualizacampos();
      $sql = " update empageconfgera set ";
      $virgula = "";
-     if(trim($this->e90_codmov)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e90_codmov"])){ 
+     if(trim($this->e90_codmov)!="" || isset($_POST["e90_codmov"])){ 
        $sql  .= $virgula." e90_codmov = $this->e90_codmov ";
        $virgula = ",";
        if(trim($this->e90_codmov) == null ){ 
@@ -170,7 +170,7 @@ class cl_empageconfgera {
          return false;
        }
      }
-     if(trim($this->e90_codgera)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e90_codgera"])){ 
+     if(trim($this->e90_codgera)!="" || isset($_POST["e90_codgera"])){ 
        $sql  .= $virgula." e90_codgera = $this->e90_codgera ";
        $virgula = ",";
        if(trim($this->e90_codgera) == null ){ 
@@ -183,7 +183,7 @@ class cl_empageconfgera {
          return false;
        }
      }
-     if(trim($this->e90_correto)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e90_correto"])){ 
+     if(trim($this->e90_correto)!="" || isset($_POST["e90_correto"])){ 
        $sql  .= $virgula." e90_correto = '$this->e90_correto' ";
        $virgula = ",";
        if(trim($this->e90_correto) == null ){ 
@@ -196,16 +196,16 @@ class cl_empageconfgera {
          return false;
        }
      }
-     if(trim($this->e90_dataret)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e90_dataret_dia"]) &&  ($GLOBALS["HTTP_POST_VARS"]["e90_dataret_dia"] !="") ){ 
+     if(trim($this->e90_dataret)!="" || isset($_POST["e90_dataret_dia"]) &&  ($_POST["e90_dataret_dia"] !="") ){ 
        $sql  .= $virgula." e90_dataret = '$this->e90_dataret' ";
        $virgula = ",";
      }     else{ 
-       if(isset($GLOBALS["HTTP_POST_VARS"]["e90_dataret_dia"])){ 
+       if(isset($_POST["e90_dataret_dia"])){ 
          $sql  .= $virgula." e90_dataret = null ";
          $virgula = ",";
        }
      }
-     if(trim($this->e90_codret)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e90_codret"])){ 
+     if(trim($this->e90_codret)!="" || isset($_POST["e90_codret"])){ 
        $sql  .= $virgula." e90_codret = '$this->e90_codret' ";
        $virgula = ",";
      }
@@ -223,15 +223,15 @@ class cl_empageconfgera {
          $acount = pg_result($resac,0,0);
          $resac = pg_query("insert into db_acountkey values($acount,6210,'$this->e90_codmov','A')");
          $resac = pg_query("insert into db_acountkey values($acount,6211,'$this->e90_codgera','A')");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e90_codmov"]))
+         if(isset($_POST["e90_codmov"]))
            $resac = pg_query("insert into db_acount values($acount,1005,6210,'".AddSlashes(pg_result($resaco,$conresaco,'e90_codmov'))."','$this->e90_codmov',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e90_codgera"]))
+         if(isset($_POST["e90_codgera"]))
            $resac = pg_query("insert into db_acount values($acount,1005,6211,'".AddSlashes(pg_result($resaco,$conresaco,'e90_codgera'))."','$this->e90_codgera',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e90_correto"]))
+         if(isset($_POST["e90_correto"]))
            $resac = pg_query("insert into db_acount values($acount,1005,7233,'".AddSlashes(pg_result($resaco,$conresaco,'e90_correto'))."','$this->e90_correto',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e90_dataret"]))
+         if(isset($_POST["e90_dataret"]))
            $resac = pg_query("insert into db_acount values($acount,1005,7232,'".AddSlashes(pg_result($resaco,$conresaco,'e90_dataret'))."','$this->e90_dataret',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e90_codret"]))
+         if(isset($_POST["e90_codret"]))
            $resac = pg_query("insert into db_acount values($acount,1005,7234,'".AddSlashes(pg_result($resaco,$conresaco,'e90_codret'))."','$this->e90_codret',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
        }
      }
