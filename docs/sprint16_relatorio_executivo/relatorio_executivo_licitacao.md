@@ -1,6 +1,6 @@
 # Sprint 16 - Relatorio Executivo de Prontidao
 
-- Gerado em: 2026-02-18T16:40:51-03:00
+- Gerado em: 2026-02-18T17:09:45-03:00
 - Decisao executiva: recomendado_para_protocolo
 - Status de entrega: apto_para_entrega
 
