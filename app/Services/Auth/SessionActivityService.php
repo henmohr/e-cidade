@@ -31,7 +31,7 @@ class SessionActivityService
             SessionActivityKeys::LAST_SEEN_AT => now()->toIso8601String(),
             SessionActivityKeys::IP => (string) $request->ip(),
             SessionActivityKeys::USER_AGENT => RequestMetaFormatter::userAgent($request),
-            SessionActivityKeys::PATH => substr((string) $request->path(), 0, 200),
+            SessionActivityKeys::PATH => RequestMetaFormatter::sessionPath($request),
         ];
 
         Cache::put($cacheKey, $sessions, now()->addMinutes($this->ttlMinutes()));

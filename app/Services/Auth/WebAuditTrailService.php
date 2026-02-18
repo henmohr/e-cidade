@@ -57,7 +57,7 @@ class WebAuditTrailService
             'instit' => $instit,
             'session_id' => $sessionId,
             'method' => $request->method(),
-            'path' => '/' . ltrim($request->path(), '/'),
+            'path' => RequestMetaFormatter::normalizedPath($request),
             'route_name' => optional($request->route())->getName(),
             'status' => $statusCode,
             'duration_ms' => $durationMs,
