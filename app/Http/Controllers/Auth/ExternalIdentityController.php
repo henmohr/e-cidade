@@ -17,12 +17,18 @@ class ExternalIdentityController extends Controller
     public function callback(Request $request, ExternalIdentityService $service): RedirectResponse|JsonResponse
     {
         if (!$service->isEnabled()) {
-            return $this->deny($request, 404, 'Integracao de identidade externa desabilitada.');
+            return $this->deny($request, 404, 'Integracao de identidade externa desabilitada.', [
+                'provider' => (string) $request->input('provider', ''),
+                'reason' => 'disabled',
+            ]);
         }
 
         $provider = strtolower(trim((string) $request->input('provider', '')));
         if (!$service->isProviderAllowed($provider)) {
-            return $this->deny($request, 422, 'Provedor externo nao permitido.');
+            return $this->deny($request, 422, 'Provedor externo nao permitido.', [
+                'provider' => $provider,
+                'reason' => 'provider_not_allowed',
+            ]);
         }
 
         $rawPayload = (string) $request->input('payload', '');
@@ -34,25 +40,41 @@ class ExternalIdentityController extends Controller
 
         $signature = (string) $request->header('X-Identity-Signature', (string) $request->input('signature', ''));
         if (!$service->verifySignature($provider, $rawPayload, $signature)) {
-            return $this->deny($request, 403, 'Assinatura invalida para callback externo.');
+            return $this->deny($request, 403, 'Assinatura invalida para callback externo.', [
+                'provider' => $provider,
+                'reason' => 'invalid_signature',
+            ]);
         }
 
         $claims = json_decode($rawPayload, true);
         if (!is_array($claims)) {
-            return $this->deny($request, 422, 'Payload de identidade invalido.');
+            return $this->deny($request, 422, 'Payload de identidade invalido.', [
+                'provider' => $provider,
+                'reason' => 'invalid_payload',
+            ]);
         }
 
         if (!$service->validateClaimsWindow($claims)) {
-            return $this->deny($request, 401, 'Claims expirados ou invalidos para login externo.');
+            return $this->deny($request, 401, 'Claims expirados ou invalidos para login externo.', [
+                'provider' => $provider,
+                'reason' => 'expired_claims',
+            ]);
         }
 
         if (!$service->consumeNonce($claims)) {
-            return $this->deny($request, 409, 'Nonce invalido ou ja utilizado.');
+            return $this->deny($request, 409, 'Nonce invalido ou ja utilizado.', [
+                'provider' => $provider,
+                'reason' => 'nonce_reused_or_missing',
+            ]);
         }
 
         $user = $service->resolveUser($claims);
         if (!$user) {
-            return $this->deny($request, 401, 'Usuario nao encontrado para o identificador recebido.');
+            return $this->deny($request, 401, 'Usuario nao encontrado para o identificador recebido.', [
+                'provider' => $provider,
+                'reason' => 'user_not_found',
+                'identifier_hint' => $this->identifierHint($claims),
+            ]);
         }
 
         session()->put(LegacySession::DB_ID_USUARIO, (int) $user->getAuthIdentifier());
@@ -97,18 +119,45 @@ class ExternalIdentityController extends Controller
         ]);
     }
 
-    private function deny(Request $request, int $status, string $message): RedirectResponse|JsonResponse
+    /**
+     * @param array<string, mixed> $context
+     */
+    private function deny(Request $request, int $status, string $message, array $context = []): RedirectResponse|JsonResponse
     {
-        Log::warning('External identity login denied', [
+        $payload = array_merge([
             'status' => $status,
             'message' => $message,
             'ip' => $request->ip(),
-        ]);
+            'path' => '/' . ltrim($request->path(), '/'),
+            'method' => $request->method(),
+        ], $context);
+
+        Log::warning('External identity login denied', $payload);
+        Log::channel((string) config('web_audit.channel', 'web_audit'))
+            ->warning('External identity callback denied', $payload);
 
         if ($request->expectsJson()) {
             return response()->json(['message' => $message], $status);
         }
 
         return redirect()->to('/')->withErrors(['auth_external' => $message]);
+    }
+
+    /**
+     * @param array<string, mixed> $claims
+     */
+    private function identifierHint(array $claims): string
+    {
+        $cpf = preg_replace('/\D+/', '', (string) ($claims['cpf'] ?? ''));
+        if ($cpf !== '') {
+            return 'cpf:' . substr($cpf, -4);
+        }
+
+        $login = trim((string) ($claims['login'] ?? ''));
+        if ($login !== '') {
+            return 'login:' . substr($login, 0, 3) . '***';
+        }
+
+        return 'none';
     }
 }

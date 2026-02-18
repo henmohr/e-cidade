@@ -26,6 +26,12 @@ Objetivo:
 Endpoint:
 - `POST /web/idp/callback`
 
+Protecoes ativas:
+- rate limit por provedor+IP (`throttle:external-idp`);
+- validacao de assinatura (quando habilitada);
+- validacao de expiracao (`expires_at`);
+- protecao anti-replay por `nonce`.
+
 Campos esperados:
 - `provider` (ex.: `govbr`)
 - `payload` (JSON string com claims)
@@ -51,6 +57,8 @@ Claims minimas no payload:
 6. Confirmar logs de sucesso/negacao.
 7. Repetir callback com mesmo `nonce`:
 - esperado: bloqueio por replay (`409`).
+8. Disparar varias chamadas consecutivas acima do limite:
+- esperado: bloqueio por rate limit (`429`).
 
 ## 5. Evidencias esperadas
 

@@ -18,7 +18,9 @@ Route::group(['middleware' => ['legacySession', 'authEcidadeUser'], 'prefix' => 
 
 Route::prefix('web/idp')->group(function () {
     Route::get('/providers', [ExternalIdentityController::class, 'providers'])->name('idp.providers');
-    Route::post('/callback', [ExternalIdentityController::class, 'callback'])->name('idp.callback');
+    Route::post('/callback', [ExternalIdentityController::class, 'callback'])
+        ->middleware(['throttle:external-idp'])
+        ->name('idp.callback');
 });
 
 Route::group(['middleware' => ['legacySession', 'authEcidadeUser', 'auth.basic', 'webAuditTrail'], 'prefix' => 'web'], function () {
