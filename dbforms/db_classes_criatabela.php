@@ -1,4 +1,4 @@
-<?
+<?php
 /*
  *     E-cidade Software Publico para Gestao Municipal                
  *  Copyright (C) 2009  DBselller Servicos de Informatica             
@@ -28,7 +28,13 @@
 require(__DIR__ . "/../libs/db_stdlib.php");
 require(__DIR__ . "/../libs/db_conecta.php");
 include("/tmp/par_cria_tabela.php");
-parse_str(base64_decode($HTTP_SERVER_VARS['QUERY_STRING']));
+$legacyQueryParams = [];
+parse_str(base64_decode((string) ($_SERVER['QUERY_STRING'] ?? '')), $legacyQueryParams);
+foreach ($legacyQueryParams as $legacyKey => $legacyValue) {
+  if (!isset($$legacyKey)) {
+    $$legacyKey = $legacyValue;
+  }
+}
 if(isset($sql)){
 $sql=base64_decode($sql);
 }

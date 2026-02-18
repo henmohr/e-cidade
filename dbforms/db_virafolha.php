@@ -1,4 +1,4 @@
-<?
+<?php
 
 /**
  *     E-cidade Software Publico para Gestao Municipal                
@@ -142,8 +142,8 @@ $clpensaoretencao            = new cl_pensaoretencao;
 $clrhpesrubcalc              = new cl_rhpesrubcalc;
 $clplanosaude                = new cl_planosaude;
 
-db_postmemory($HTTP_POST_VARS);
-db_postmemory($HTTP_GET_VARS);
+db_postmemory($_POST);
+db_postmemory($_GET);
 
 $periodoini1 = $dataii_dia . "/" . $dataii_mes . "/" . $dataii_ano;
 $periodoini2 = $dataif_dia . "/" . $dataif_mes . "/" . $dataif_ano;
