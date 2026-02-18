@@ -7,6 +7,22 @@ use Illuminate\Http\Request;
 
 class WebAuditTrailService
 {
+    private const CONTEXT_REQUEST_ID = 'request_id';
+    private const CONTEXT_USER_ID = 'user_id';
+    private const CONTEXT_LOGIN = 'login';
+    private const CONTEXT_INSTIT = 'instit';
+    private const CONTEXT_SESSION_ID = 'session_id';
+    private const CONTEXT_METHOD = 'method';
+    private const CONTEXT_PATH = 'path';
+    private const CONTEXT_ROUTE_NAME = 'route_name';
+    private const CONTEXT_STATUS = 'status';
+    private const CONTEXT_DURATION_MS = 'duration_ms';
+    private const CONTEXT_IP = 'ip';
+    private const CONTEXT_USER_AGENT = 'user_agent';
+    private const CONTEXT_MODULE = 'module';
+    private const CONTEXT_QUERY_KEYS = 'query_keys';
+    private const CONTEXT_INPUT_KEYS = 'input_keys';
+
     public function isEnabled(): bool
     {
         return (bool) config('web_audit.enabled', true);
@@ -51,27 +67,27 @@ class WebAuditTrailService
         }
 
         $context = [
-            'request_id' => RequestIdResolver::resolve($request),
-            'user_id' => $user?->getAuthIdentifier(),
-            'login' => $user->login ?? null,
-            'instit' => $instit,
-            'session_id' => $sessionId,
-            'method' => $request->method(),
-            'path' => RequestMetaFormatter::normalizedPath($request),
-            'route_name' => optional($request->route())->getName(),
-            'status' => $statusCode,
-            'duration_ms' => $durationMs,
-            'ip' => $request->ip(),
-            'user_agent' => RequestMetaFormatter::userAgent($request),
-            'module' => $module,
+            self::CONTEXT_REQUEST_ID => RequestIdResolver::resolve($request),
+            self::CONTEXT_USER_ID => $user?->getAuthIdentifier(),
+            self::CONTEXT_LOGIN => $user->login ?? null,
+            self::CONTEXT_INSTIT => $instit,
+            self::CONTEXT_SESSION_ID => $sessionId,
+            self::CONTEXT_METHOD => $request->method(),
+            self::CONTEXT_PATH => RequestMetaFormatter::normalizedPath($request),
+            self::CONTEXT_ROUTE_NAME => optional($request->route())->getName(),
+            self::CONTEXT_STATUS => $statusCode,
+            self::CONTEXT_DURATION_MS => $durationMs,
+            self::CONTEXT_IP => $request->ip(),
+            self::CONTEXT_USER_AGENT => RequestMetaFormatter::userAgent($request),
+            self::CONTEXT_MODULE => $module,
         ];
 
         if ((bool) config('web_audit.include_query', true) && is_array($query) && !empty($query)) {
-            $context['query_keys'] = array_keys($query);
+            $context[self::CONTEXT_QUERY_KEYS] = array_keys($query);
         }
 
         if ((bool) config('web_audit.include_input_keys', true)) {
-            $context['input_keys'] = $this->safeInputKeys($request);
+            $context[self::CONTEXT_INPUT_KEYS] = $this->safeInputKeys($request);
         }
 
         return $context;
