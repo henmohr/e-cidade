@@ -28,6 +28,7 @@ class AuthEventService
 
         $entries[] = [
             'type' => 'login_failed',
+            'request_id' => $this->requestId($request),
             'timestamp' => now()->toIso8601String(),
             'ip' => (string) $request->ip(),
             'user_agent' => substr((string) $request->userAgent(), 0, 300),
@@ -44,6 +45,7 @@ class AuthEventService
     {
         $this->appendUserEvent($user, [
             'type' => 'login_success',
+            'request_id' => $this->requestId($request),
             'timestamp' => now()->toIso8601String(),
             'ip' => (string) $request->ip(),
             'user_agent' => substr((string) $request->userAgent(), 0, 300),
@@ -55,6 +57,7 @@ class AuthEventService
         $this->appendUserEvent($user, [
             'type' => 'login_external_success',
             'provider' => strtolower(trim($provider)),
+            'request_id' => $this->requestId($request),
             'timestamp' => now()->toIso8601String(),
             'ip' => (string) $request->ip(),
             'user_agent' => substr((string) $request->userAgent(), 0, 300),
@@ -65,6 +68,7 @@ class AuthEventService
     {
         $this->appendUserEvent($user, [
             'type' => 'logout',
+            'request_id' => $this->requestId($request),
             'timestamp' => now()->toIso8601String(),
             'ip' => (string) $request->ip(),
             'user_agent' => substr((string) $request->userAgent(), 0, 300),
@@ -83,6 +87,7 @@ class AuthEventService
 
         $event = array_merge($meta, [
             'type' => $type,
+            'request_id' => $this->requestId($request),
             'timestamp' => now()->toIso8601String(),
             'ip' => (string) $request->ip(),
             'user_agent' => substr((string) $request->userAgent(), 0, 300),
@@ -176,5 +181,15 @@ class AuthEventService
     private function eventsRetentionDays(): int
     {
         return max(1, (int) config('auth.auth_events.retention_days', 7));
+    }
+
+    private function requestId(Request $request): string
+    {
+        $id = (string) $request->attributes->get('request_id', '');
+        if ($id !== '') {
+            return $id;
+        }
+
+        return (string) $request->headers->get('X-Request-Id', '');
     }
 }

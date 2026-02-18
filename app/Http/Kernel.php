@@ -4,6 +4,7 @@ namespace App\Http;
 
 use App\Http\Middleware\AuthEcidadeUser;
 use App\Http\Middleware\Authenticate;
+use App\Http\Middleware\EnsureRequestId;
 use App\Http\Middleware\LegacyProxyMiddleware;
 use App\Http\Middleware\LegacySessionMiddleware;
 use App\Http\Middleware\RedesimAuth;
@@ -57,6 +58,7 @@ class Kernel extends HttpKernel
      */
     protected $middlewareGroups = [
         'web' => [
+            EnsureRequestId::class,
             EncryptCookies::class,
             AddQueuedCookiesToResponse::class,
             StartSession::class,

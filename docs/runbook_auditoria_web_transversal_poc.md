@@ -25,6 +25,7 @@ Objetivo:
 ## 3. Evidencias esperadas
 
 - registro com:
+  - `request_id` para correlacao ponta a ponta;
   - `user_id`, `login`, `instit`, `session_id`;
   - `method`, `path`, `status`, `duration_ms`, `ip`;
   - `query_keys`/`input_keys` (sem campos sensiveis).

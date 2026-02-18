@@ -39,6 +39,7 @@ Resultado esperado:
    - `provider` para login externo;
    - `revoked_count` para encerramento de sessoes anteriores;
    - `tier/file` para acoes de backup.
+9. Confirmar presenca de `request_id` comum entre evento funcional e log tecnico correlato.
 
 ## 4. Limites Conhecidos
 

@@ -33,6 +33,7 @@ class AuthEventServiceTest extends TestCase
         $request = Request::create('/web/idp/callback', 'POST', [], [], [], [
             'REMOTE_ADDR' => '127.0.0.1',
             'HTTP_USER_AGENT' => 'PHPUnit',
+            'HTTP_X_REQUEST_ID' => 'req-test-123',
         ]);
 
         $service->registerExternalSuccess($request, $user, 'govbr');
@@ -47,6 +48,7 @@ class AuthEventServiceTest extends TestCase
         $this->assertContains('login_external_success', $types);
         $this->assertContains('session_revoked', $types);
         $this->assertContains('logout', $types);
+        $this->assertSame('req-test-123', (string) ($events[0]['request_id'] ?? ''));
     }
 
     private function bootContainer(): void
