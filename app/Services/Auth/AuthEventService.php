@@ -70,7 +70,7 @@ class AuthEventService
      */
     public function registerCustomEvent(Request $request, User $user, string $type, array $meta = []): void
     {
-        $type = strtolower(trim($type));
+        $type = $this->normalizeEventType($type);
         if ($type === '') {
             return;
         }
@@ -141,7 +141,7 @@ class AuthEventService
         int $limit = SessionEventFilters::DEFAULT_SCREEN_LIMIT
     ): array {
         $events = $this->listRecentEventsForUser($user);
-        $type = strtolower(trim((string) $type));
+        $type = $this->normalizeEventType((string) $type);
         $requestId = trim((string) $requestId);
 
         $events = array_values(array_filter($events, static function (array $event) use ($type, $requestId): bool {
@@ -215,6 +215,11 @@ class AuthEventService
     private function normalizeIdentifier(string $value): string
     {
         return strtolower(trim($value));
+    }
+
+    private function normalizeEventType(string $value): string
+    {
+        return $this->normalizeIdentifier($value);
     }
 
     private function userEventsKey(int $userId): string
