@@ -233,6 +233,16 @@ Consolidado tecnico das entregas executadas:
 
 ---
 
+#### [sprint8_checklist_execucao.md](./sprint8_checklist_execucao.md)
+**Checklist Executavel da Sprint 8**
+
+Plano de fechamento de evidencias para licitacao:
+- pacote automatizado de evidencias (manifesto/resumo/exportacoes);
+- comandos operacionais para banca e homologacao;
+- trilha de continuidade para homologacao externa formal.
+
+---
+
 #### [roteiro_oficial_demonstracao_poc.md](./roteiro_oficial_demonstracao_poc.md)
 **Roteiro Oficial de Demonstracao da PoC**
 
