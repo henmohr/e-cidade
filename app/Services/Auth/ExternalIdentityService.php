@@ -3,6 +3,7 @@
 namespace App\Services\Auth;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Cache;
 
 class ExternalIdentityService
 {
@@ -38,6 +39,57 @@ class ExternalIdentityService
 
         $expected = hash_hmac('sha256', $payload, $secret);
         return hash_equals($expected, trim($signature));
+    }
+
+    /**
+     * @param array<string, mixed> $claims
+     */
+    public function validateClaimsWindow(array $claims): bool
+    {
+        if (!(bool) config('external_identity.enforce_claims_expiration', true)) {
+            return true;
+        }
+
+        $expiresAtRaw = trim((string) ($claims['expires_at'] ?? ''));
+        if ($expiresAtRaw === '') {
+            return false;
+        }
+
+        try {
+            $expiresAt = new \DateTimeImmutable($expiresAtRaw);
+        } catch (\Throwable $e) {
+            return false;
+        }
+
+        $now = new \DateTimeImmutable('now', $expiresAt->getTimezone());
+        $skew = max(0, (int) config('external_identity.max_clock_skew_seconds', 60));
+
+        return $now->getTimestamp() <= ($expiresAt->getTimestamp() + $skew);
+    }
+
+    /**
+     * @param array<string, mixed> $claims
+     */
+    public function consumeNonce(array $claims): bool
+    {
+        if (!(bool) config('external_identity.enforce_nonce', true)) {
+            return true;
+        }
+
+        $nonce = trim((string) ($claims['nonce'] ?? ''));
+        if ($nonce === '') {
+            return false;
+        }
+
+        $key = 'auth:external:nonce:' . sha1($nonce);
+        if (Cache::has($key)) {
+            return false;
+        }
+
+        $ttl = max(60, (int) config('external_identity.nonce_ttl_seconds', 600));
+        Cache::put($key, 1, now()->addSeconds($ttl));
+
+        return true;
     }
 
     /**

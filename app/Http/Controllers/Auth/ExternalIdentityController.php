@@ -42,6 +42,14 @@ class ExternalIdentityController extends Controller
             return $this->deny($request, 422, 'Payload de identidade invalido.');
         }
 
+        if (!$service->validateClaimsWindow($claims)) {
+            return $this->deny($request, 401, 'Claims expirados ou invalidos para login externo.');
+        }
+
+        if (!$service->consumeNonce($claims)) {
+            return $this->deny($request, 409, 'Nonce invalido ou ja utilizado.');
+        }
+
         $user = $service->resolveUser($claims);
         if (!$user) {
             return $this->deny($request, 401, 'Usuario nao encontrado para o identificador recebido.');

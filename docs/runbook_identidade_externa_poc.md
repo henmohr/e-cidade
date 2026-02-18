@@ -38,7 +38,8 @@ Claims minimas no payload:
 - `provider`
 - `cpf` ou `login`
 - `subject` (id externo)
-- `expires_at` (quando houver)
+- `expires_at` (obrigatorio quando `AUTH_EXTERNAL_ENFORCE_CLAIMS_EXPIRATION=true`)
+- `nonce` (obrigatorio quando `AUTH_EXTERNAL_ENFORCE_NONCE=true`)
 
 ## 4. Cenario de validacao
 
@@ -48,6 +49,8 @@ Claims minimas no payload:
 4. Confirmar redirecionamento para `/web/welcome`.
 5. Confirmar sessao legado preenchida (`DB_id_usuario`, `DB_login`).
 6. Confirmar logs de sucesso/negacao.
+7. Repetir callback com mesmo `nonce`:
+- esperado: bloqueio por replay (`409`).
 
 ## 5. Evidencias esperadas
 
