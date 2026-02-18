@@ -1,0 +1,16 @@
+sistemas:
+  SICONFI:
+    pendente: 0
+    enviado: 0
+    aceito: 1
+    rejeitado: 0
+  TCE_PR:
+    pendente: 0
+    enviado: 0
+    aceito: 1
+    rejeitado: 0
+  PORTAL_TRANSPARENCIA:
+    pendente: 0
+    enviado: 0
+    aceito: 1
+    rejeitado: 0

@@ -1,0 +1,82 @@
+{
+    "sistemas": [
+        {
+            "sistema": "SICONFI",
+            "totais": {
+                "pendente": 0,
+                "enviado": 0,
+                "aceito": 1,
+                "rejeitado": 0
+            },
+            "criterios": {
+                "C1": "ok",
+                "C2": "ok",
+                "C3": "ok"
+            },
+            "status": "apto",
+            "fonte": "arquivo_protocolos",
+            "erro_coleta": ""
+        },
+        {
+            "sistema": "TCE_PR",
+            "totais": {
+                "pendente": 0,
+                "enviado": 0,
+                "aceito": 1,
+                "rejeitado": 0
+            },
+            "criterios": {
+                "C1": "ok",
+                "C2": "ok",
+                "C3": "ok"
+            },
+            "status": "apto",
+            "fonte": "arquivo_protocolos",
+            "erro_coleta": ""
+        },
+        {
+            "sistema": "PORTAL_TRANSPARENCIA",
+            "totais": {
+                "pendente": 0,
+                "enviado": 0,
+                "aceito": 1,
+                "rejeitado": 0
+            },
+            "criterios": {
+                "C1": "ok",
+                "C2": "ok",
+                "C3": "ok"
+            },
+            "status": "apto",
+            "fonte": "arquivo_protocolos",
+            "erro_coleta": ""
+        }
+    ],
+    "totais": {
+        "apto": 3,
+        "em_homologacao": 0,
+        "bloqueado": 0
+    },
+    "anexos": {
+        "diretorio": "docs\/anexos_homologacao_assinados",
+        "obrigatorios": [
+            "siconfi_homologacao_assinada.md",
+            "tce_uf_homologacao_assinada.md",
+            "portal_transparencia_homologacao_assinada.md"
+        ],
+        "presentes": [
+            "siconfi_homologacao_assinada.md",
+            "tce_uf_homologacao_assinada.md",
+            "portal_transparencia_homologacao_assinada.md"
+        ],
+        "ausentes": [],
+        "vazios": [],
+        "status": "ok"
+    },
+    "metadados": {
+        "modo_offline": true,
+        "arquivo_protocolos": "docs\/sprint14_homologacao_externa\/protocolos_homologacao_oficial.yml",
+        "alertas": []
+    },
+    "status_final": "apto_para_banca"
+}

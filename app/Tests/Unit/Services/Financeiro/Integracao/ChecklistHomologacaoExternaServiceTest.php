@@ -69,4 +69,46 @@ class ChecklistHomologacaoExternaServiceTest extends TestCase
         $this->assertSame('bloqueado', $resumo['sistemas'][0]['status']);
         $this->assertSame('plano_de_acao_obrigatorio', $resumo['status_final']);
     }
+
+    public function testModoOfflineComArquivoProtocolosGeraAptoParaBanca(): void
+    {
+        $statusService = $this->createMock(IntegracaoGovernamentalStatusService::class);
+        $anexosService = $this->createMock(HomologacaoAnexosService::class);
+
+        $statusService->expects($this->never())
+            ->method('gerarResumoHomologacao');
+
+        $anexosService->expects($this->once())
+            ->method('validarDiretorio')
+            ->willReturn([
+                'status' => 'ok',
+                'ausentes' => [],
+                'vazios' => [],
+            ]);
+
+        $arquivo = sys_get_temp_dir() . '/protocolos-' . uniqid('', true) . '.yml';
+        file_put_contents($arquivo, <<<YAML
+sistemas:
+  SICONFI:
+    pendente: 0
+    enviado: 0
+    aceito: 1
+    rejeitado: 0
+YAML);
+
+        $service = new ChecklistHomologacaoExternaService($statusService, $anexosService);
+        $resumo = $service->gerarResumo(
+            ['SICONFI'],
+            'docs/anexos_homologacao_assinados',
+            200,
+            $arquivo,
+            true
+        );
+
+        $this->assertSame('apto', $resumo['sistemas'][0]['status']);
+        $this->assertSame('arquivo_protocolos', $resumo['sistemas'][0]['fonte']);
+        $this->assertSame('apto_para_banca', $resumo['status_final']);
+
+        @unlink($arquivo);
+    }
 }
