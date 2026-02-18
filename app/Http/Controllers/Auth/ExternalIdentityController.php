@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Services\Auth\AuthEventService;
 use App\Services\Auth\ExternalIdentityService;
 use App\Support\Session\LegacySession;
 use Illuminate\Http\JsonResponse;
@@ -56,6 +57,7 @@ class ExternalIdentityController extends Controller
         session()->put('auth.external.provider', $provider);
 
         Auth::loginUsingId((int) $user->getAuthIdentifier());
+        app(AuthEventService::class)->registerExternalSuccess($request, $user, $provider);
 
         Log::info('External identity login succeeded', [
             'provider' => $provider,

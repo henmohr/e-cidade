@@ -50,6 +50,27 @@ class AuthEventService
         ]);
     }
 
+    public function registerExternalSuccess(Request $request, User $user, string $provider): void
+    {
+        $this->appendUserEvent($user, [
+            'type' => 'login_external_success',
+            'provider' => strtolower(trim($provider)),
+            'timestamp' => now()->toIso8601String(),
+            'ip' => (string) $request->ip(),
+            'user_agent' => substr((string) $request->userAgent(), 0, 300),
+        ]);
+    }
+
+    public function registerLogout(Request $request, User $user): void
+    {
+        $this->appendUserEvent($user, [
+            'type' => 'logout',
+            'timestamp' => now()->toIso8601String(),
+            'ip' => (string) $request->ip(),
+            'user_agent' => substr((string) $request->userAgent(), 0, 300),
+        ]);
+    }
+
     public function absorbPendingFailuresForUser(User $user): int
     {
         $all = [];

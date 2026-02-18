@@ -7,8 +7,10 @@ use App\Services\Auth\AuthEventService;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
@@ -176,5 +178,24 @@ class LoginController extends Controller
         }
 
         return 0;
+    }
+
+    public function logout(Request $request): RedirectResponse
+    {
+        $user = Auth::user();
+        if ($user) {
+            app(AuthEventService::class)->registerLogout($request, $user);
+            Log::info('Authentication logout', [
+                'user_id' => $user->getAuthIdentifier(),
+                'login' => $user->login ?? null,
+                'ip' => $request->ip(),
+            ]);
+        }
+
+        $this->guard()->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/');
     }
 }

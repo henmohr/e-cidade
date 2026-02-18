@@ -19,7 +19,7 @@ Objetivo:
 Resultado esperado:
 - sessao secundaria perde acesso (401) apos revogacao;
 - sessao principal permanece ativa.
-- historico de autenticacao exibe ultimos acessos e tentativas com falha.
+- historico de autenticacao exibe ultimos acessos, tentativas com falha e eventos de logout.
 
 ## 3. Evidencias para PoC
 
@@ -29,6 +29,7 @@ Resultado esperado:
 4. Trecho de log com evento:
    - `User session revoked`
 5. Captura do alerta de tentativas de login mal sucedidas (quando houver).
+6. Trecho de historico com tipos de evento (`login_success`, `login_external_success`, `logout`) quando aplicavel.
 
 ## 4. Limites Conhecidos
 
