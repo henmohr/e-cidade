@@ -22,6 +22,13 @@ use Illuminate\View\View;
 
 class SessionController extends Controller
 {
+    private const EXPORT_FILE_PREFIX = 'auth-events-';
+    private const EXPORT_FILE_EXTENSION = '.csv';
+    private const EXPORT_CONTENT_TYPE = 'text/csv; charset=UTF-8';
+    private const HEADER_CONTENT_TYPE = 'Content-Type';
+    private const HEADER_CONTENT_DISPOSITION = 'Content-Disposition';
+    private const HEADER_EXPORT_SHA256 = 'X-Export-SHA256';
+
     public function index(
         Request $request,
         SessionActivityService $service,
@@ -88,7 +95,7 @@ class SessionController extends Controller
 
         $filters = SessionEventFilters::fromExportRequest($request);
         $events = $eventsQuery->rawFilteredEvents($user, $filters);
-        $filename = 'auth-events-' . date('Ymd-His') . '.csv';
+        $filename = self::EXPORT_FILE_PREFIX . date('Ymd-His') . self::EXPORT_FILE_EXTENSION;
         $csv = $exportService->buildCsv($events);
         $sha256 = $exportService->computeSha256($csv);
 
@@ -98,9 +105,9 @@ class SessionController extends Controller
         ]);
 
         return response($csv, 200, [
-            'Content-Type' => 'text/csv; charset=UTF-8',
-            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
-            'X-Export-SHA256' => $sha256,
+            self::HEADER_CONTENT_TYPE => self::EXPORT_CONTENT_TYPE,
+            self::HEADER_CONTENT_DISPOSITION => 'attachment; filename="' . $filename . '"',
+            self::HEADER_EXPORT_SHA256 => $sha256,
         ]);
     }
 
