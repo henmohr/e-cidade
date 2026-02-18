@@ -24,11 +24,13 @@ Evidencias minimas:
 
 - [x] Mapear lotes de homologacao por orgao (SICONFI, TCE/UF, Portal Transparencia).
 - [x] Padronizar roteiro de coleta de protocolo externo (aceite/rejeicao) por envio.
-- [ ] Atualizar pacote documental com anexos de homologacao assinados.
+- [x] Atualizar pacote documental com anexos de homologacao assinados.
 
 Referencia da frente B:
 - `docs/sprint8_homologacao_externa.md`
+- `docs/anexos_homologacao_assinados/README.md`
 - comandos: `financeiro:registrar-homologacao-integracao` e `financeiro:relatorio-homologacao-integracoes`
+- comando: `financeiro:validar-anexos-homologacao`
 
 ## Definicao de pronto da Sprint 8 (parcial)
 

@@ -253,6 +253,15 @@ Guia operacional para fechamento com orgaos externos:
 
 ---
 
+#### [anexos_homologacao_assinados/README.md](./anexos_homologacao_assinados/README.md)
+**Anexos Assinados de Homologacao**
+
+Padrao documental para fechamento formal com orgaos externos:
+- modelos assinados para SICONFI, TCE/UF e Portal da Transparencia;
+- validacao automatizada de completude via comando `financeiro:validar-anexos-homologacao`.
+
+---
+
 #### [roteiro_oficial_demonstracao_poc.md](./roteiro_oficial_demonstracao_poc.md)
 **Roteiro Oficial de Demonstracao da PoC**
 

@@ -17,6 +17,9 @@ Objetivo:
 - [ ] `docs/checklist_evidencias_demais_sistemas_poc.md`
 - [ ] anexos de tela/video por sistema avaliado
 - [ ] registro de aceite funcional por sistema
+- [ ] `docs/anexos_homologacao_assinados/siconfi_homologacao_assinada.md`
+- [ ] `docs/anexos_homologacao_assinados/tce_uf_homologacao_assinada.md`
+- [ ] `docs/anexos_homologacao_assinados/portal_transparencia_homologacao_assinada.md`
 
 ## 3. Evidencias de seguranca, operacao e continuidade
 
@@ -41,3 +44,11 @@ Considerar pacote final concluido somente quando:
 - [ ] links para documentos internos validados;
 - [ ] assinatura dos responsaveis tecnico e funcional;
 - [ ] versao final do pacote registrada com data.
+
+## 6. Validacao automatizada de anexos assinados
+
+Comando:
+- `php artisan financeiro:validar-anexos-homologacao --diretorio=docs/anexos_homologacao_assinados`
+
+Regra:
+- o pacote somente pode ser considerado fechado quando o comando retornar status `ok`.
