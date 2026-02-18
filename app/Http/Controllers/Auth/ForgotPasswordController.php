@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
 use App\Http\Controllers\Controller;
+use App\Services\Auth\PasswordResetMessages;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -64,7 +65,7 @@ class ForgotPasswordController extends Controller
 
         $email = $user?->email ?? $user?->cgm?->z01_email;
 
-        return ['email' => $email ?: 'invalid-reset-target@example.invalid'];
+        return ['email' => $email ?: PasswordResetMessages::INVALID_TARGET_EMAIL];
     }
 
     public function sendResetLinkEmail(Request $request)
@@ -86,7 +87,7 @@ class ForgotPasswordController extends Controller
 
     protected function sendResetLinkResponse(Request $request, $response)
     {
-        $message = 'Se os dados informados estiverem corretos, as instrucoes para redefinicao de senha foram enviadas.';
+        $message = PasswordResetMessages::RESET_LINK_REQUEST_ACCEPTED;
 
         if ($request->expectsJson()) {
             return new JsonResponse(['message' => $message]);

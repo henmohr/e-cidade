@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
 use App\Http\Controllers\Controller;
+use App\Services\Auth\PasswordResetMessages;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
@@ -114,6 +115,6 @@ class ResetPasswordController extends Controller
             })
             ->first();
 
-        return (string) ($user?->email ?? $user?->cgm?->z01_email ?? 'invalid-reset-target@example.invalid');
+        return (string) ($user?->email ?? $user?->cgm?->z01_email ?? PasswordResetMessages::INVALID_TARGET_EMAIL);
     }
 }
