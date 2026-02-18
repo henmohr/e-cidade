@@ -4,13 +4,17 @@ namespace App\Services\Auth;
 
 class SessionEventsExportService
 {
+    /** @var array<int, string> */
+    public const CSV_HEADER = ['type', 'request_id', 'timestamp', 'ip', 'provider', 'details'];
+    public const DETAILS_PARTS_SEPARATOR = ';';
+
     /**
      * @param array<int, array<string, mixed>> $events
      */
     public function buildCsv(array $events): string
     {
         $out = fopen('php://temp', 'r+');
-        fputcsv($out, ['type', 'request_id', 'timestamp', 'ip', 'provider', 'details']);
+        fputcsv($out, self::CSV_HEADER);
 
         foreach ($events as $event) {
             fputcsv($out, [
@@ -62,6 +66,6 @@ class SessionEventsExportService
             $parts[] = 'blocked_seconds=' . (int) $event['blocked_seconds'];
         }
 
-        return implode(';', $parts);
+        return implode(self::DETAILS_PARTS_SEPARATOR, $parts);
     }
 }

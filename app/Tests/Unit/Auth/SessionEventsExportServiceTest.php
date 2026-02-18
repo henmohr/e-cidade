@@ -24,9 +24,15 @@ class SessionEventsExportServiceTest extends TestCase
         ];
 
         $csv = $service->buildCsv($events);
-        $this->assertStringContainsString('type,request_id,timestamp,ip,provider,details', $csv);
+        $this->assertStringContainsString(
+            implode(',', SessionEventsExportService::CSV_HEADER),
+            $csv
+        );
         $this->assertStringContainsString(AuthEventTypes::SESSIONS_EXPORT_CSV . ',req-1', $csv);
-        $this->assertStringContainsString('revoked_count=2;file=auth.csv', $csv);
+        $this->assertStringContainsString(
+            'revoked_count=2' . SessionEventsExportService::DETAILS_PARTS_SEPARATOR . 'file=auth.csv',
+            $csv
+        );
 
         $hash = $service->computeSha256($csv);
         $this->assertMatchesRegularExpression('/^[a-f0-9]{64}$/', $hash);
