@@ -1,4 +1,4 @@
-<?
+<?php
 /*
  *     E-cidade Software Publico para Gestao Municipal                
  *  Copyright (C) 2009  DBselller Servicos de Informatica             
@@ -28,10 +28,20 @@
 require(__DIR__ . "/../libs/db_stdlib.php");
 require(__DIR__ . "/../libs/db_conecta.php");
 include(__DIR__ . "/../libs/db_sessoes.php");
-parse_str($HTTP_SERVER_VARS['QUERY_STRING']);
+function db_legacy_parse_assign($queryString) {
+  $legacyQueryParams = [];
+  parse_str((string) $queryString, $legacyQueryParams);
+  foreach ($legacyQueryParams as $legacyKey => $legacyValue) {
+    if (!isset($$legacyKey)) {
+      $GLOBALS[$legacyKey] = $legacyValue;
+    }
+  }
+}
+
+db_legacy_parse_assign($_SERVER['QUERY_STRING'] ?? '');
 
 if(!isset($arg))
- parse_str(base64_decode($HTTP_SERVER_VARS['QUERY_STRING']));
+ db_legacy_parse_assign(base64_decode((string) ($_SERVER['QUERY_STRING'] ?? '')));
 
 if(isset($retorno)) {
   $ret = explode("##",$retorno);
@@ -44,9 +54,9 @@ if(isset($retorno)) {
   </script>
   ";
 }
-db_postmemory($HTTP_POST_VARS);
-if(isset($HTTP_POST_VARS["arg"])){
-  $arg = $HTTP_POST_VARS["arg"];
+db_postmemory($_POST);
+if(isset($_POST["arg"])){
+  $arg = $_POST["arg"];
 }else{
 //;; $arg = 'O';
 }
@@ -56,12 +66,12 @@ if(isset($HTTP_POST_VARS["arg"])){
           from orcam
                inner join receita on o08_anousu = o02_anousu and o02_codigo = o08_codigo::char(13)
 		  where o02_anousu = ".db_getsession("DB_anousu")."
-		  and o02_codigo like '".@$HTTP_POST_VARS["filtro"]."%'";
+		  and o02_codigo like '".@$_POST["filtro"]."%'";
   } else if($arg == 'E') {
     $sql = "select (c01_estrut::varchar(13) || '##' || c01_descr) as db_codigo,c01_estrut,c01_descr
 	      from plano
 	  	  where c01_anousu = ".db_getsession("DB_anousu")."
-		  and c01_estrut like '".@$HTTP_POST_VARS["filtro"]."%'";
+		  and c01_estrut like '".@$_POST["filtro"]."%'";
   }
 
 ?>
@@ -78,7 +88,7 @@ if(isset($HTTP_POST_VARS["arg"])){
 <td align="center" nowrap>
 
 <form name="form5" method="post">
-  <input type="text" name="filtro" value="<?=@$HTTP_POST_VARS['filtro']?>" onBlur="window.focus();">
+  <input type="text" name="filtro" value="<?=@$_POST['filtro']?>" onBlur="window.focus();">
   <input type="hidden" name="arg" value="<?=@$arg?>">
   <input type="submit" name="procurar" value="Procurar">
 </form>
@@ -86,8 +96,8 @@ if(isset($HTTP_POST_VARS["arg"])){
 </tr>
 <tr>
 <td align="center">
-<?
-db_lov($sql,15,"db_receita.php",@$HTTP_POST_VARS["filtro"]);
+<?php
+db_lov($sql,15,"db_receita.php",@$_POST["filtro"]);
 ?>
 </td>
 </tr>

@@ -1,4 +1,4 @@
-<?
+<?php
 /*
  *     E-cidade Software Publico para Gestao Municipal                
  *  Copyright (C) 2009  DBselller Servicos de Informatica             
@@ -28,20 +28,30 @@
 require(__DIR__ . "/../libs/db_stdlib.php");
 require(__DIR__ . "/../libs/db_conecta.php");
 include(__DIR__ . "/../libs/db_sessoes.php");
-parse_str($HTTP_SERVER_VARS['QUERY_STRING']);
+function db_legacy_parse_assign($queryString) {
+  $legacyQueryParams = [];
+  parse_str((string) $queryString, $legacyQueryParams);
+  foreach ($legacyQueryParams as $legacyKey => $legacyValue) {
+    if (!isset($$legacyKey)) {
+      $GLOBALS[$legacyKey] = $legacyValue;
+    }
+  }
+}
 
-if(isset($HTTP_POST_VARS["procurar"])) {
+db_legacy_parse_assign($_SERVER['QUERY_STRING'] ?? '');
+
+if(isset($_POST["procurar"])) {
   $campo = "localizacaodescr";
   $campoaux = "localizacao"; 
 }
 
 if(!isset($arg)) {
-  $str = explode("\?",$HTTP_SERVER_VARS['QUERY_STRING']);
+  $str = explode("\?",$_SERVER['QUERY_STRING']);
   $str1 = base64_decode($str[0]);
   $str2 = base64_decode($str[1]);
 //  echo "$str1<br>$str2";
-  parse_str($str1);
-  parse_str($str2);  
+  db_legacy_parse_assign($str1);
+  db_legacy_parse_assign($str2);  
 }
 
 
@@ -70,10 +80,10 @@ if(isset($retorno)) {
 }
 //$arg = explode("==",$arg);
 //$argaux = explode("==",$argaux);
-if(empty($HTTP_POST_VARS["filtro"]))
-  $HTTP_POST_VARS["filtro"] = $arg;
+if(empty($_POST["filtro"]))
+  $_POST["filtro"] = $arg;
 else
-  $arg = $HTTP_POST_VARS["filtro"];
+  $arg = $_POST["filtro"];
   
   if( $argaux !=""){
      $chave = $campoaux;
@@ -135,16 +145,16 @@ else
 <td align="center" nowrap>
 
 <form name="form5" method="post">
-  <input type="text" name="filtro" value="<?=@$HTTP_POST_VARS['filtro']?>" onBlur="window.focus();">
-  <input type="hidden" name="arg" value="<?=@$HTTP_POST_VARS['arg']?>">
+  <input type="text" name="filtro" value="<?=@$_POST['filtro']?>" onBlur="window.focus();">
+  <input type="hidden" name="arg" value="<?=@$_POST['arg']?>">
   <input type="submit" name="procurar" value="Procurar">
 </form>
 </td>
 </tr>
 <tr>
 <td align="center">
-<?
-db_lov($sql,15,"db_localiza.php?".base64_encode("campo=$campo&campoaux=$campoaux"),$HTTP_POST_VARS["filtro"]);
+<?php
+db_lov($sql,15,"db_localiza.php?".base64_encode("campo=$campo&campoaux=$campoaux"),$_POST["filtro"]);
 ?>
 </td>
 </tr>
