@@ -1,4 +1,4 @@
-<?
+<?php
 /*
  *     E-cidade Software Publico para Gestao Municipal                
  *  Copyright (C) 2009  DBselller Servicos de Informatica             
@@ -28,7 +28,13 @@
 require(__DIR__ . "/../libs/db_stdlib.php");
 require(__DIR__ . "/../libs/db_conecta.php");
 $clrotulo = new rotulocampo;
-parse_str(base64_decode($HTTP_SERVER_VARS['QUERY_STRING']));
+$legacyQueryParams = [];
+parse_str(base64_decode((string) ($_SERVER['QUERY_STRING'] ?? '')), $legacyQueryParams);
+foreach ($legacyQueryParams as $legacyKey => $legacyValue) {
+  if (!isset($$legacyKey)) {
+    $$legacyKey = $legacyValue;
+  }
+}
 $sql=base64_decode($sql);
 $campos=base64_decode($campos);
 $msg_vazio=base64_decode($msg_vazio);
@@ -65,7 +71,7 @@ a:active {
 </style>
 <link href="estilos.css" rel="stylesheet" type="text/css">
 <script>
-function js_retorna(qtipo,<? $virgula = "";
+function js_retorna(qtipo,<?php $virgula = "";
   reset($quais_chaves);
   for($ww=0;$ww<sizeof($quais_chaves);$ww++){
     echo $virgula."par_$ww";
@@ -79,7 +85,7 @@ function js_retorna(qtipo,<? $virgula = "";
   opcao.setAttribute("value",qtipo);
   parent.document.form1.appendChild(opcao);
  
-  <?
+  <?php
   reset($quais_chaves);
   for($ww=0;$ww<sizeof($quais_chaves);$ww++){
     ?>
@@ -88,7 +94,7 @@ function js_retorna(qtipo,<? $virgula = "";
     chavepri.setAttribute("name","<?=$quais_chaves[$ww]?>");
     chavepri.setAttribute("value",par_<?=$ww?>);
     parent.document.form1.appendChild(chavepri);
-    <?
+    <?php
     next($quais_chaves);
   }
   ?>	
@@ -102,7 +108,7 @@ function js_retorna(qtipo,<? $virgula = "";
   <tr>
     <td align="center" valign="top">
       <table border='1' width="100%" bgcolor="#cccccc">
-<?
+<?php
        $result=pg_query($sql);
         $numrows=pg_numrows($result);
        $numcols=pg_numfields($result);
