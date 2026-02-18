@@ -2,6 +2,7 @@
 
 namespace App\Tests\Unit\Auth;
 
+use App\Services\Auth\AuthEventTypes;
 use App\Models\User;
 use App\Services\Auth\AuthEventPresenter;
 use App\Services\Auth\AuthEventService;
@@ -25,16 +26,16 @@ class SessionEventsQueryServiceTest extends TestCase
         $service = new SessionEventsQueryService($eventService, $presenter);
 
         $user = Mockery::mock(User::class);
-        $filters = new SessionEventFilters('login_success', 'req-1', 10);
+        $filters = new SessionEventFilters(AuthEventTypes::LOGIN_SUCCESS, 'req-1', 10);
 
         $rawEvents = [[
-            'type' => 'login_success',
+            'type' => AuthEventTypes::LOGIN_SUCCESS,
             'request_id' => 'req-1',
         ]];
 
         $eventService->shouldReceive('listRecentEventsForUserFiltered')
             ->once()
-            ->with($user, 'login_success', 'req-1', 10)
+            ->with($user, AuthEventTypes::LOGIN_SUCCESS, 'req-1', 10)
             ->andReturn($rawEvents);
 
         $presenter->shouldReceive('typeLabel')->once()->andReturn('Login com sucesso');
@@ -55,9 +56,9 @@ class SessionEventsQueryServiceTest extends TestCase
         $eventService->shouldReceive('findRecentExportEventByHash')
             ->once()
             ->with($user, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
-            ->andReturn(['type' => 'sessions_export_csv']);
+            ->andReturn(['type' => AuthEventTypes::SESSIONS_EXPORT_CSV]);
 
         $event = $service->findExportHash($user, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
-        $this->assertSame('sessions_export_csv', $event['type']);
+        $this->assertSame(AuthEventTypes::SESSIONS_EXPORT_CSV, $event['type']);
     }
 }

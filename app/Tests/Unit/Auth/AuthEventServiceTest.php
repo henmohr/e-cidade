@@ -4,6 +4,7 @@ namespace App\Tests\Unit\Auth;
 
 use App\Models\User;
 use App\Services\Auth\AuthEventService;
+use App\Services\Auth\AuthEventTypes;
 use Illuminate\Cache\CacheManager;
 use Illuminate\Config\Repository;
 use Illuminate\Container\Container;
@@ -37,8 +38,8 @@ class AuthEventServiceTest extends TestCase
         ]);
 
         $service->registerExternalSuccess($request, $user, 'govbr');
-        $service->registerCustomEvent($request, $user, 'session_revoked', ['target_session_id' => 'abc123']);
-        $service->registerCustomEvent($request, $user, 'sessions_export_csv', [
+        $service->registerCustomEvent($request, $user, AuthEventTypes::SESSION_REVOKED, ['target_session_id' => 'abc123']);
+        $service->registerCustomEvent($request, $user, AuthEventTypes::SESSIONS_EXPORT_CSV, [
             'row_count' => 2,
             'export_sha256' => 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
         ]);
@@ -49,14 +50,14 @@ class AuthEventServiceTest extends TestCase
             return (string) ($event['type'] ?? '');
         }, $events);
 
-        $this->assertContains('login_external_success', $types);
-        $this->assertContains('session_revoked', $types);
-        $this->assertContains('logout', $types);
+        $this->assertContains(AuthEventTypes::LOGIN_EXTERNAL_SUCCESS, $types);
+        $this->assertContains(AuthEventTypes::SESSION_REVOKED, $types);
+        $this->assertContains(AuthEventTypes::LOGOUT, $types);
         $this->assertSame('req-test-123', (string) ($events[0]['request_id'] ?? ''));
 
-        $filteredByType = $service->listRecentEventsForUserFiltered($user, 'logout', null, 10);
+        $filteredByType = $service->listRecentEventsForUserFiltered($user, AuthEventTypes::LOGOUT, null, 10);
         $this->assertCount(1, $filteredByType);
-        $this->assertSame('logout', (string) ($filteredByType[0]['type'] ?? ''));
+        $this->assertSame(AuthEventTypes::LOGOUT, (string) ($filteredByType[0]['type'] ?? ''));
 
         $filteredByRequest = $service->listRecentEventsForUserFiltered($user, null, 'req-test-123', 10);
         $this->assertNotEmpty($filteredByRequest);
@@ -66,7 +67,7 @@ class AuthEventServiceTest extends TestCase
             'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
         );
         $this->assertNotNull($foundExport);
-        $this->assertSame('sessions_export_csv', (string) ($foundExport['type'] ?? ''));
+        $this->assertSame(AuthEventTypes::SESSIONS_EXPORT_CSV, (string) ($foundExport['type'] ?? ''));
     }
 
     private function bootContainer(): void

@@ -3,6 +3,7 @@
 namespace App\Tests\Unit\Auth;
 
 use App\Services\Auth\AuthEventPresenter;
+use App\Services\Auth\AuthEventTypes;
 use PHPUnit\Framework\TestCase;
 
 class AuthEventPresenterTest extends TestCase
@@ -12,7 +13,7 @@ class AuthEventPresenterTest extends TestCase
         $presenter = new AuthEventPresenter();
 
         $event = [
-            'type' => 'login_external_success',
+            'type' => AuthEventTypes::LOGIN_EXTERNAL_SUCCESS,
             'provider' => 'govbr',
         ];
 
@@ -25,7 +26,7 @@ class AuthEventPresenterTest extends TestCase
         $presenter = new AuthEventPresenter();
 
         $event = [
-            'type' => 'session_revoke_others',
+            'type' => AuthEventTypes::SESSION_REVOKE_OTHERS,
             'revoked_count' => 3,
             'target_session_id' => 'abc123xyz',
             'tier' => 'archive',
@@ -46,7 +47,7 @@ class AuthEventPresenterTest extends TestCase
         $presenter = new AuthEventPresenter();
 
         $event = [
-            'type' => 'sessions_export_csv',
+            'type' => AuthEventTypes::SESSIONS_EXPORT_CSV,
             'row_count' => 12,
             'export_sha256' => 'abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890',
         ];

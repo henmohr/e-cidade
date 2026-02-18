@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Services\Auth\AuthEventService;
+use App\Services\Auth\AuthEventTypes;
 use App\Services\Auth\SessionExportEvidencePresenter;
 use App\Services\Auth\SessionActivityService;
 use App\Services\Auth\SessionEventFilters;
@@ -63,7 +64,7 @@ class SessionController extends Controller
             'actor_session_id' => (string) session()->getId(),
             'ip' => $request->ip(),
         ]);
-        app(AuthEventService::class)->registerCustomEvent($request, $user, 'session_revoked', [
+        app(AuthEventService::class)->registerCustomEvent($request, $user, AuthEventTypes::SESSION_REVOKED, [
             'target_session_id' => $sessionId,
         ]);
 
@@ -88,7 +89,7 @@ class SessionController extends Controller
         $csv = $exportService->buildCsv($events);
         $sha256 = $exportService->computeSha256($csv);
 
-        $eventService->registerCustomEvent($request, $user, 'sessions_export_csv', [
+        $eventService->registerCustomEvent($request, $user, AuthEventTypes::SESSIONS_EXPORT_CSV, [
             'row_count' => count($events),
             'export_sha256' => $sha256,
         ]);

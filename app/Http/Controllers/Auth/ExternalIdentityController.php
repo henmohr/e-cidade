@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Services\Auth\AuthEventService;
+use App\Services\Auth\AuthEventTypes;
 use App\Services\Auth\ExternalIdentityService;
 use App\Services\Auth\SessionActivityService;
 use App\Support\Session\LegacySession;
@@ -98,7 +99,7 @@ class ExternalIdentityController extends Controller
 
         app(AuthEventService::class)->registerExternalSuccess($request, $user, $provider);
         if ($revokedCount > 0) {
-            app(AuthEventService::class)->registerCustomEvent($request, $user, 'session_revoke_others', [
+            app(AuthEventService::class)->registerCustomEvent($request, $user, AuthEventTypes::SESSION_REVOKE_OTHERS, [
                 'revoked_count' => $revokedCount,
             ]);
         }

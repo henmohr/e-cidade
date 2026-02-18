@@ -27,7 +27,7 @@ class AuthEventService
         }
 
         $entries[] = [
-            'type' => 'login_failed',
+            'type' => AuthEventTypes::LOGIN_FAILED,
             'request_id' => $this->requestId($request),
             'timestamp' => now()->toIso8601String(),
             'ip' => (string) $request->ip(),
@@ -44,7 +44,7 @@ class AuthEventService
     public function registerSuccess(Request $request, User $user): void
     {
         $this->appendUserEvent($user, [
-            'type' => 'login_success',
+            'type' => AuthEventTypes::LOGIN_SUCCESS,
             'request_id' => $this->requestId($request),
             'timestamp' => now()->toIso8601String(),
             'ip' => (string) $request->ip(),
@@ -55,7 +55,7 @@ class AuthEventService
     public function registerExternalSuccess(Request $request, User $user, string $provider): void
     {
         $this->appendUserEvent($user, [
-            'type' => 'login_external_success',
+            'type' => AuthEventTypes::LOGIN_EXTERNAL_SUCCESS,
             'provider' => strtolower(trim($provider)),
             'request_id' => $this->requestId($request),
             'timestamp' => now()->toIso8601String(),
@@ -67,7 +67,7 @@ class AuthEventService
     public function registerLogout(Request $request, User $user): void
     {
         $this->appendUserEvent($user, [
-            'type' => 'logout',
+            'type' => AuthEventTypes::LOGOUT,
             'request_id' => $this->requestId($request),
             'timestamp' => now()->toIso8601String(),
             'ip' => (string) $request->ip(),
@@ -176,7 +176,7 @@ class AuthEventService
             return null;
         }
 
-        $events = $this->listRecentEventsForUserFiltered($user, 'sessions_export_csv', null, 200);
+        $events = $this->listRecentEventsForUserFiltered($user, AuthEventTypes::SESSIONS_EXPORT_CSV, null, 200);
         foreach ($events as $event) {
             $hash = strtolower((string) ($event['export_sha256'] ?? ''));
             if ($hash === $sha256) {
