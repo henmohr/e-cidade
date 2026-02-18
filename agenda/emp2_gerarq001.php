@@ -1,4 +1,4 @@
-<?
+<?php
 require("libs/db_stdlib.php");
 require("libs/db_conecta.php");
 include("libs/db_sessoes.php");
@@ -12,7 +12,7 @@ $clrotulo = new rotulocampo;
 $clempagegera->rotulo->label();
 $clempagetipo->rotulo->label();
 
-db_postmemory($HTTP_POST_VARS);
+db_postmemory($_POST);
 ?>
 <html>
 <head>
@@ -39,18 +39,18 @@ db_postmemory($HTTP_POST_VARS);
     <td ></td>
   </tr>
   <tr>
-    <td  align="left" nowrap title="<?=$Te87_codgera?>"> <? db_ancora(@$Le87_codgera,"js_pesquisa_gera(true);",1);?>  </td>
+    <td  align="left" nowrap title="<?=$Te87_codgera?>"> <?php db_ancora(@$Le87_codgera,"js_pesquisa_gera(true);",1);?>  </td>
     <td align="left" nowrap>
-  <?
+  <?php
    db_input("e87_codgera",8,$Ie87_codgera,true,"text",4,"onchange='js_pesquisa_gera(false);'");
    db_input("e87_descgera",40,$Ie87_descgera,true,"text",3);
   ?>
     </td>
   </tr>
   <tr>
-    <td  align="left" nowrap title="Conta pagadora"> <? db_ancora("<strong>Conta pagadora:</strong>","",3);?>  </td>
+    <td  align="left" nowrap title="Conta pagadora"> <?php db_ancora("<strong>Conta pagadora:</strong>","",3);?>  </td>
     <td align="left" nowrap>
-  <?
+  <?php
    //die($clempagetipo->sql_query_file(null,"distinct e83_codtipo,e83_descr"));
    $result_empagetipo = $clempagetipo->sql_record($clempagetipo->sql_query_file(null,"distinct e83_codtipo,e83_descr"));
    $db_passapar = "true";
@@ -71,7 +71,7 @@ db_postmemory($HTTP_POST_VARS);
 </table>
 </form>
 </center>
-<? db_menu(db_getsession("DB_id_usuario"),db_getsession("DB_modulo"),db_getsession("DB_anousu"),db_getsession("DB_instit"));?>
+<?php db_menu(db_getsession("DB_id_usuario"),db_getsession("DB_modulo"),db_getsession("DB_anousu"),db_getsession("DB_instit"));?>
 <script>
 //--------------------------------
 function js_gerarel(x){

@@ -1,10 +1,16 @@
-<?
+<?php
 include("fpdf151/pdf.php");
 include("libs/db_sql.php");
 include("classes/db_empage_classe.php");
 $clempage = new cl_empage;
 
-parse_str($HTTP_SERVER_VARS["QUERY_STRING"]);
+$legacyQueryParams = [];
+parse_str((string) ($_SERVER["QUERY_STRING"] ?? ""), $legacyQueryParams);
+foreach ($legacyQueryParams as $legacyKey => $legacyValue) {
+  if (!isset($$legacyKey)) {
+    $$legacyKey = $legacyValue;
+  }
+}
 //db_postmemory($HTTP_SERVER_VARS,2);
 $clrotulo = new rotulocampo;
 $clrotulo->label("e60_numemp");

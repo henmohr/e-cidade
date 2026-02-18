@@ -1,12 +1,18 @@
-<?
+<?php
 require("libs/db_stdlib.php");
 require("libs/db_conecta.php");
 include("libs/db_sessoes.php");
 include("libs/db_usuariosonline.php");
 include("dbforms/db_funcoes.php");
 include("classes/db_db_bancos_classe.php");
-db_postmemory($HTTP_POST_VARS);
-parse_str($HTTP_SERVER_VARS["QUERY_STRING"]);
+db_postmemory($_POST);
+$legacyQueryParams = [];
+parse_str((string) ($_SERVER["QUERY_STRING"] ?? ""), $legacyQueryParams);
+foreach ($legacyQueryParams as $legacyKey => $legacyValue) {
+  if (!isset($$legacyKey)) {
+    $$legacyKey = $legacyValue;
+  }
+}
 $cldb_bancos = new cl_db_bancos;
 $cldb_bancos->rotulo->label("db90_codban");
 $cldb_bancos->rotulo->label("db90_descr");
@@ -28,7 +34,7 @@ $cldb_bancos->rotulo->label("db90_descr");
               <?=$Ldb90_codban?>
             </td>
             <td width="96%" align="left" nowrap> 
-              <?
+              <?php
 		       db_input("db90_codban",10,$Idb90_codban,true,"text",4,"","chave_db90_codban");
 		       ?>
             </td>
@@ -38,7 +44,7 @@ $cldb_bancos->rotulo->label("db90_descr");
               <?=$Ldb90_descr?>
             </td>
             <td width="96%" align="left" nowrap> 
-              <?
+              <?php
 		       db_input("db90_descr",40,$Idb90_descr,true,"text",4,"","chave_db90_descr");
 		       ?>
             </td>
@@ -56,7 +62,7 @@ $cldb_bancos->rotulo->label("db90_descr");
   </tr>
   <tr> 
     <td align="center" valign="top"> 
-      <?
+      <?php
       if(!isset($pesquisa_chave)){
         if(isset($campos)==false){
            if(file_exists("funcoes/db_func_db_bancos.php")==true){
@@ -92,11 +98,11 @@ $cldb_bancos->rotulo->label("db90_descr");
 </table>
 </body>
 </html>
-<?
+<?php
 if(!isset($pesquisa_chave)){
   ?>
   <script>
   </script>
-  <?
+  <?php
 }
 ?>

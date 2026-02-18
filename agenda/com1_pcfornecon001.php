@@ -1,4 +1,4 @@
-<?
+<?php
 require("libs/db_stdlib.php");
 require("libs/db_conecta.php");
 include("libs/db_sessoes.php");
@@ -7,8 +7,14 @@ include("classes/db_pcfornecon_classe.php");
 include("classes/db_pcforneconpad_classe.php");
 include("classes/db_pcforne_classe.php");
 include("dbforms/db_funcoes.php");
-parse_str($HTTP_SERVER_VARS["QUERY_STRING"]);
-db_postmemory($HTTP_POST_VARS);
+$legacyQueryParams = [];
+parse_str((string) ($_SERVER["QUERY_STRING"] ?? ""), $legacyQueryParams);
+foreach ($legacyQueryParams as $legacyKey => $legacyValue) {
+  if (!isset($$legacyKey)) {
+    $$legacyKey = $legacyValue;
+  }
+}
+db_postmemory($_POST);
 $clpcfornecon = new cl_pcfornecon;
 $clpcforneconpad = new cl_pcforneconpad;
 $clpcforne = new cl_pcforne;
@@ -176,7 +182,7 @@ if(isset($incluir)){
   <tr> 
     <td height="430" align="left" valign="top" bgcolor="#CCCCCC"> 
     <center>
-	<?
+	<?php
 	include("forms/db_frmpcfornecon.php");
 	?>
     </center>
@@ -185,7 +191,7 @@ if(isset($incluir)){
 </table>
 </body>
 </html>
-<?
+<?php
 if(isset($alterar) || isset($excluir) || isset($incluir)){
   db_msgbox($erro_msg);
   if($clpagordemrec->erro_campo!=""){

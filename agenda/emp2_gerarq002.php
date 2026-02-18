@@ -1,4 +1,4 @@
-<?
+<?php
 include("fpdf151/pdf.php");
 include("fpdf151/assinatura.php");
 include("libs/db_sql.php");
@@ -19,7 +19,7 @@ $clrotulo->label("e60_codemp");
 $clrotulo->label("z01_nome");
 $clrotulo->label("z01_numcgm");
 $clrotulo->label("z01_cgccpf");
-db_postmemory($HTTP_POST_VARS);
+db_postmemory($_POST);
 //db_postmemory($HTTP_SERVER_VARS,2);exit;
 
 $HEAD3 = "RELATÓRIO DE ARQUIVOS GERADOS";

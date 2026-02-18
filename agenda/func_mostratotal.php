@@ -1,4 +1,4 @@
-<?
+<?php
 require("libs/db_stdlib.php");
 require("libs/db_conecta.php");
 include("libs/db_sessoes.php");
@@ -8,8 +8,8 @@ include("classes/db_empagemov_classe.php");
 include("classes/db_empagetipo_classe.php");
 $clempagemov  = new cl_empagemov;
 $clempagetipo = new cl_empagetipo;
-db_postmemory($HTTP_GET_VARS);
-db_postmemory($HTTP_POST_VARS);
+db_postmemory($_GET);
+db_postmemory($_POST);
 
 $sair = true;
 if(isset($valores) && trim($valores)!=""){
@@ -80,7 +80,7 @@ if(isset($valores) && trim($valores)!=""){
     <td height="100%" align="left" valign="top" bgcolor="#CCCCCC">
       <br><br>
       <center>
-      <?
+      <?php
       if($sair==true){      	 
         echo "<input type='text' name='focado1' onBlur='parent.db_iframe_mostratotal.hide();' size='1'>";
 	echo "<strong> Registros não encontrados.</strong>";
