@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Services\Auth\AuthEventService;
 use App\Services\Auth\AuthEventPresenter;
 use App\Services\Auth\SessionActivityService;
+use App\Services\Auth\SessionEventFilters;
 use App\Services\Auth\SessionEventsExportService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -28,25 +29,24 @@ class SessionController extends Controller
             abort(401);
         }
 
-        $eventType = trim((string) $request->query('event_type', ''));
-        $eventRequestId = trim((string) $request->query('event_request_id', ''));
-        $eventLimit = (int) $request->query('event_limit', 50);
+        $filters = SessionEventFilters::fromRequest($request, 50);
 
         $events = array_map(function (array $event) use ($presenter) {
             $event['type_label'] = $presenter->typeLabel($event);
             $event['details'] = $presenter->details($event);
             return $event;
-        }, $eventService->listRecentEventsForUserFiltered($user, $eventType, $eventRequestId, $eventLimit));
+        }, $eventService->listRecentEventsForUserFiltered(
+            $user,
+            $filters->eventType(),
+            $filters->eventRequestId(),
+            $filters->eventLimit()
+        ));
 
         return view('auth.sessions', [
             'sessions' => $service->listForUser($user),
             'authEvents' => $events,
             'currentSessionId' => (string) session()->getId(),
-            'eventFilters' => [
-                'event_type' => $eventType,
-                'event_request_id' => $eventRequestId,
-                'event_limit' => $eventLimit > 0 ? $eventLimit : 50,
-            ],
+            'eventFilters' => $filters->toArray(),
         ]);
     }
 
@@ -91,11 +91,14 @@ class SessionController extends Controller
             abort(401);
         }
 
-        $eventType = trim((string) $request->query('event_type', ''));
-        $eventRequestId = trim((string) $request->query('event_request_id', ''));
-        $eventLimit = (int) $request->query('event_limit', 200);
+        $filters = SessionEventFilters::fromRequest($request, 200);
 
-        $events = $eventService->listRecentEventsForUserFiltered($user, $eventType, $eventRequestId, $eventLimit);
+        $events = $eventService->listRecentEventsForUserFiltered(
+            $user,
+            $filters->eventType(),
+            $filters->eventRequestId(),
+            $filters->eventLimit()
+        );
         $filename = 'auth-events-' . date('Ymd-His') . '.csv';
         $csv = $exportService->buildCsv($events);
         $sha256 = $exportService->computeSha256($csv);
