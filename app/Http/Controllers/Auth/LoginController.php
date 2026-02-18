@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Services\Auth\AuthEventService;
+use App\Services\Auth\AuthMessages;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -117,10 +118,7 @@ class LoginController extends Controller
         }
 
         throw ValidationException::withMessages([
-            'login' => [sprintf(
-                'Acesso temporariamente bloqueado. Tente novamente em %d segundos.',
-                max(1, $blockedUntil - time())
-            )],
+            'login' => [AuthMessages::loginTemporarilyBlocked(max(1, $blockedUntil - time()))],
         ]);
     }
 

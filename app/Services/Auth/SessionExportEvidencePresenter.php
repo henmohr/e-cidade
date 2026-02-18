@@ -11,7 +11,7 @@ class SessionExportEvidencePresenter
     {
         return [
             'verified' => false,
-            'message' => 'Hash nao encontrado nos eventos recentes de exportacao.',
+            'message' => AuthMessages::EXPORT_HASH_NOT_FOUND,
         ];
     }
 

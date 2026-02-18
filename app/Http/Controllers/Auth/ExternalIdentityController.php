@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Services\Auth\AuthEventService;
+use App\Services\Auth\AuthMessages;
 use App\Services\Auth\AuthEventTypes;
 use App\Services\Auth\ExternalIdentityService;
 use App\Services\Auth\SessionActivityService;
@@ -23,7 +24,7 @@ class ExternalIdentityController extends Controller
     ): RedirectResponse|JsonResponse
     {
         if (!$service->isEnabled()) {
-            return $this->deny($request, 404, 'Integracao de identidade externa desabilitada.', [
+            return $this->deny($request, 404, AuthMessages::EXTERNAL_DISABLED, [
                 'provider' => (string) $request->input('provider', ''),
                 'reason' => 'disabled',
             ]);
@@ -31,7 +32,7 @@ class ExternalIdentityController extends Controller
 
         $provider = strtolower(trim((string) $request->input('provider', '')));
         if (!$service->isProviderAllowed($provider)) {
-            return $this->deny($request, 422, 'Provedor externo nao permitido.', [
+            return $this->deny($request, 422, AuthMessages::EXTERNAL_PROVIDER_NOT_ALLOWED, [
                 'provider' => $provider,
                 'reason' => 'provider_not_allowed',
             ]);
@@ -46,7 +47,7 @@ class ExternalIdentityController extends Controller
 
         $signature = (string) $request->header('X-Identity-Signature', (string) $request->input('signature', ''));
         if (!$service->verifySignature($provider, $rawPayload, $signature)) {
-            return $this->deny($request, 403, 'Assinatura invalida para callback externo.', [
+            return $this->deny($request, 403, AuthMessages::EXTERNAL_INVALID_SIGNATURE, [
                 'provider' => $provider,
                 'reason' => 'invalid_signature',
             ]);
@@ -54,21 +55,21 @@ class ExternalIdentityController extends Controller
 
         $claims = json_decode($rawPayload, true);
         if (!is_array($claims)) {
-            return $this->deny($request, 422, 'Payload de identidade invalido.', [
+            return $this->deny($request, 422, AuthMessages::EXTERNAL_INVALID_PAYLOAD, [
                 'provider' => $provider,
                 'reason' => 'invalid_payload',
             ]);
         }
 
         if (!$service->validateClaimsWindow($claims)) {
-            return $this->deny($request, 401, 'Claims expirados ou invalidos para login externo.', [
+            return $this->deny($request, 401, AuthMessages::EXTERNAL_EXPIRED_CLAIMS, [
                 'provider' => $provider,
                 'reason' => 'expired_claims',
             ]);
         }
 
         if (!$service->consumeNonce($claims)) {
-            return $this->deny($request, 409, 'Nonce invalido ou ja utilizado.', [
+            return $this->deny($request, 409, AuthMessages::EXTERNAL_INVALID_NONCE, [
                 'provider' => $provider,
                 'reason' => 'nonce_reused_or_missing',
             ]);
@@ -76,7 +77,7 @@ class ExternalIdentityController extends Controller
 
         $user = $service->resolveUser($claims);
         if (!$user) {
-            return $this->deny($request, 401, 'Usuario nao encontrado para o identificador recebido.', [
+            return $this->deny($request, 401, AuthMessages::EXTERNAL_USER_NOT_FOUND, [
                 'provider' => $provider,
                 'reason' => 'user_not_found',
                 'identifier_hint' => $this->identifierHint($claims),
@@ -115,7 +116,7 @@ class ExternalIdentityController extends Controller
         $redirectPath = (string) config('external_identity.redirect_path', '/web/welcome');
         if ($request->expectsJson()) {
             return response()->json([
-                'message' => 'Login externo realizado com sucesso.',
+                'message' => AuthMessages::EXTERNAL_LOGIN_SUCCESS,
                 'redirect' => $redirectPath,
             ]);
         }

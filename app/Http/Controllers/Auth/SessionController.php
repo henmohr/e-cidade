@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Services\Auth\AuthEventService;
+use App\Services\Auth\AuthMessages;
 use App\Services\Auth\AuthEventTypes;
 use App\Services\Auth\SessionExportEvidencePresenter;
 use App\Services\Auth\SessionActivityService;
@@ -55,7 +56,7 @@ class SessionController extends Controller
         $sessionId = (string) $request->input('session_id');
         $ok = $service->revokeSession($user, $sessionId);
         if (!$ok) {
-            return back()->withErrors(['session_id' => 'Sessao nao encontrada ou ja encerrada.']);
+            return back()->withErrors(['session_id' => AuthMessages::SESSION_NOT_FOUND]);
         }
 
         Log::info('User session revoked', [
@@ -68,7 +69,7 @@ class SessionController extends Controller
             'target_session_id' => $sessionId,
         ]);
 
-        return back()->with('status', 'Sessao encerrada com sucesso.');
+        return back()->with('status', AuthMessages::SESSION_REVOKED_SUCCESS);
     }
 
     public function exportCsv(

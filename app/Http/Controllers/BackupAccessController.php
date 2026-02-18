@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\Auth\AuthEventService;
+use App\Services\Auth\AuthMessages;
 use App\Services\Auth\AuthEventTypes;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -37,12 +38,12 @@ class BackupAccessController extends Controller
 
         $fileName = basename((string) $data['file']);
         if (!preg_match('/^[A-Za-z0-9._-]+$/', $fileName)) {
-            return back()->withErrors(['file' => 'Nome de arquivo invalido.']);
+            return back()->withErrors(['file' => AuthMessages::BACKUP_INVALID_FILE_NAME]);
         }
 
         $path = $this->backupPath((string) $data['tier'], $fileName);
         if (!File::exists($path)) {
-            return back()->withErrors(['file' => 'Arquivo nao encontrado.']);
+            return back()->withErrors(['file' => AuthMessages::BACKUP_FILE_NOT_FOUND]);
         }
 
         $url = URL::temporarySignedRoute(

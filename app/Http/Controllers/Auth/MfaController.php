@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Services\Auth\AuthEventService;
+use App\Services\Auth\AuthMessages;
 use App\Services\Auth\AuthEventTypes;
 use App\Services\Auth\MfaService;
 use Illuminate\Http\RedirectResponse;
@@ -39,13 +40,13 @@ class MfaController extends Controller
                 'blocked_seconds' => $blockSeconds,
             ]);
             return back()->withErrors([
-                'code' => sprintf('MFA temporariamente bloqueado. Tente novamente em %d segundos.', $blockSeconds),
+                'code' => AuthMessages::mfaBlockedTryAgain($blockSeconds),
             ]);
         }
 
         if (!$mfaService->verifyForUser($user, $request->input('code'))) {
             app(AuthEventService::class)->registerCustomEvent($request, $user, AuthEventTypes::MFA_VERIFY_FAILED);
-            return back()->withErrors(['code' => 'Código MFA inválido ou expirado.']);
+            return back()->withErrors(['code' => AuthMessages::MFA_INVALID_OR_EXPIRED]);
         }
 
         app(AuthEventService::class)->registerCustomEvent($request, $user, AuthEventTypes::MFA_VERIFY_SUCCESS);
@@ -62,12 +63,12 @@ class MfaController extends Controller
         $blockSeconds = $mfaService->currentBlockSecondsForUser($user);
         if ($blockSeconds > 0) {
             return back()->withErrors([
-                'code' => sprintf('MFA temporariamente bloqueado. Aguarde %d segundos para reenviar.', $blockSeconds),
+                'code' => AuthMessages::mfaBlockedResend($blockSeconds),
             ]);
         }
 
         $mfaService->issueForUser($user, true);
         app(AuthEventService::class)->registerCustomEvent($request, $user, AuthEventTypes::MFA_CODE_RESENT);
-        return back()->with('status', 'Novo código MFA enviado.');
+        return back()->with('status', AuthMessages::MFA_RESEND_SUCCESS);
     }
 }
