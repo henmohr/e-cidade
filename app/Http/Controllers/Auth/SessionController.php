@@ -15,6 +15,7 @@ use Illuminate\View\View;
 class SessionController extends Controller
 {
     public function index(
+        Request $request,
         SessionActivityService $service,
         AuthEventService $eventService,
         AuthEventPresenter $presenter
@@ -25,16 +26,25 @@ class SessionController extends Controller
             abort(401);
         }
 
+        $eventType = trim((string) $request->query('event_type', ''));
+        $eventRequestId = trim((string) $request->query('event_request_id', ''));
+        $eventLimit = (int) $request->query('event_limit', 50);
+
         $events = array_map(function (array $event) use ($presenter) {
             $event['type_label'] = $presenter->typeLabel($event);
             $event['details'] = $presenter->details($event);
             return $event;
-        }, $eventService->listRecentEventsForUser($user));
+        }, $eventService->listRecentEventsForUserFiltered($user, $eventType, $eventRequestId, $eventLimit));
 
         return view('auth.sessions', [
             'sessions' => $service->listForUser($user),
             'authEvents' => $events,
             'currentSessionId' => (string) session()->getId(),
+            'eventFilters' => [
+                'event_type' => $eventType,
+                'event_request_id' => $eventRequestId,
+                'event_limit' => $eventLimit > 0 ? $eventLimit : 50,
+            ],
         ]);
     }
 

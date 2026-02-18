@@ -137,6 +137,35 @@ class AuthEventService
         return array_values($events);
     }
 
+    /**
+     * @return array<int, array<string, mixed>>
+     */
+    public function listRecentEventsForUserFiltered(
+        User $user,
+        ?string $type = null,
+        ?string $requestId = null,
+        int $limit = 50
+    ): array {
+        $events = $this->listRecentEventsForUser($user);
+        $type = strtolower(trim((string) $type));
+        $requestId = trim((string) $requestId);
+
+        $events = array_values(array_filter($events, static function (array $event) use ($type, $requestId): bool {
+            if ($type !== '' && strtolower((string) ($event['type'] ?? '')) !== $type) {
+                return false;
+            }
+
+            if ($requestId !== '' && stripos((string) ($event['request_id'] ?? ''), $requestId) === false) {
+                return false;
+            }
+
+            return true;
+        }));
+
+        $limit = max(1, min(200, $limit));
+        return array_slice($events, 0, $limit);
+    }
+
     private function appendUserEvent(User $user, array $event): void
     {
         $key = $this->userEventsKey((int) $user->getAuthIdentifier());

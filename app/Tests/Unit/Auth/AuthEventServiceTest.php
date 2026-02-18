@@ -49,6 +49,13 @@ class AuthEventServiceTest extends TestCase
         $this->assertContains('session_revoked', $types);
         $this->assertContains('logout', $types);
         $this->assertSame('req-test-123', (string) ($events[0]['request_id'] ?? ''));
+
+        $filteredByType = $service->listRecentEventsForUserFiltered($user, 'logout', null, 10);
+        $this->assertCount(1, $filteredByType);
+        $this->assertSame('logout', (string) ($filteredByType[0]['type'] ?? ''));
+
+        $filteredByRequest = $service->listRecentEventsForUserFiltered($user, null, 'req-test-123', 10);
+        $this->assertNotEmpty($filteredByRequest);
     }
 
     private function bootContainer(): void

@@ -73,6 +73,20 @@
     @endif
 
     <h2>Ultimos acessos e tentativas</h2>
+    <form method="get" action="{{ route('sessions.index') }}" style="margin: 8px 0 16px 0;">
+        <label for="event_type">Tipo:</label>
+        <input id="event_type" name="event_type" value="{{ $eventFilters['event_type'] ?? '' }}" maxlength="60">
+
+        <label for="event_request_id">Request ID:</label>
+        <input id="event_request_id" name="event_request_id" value="{{ $eventFilters['event_request_id'] ?? '' }}" maxlength="100">
+
+        <label for="event_limit">Limite:</label>
+        <input id="event_limit" name="event_limit" type="number" min="1" max="200" value="{{ $eventFilters['event_limit'] ?? 50 }}">
+
+        <button type="submit">Filtrar</button>
+        <a href="{{ route('sessions.index') }}">Limpar</a>
+    </form>
+
     @if (empty($authEvents))
         <p>Nenhum evento recente de autenticacao.</p>
     @else
