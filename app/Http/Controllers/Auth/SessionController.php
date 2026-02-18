@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Services\Auth\AuthEventService;
+use App\Services\Auth\SessionExportEvidencePresenter;
 use App\Services\Auth\SessionActivityService;
 use App\Services\Auth\SessionEventFilters;
 use App\Services\Auth\SessionEventsExportService;
@@ -99,7 +100,11 @@ class SessionController extends Controller
         ]);
     }
 
-    public function verifyExportHash(Request $request, SessionEventsQueryService $eventsQuery): Response
+    public function verifyExportHash(
+        Request $request,
+        SessionEventsQueryService $eventsQuery,
+        SessionExportEvidencePresenter $presenter
+    ): Response
     {
         $user = Auth::user();
         if (!$user) {
@@ -114,20 +119,10 @@ class SessionController extends Controller
         $matchedEvent = $eventsQuery->findExportHash($user, $target);
 
         if (!$matchedEvent) {
-            return response()->json([
-                'verified' => false,
-                'message' => 'Hash nao encontrado nos eventos recentes de exportacao.',
-            ], 404);
+            return response()->json($presenter->notFound(), 404);
         }
 
-        return response()->json([
-            'verified' => true,
-            'hash' => $target,
-            'event_type' => (string) ($matchedEvent['type'] ?? ''),
-            'timestamp' => (string) ($matchedEvent['timestamp'] ?? ''),
-            'request_id' => (string) ($matchedEvent['request_id'] ?? ''),
-            'row_count' => (int) ($matchedEvent['row_count'] ?? 0),
-        ]);
+        return response()->json($presenter->verified($target, $matchedEvent));
     }
 
 }
