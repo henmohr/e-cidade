@@ -4,6 +4,13 @@ namespace App\Services\Financeiro\Licitacao;
 
 class RelatorioExecutivoLicitacaoService
 {
+    private JsonArquivoLoaderService $jsonLoader;
+
+    public function __construct(?JsonArquivoLoaderService $jsonLoader = null)
+    {
+        $this->jsonLoader = $jsonLoader ?? new JsonArquivoLoaderService();
+    }
+
     /**
      * @param array<string, string>|null $arquivos
      * @return array<string, mixed>
@@ -11,11 +18,10 @@ class RelatorioExecutivoLicitacaoService
     public function gerarResumo(?array $arquivos = null): array
     {
         $arquivos = $arquivos ?? $this->arquivosPadrao();
-
-        $s11 = $this->carregarJson($arquivos['sprint11'] ?? '');
-        $s12 = $this->carregarJson($arquivos['sprint12'] ?? '');
-        $s14 = $this->carregarJson($arquivos['sprint14'] ?? '');
-        $s15 = $this->carregarJson($arquivos['sprint15'] ?? '');
+        $s11 = $this->jsonLoader->carregar($arquivos['sprint11'] ?? '');
+        $s12 = $this->jsonLoader->carregar($arquivos['sprint12'] ?? '');
+        $s14 = $this->jsonLoader->carregar($arquivos['sprint14'] ?? '');
+        $s15 = $this->jsonLoader->carregar($arquivos['sprint15'] ?? '');
 
         $pendencias = [];
         if ($s11 === null) {
@@ -134,20 +140,5 @@ class RelatorioExecutivoLicitacaoService
         }
 
         return $recomendacoes;
-    }
-
-    /**
-     * @return array<string, mixed>|null
-     */
-    private function carregarJson(string $arquivo): ?array
-    {
-        if ($arquivo === '' || !is_file($arquivo)) {
-            return null;
-        }
-
-        $conteudo = (string) file_get_contents($arquivo);
-        $dados = json_decode($conteudo, true);
-
-        return is_array($dados) ? $dados : null;
     }
 }

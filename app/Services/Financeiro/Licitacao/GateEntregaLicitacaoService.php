@@ -2,10 +2,15 @@
 
 namespace App\Services\Financeiro\Licitacao;
 
-use RuntimeException;
-
 class GateEntregaLicitacaoService
 {
+    private JsonArquivoLoaderService $jsonLoader;
+
+    public function __construct(?JsonArquivoLoaderService $jsonLoader = null)
+    {
+        $this->jsonLoader = $jsonLoader ?? new JsonArquivoLoaderService();
+    }
+
     /**
      * @param array<string, string>|null $arquivos
      * @return array<string, mixed>
@@ -13,18 +18,9 @@ class GateEntregaLicitacaoService
     public function gerarResumo(?array $arquivos = null): array
     {
         $arquivos = $arquivos ?? $this->arquivosPadrao();
-
-        $dados = [];
-        $pendencias = [];
-
-        foreach ($arquivos as $chave => $arquivo) {
-            $json = $this->carregarJson($arquivo);
-            if ($json === null) {
-                $pendencias[] = 'Arquivo ausente ou invalido: ' . $arquivo;
-                continue;
-            }
-            $dados[$chave] = $json;
-        }
+        $carga = $this->jsonLoader->carregarMapa($arquivos);
+        $dados = $carga['dados'];
+        $pendencias = $carga['erros'];
 
         $checks = $this->avaliarChecks($dados);
         foreach ($checks as $check) {
@@ -127,23 +123,5 @@ class GateEntregaLicitacaoService
         ];
 
         return $checks;
-    }
-
-    /**
-     * @return array<string, mixed>|null
-     */
-    private function carregarJson(string $arquivo): ?array
-    {
-        if (!is_file($arquivo)) {
-            return null;
-        }
-
-        $conteudo = (string) file_get_contents($arquivo);
-        $dados = json_decode($conteudo, true);
-        if (!is_array($dados)) {
-            return null;
-        }
-
-        return $dados;
     }
 }

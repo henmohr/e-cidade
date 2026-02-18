@@ -48,4 +48,32 @@ class GateEntregaLicitacaoServiceTest extends TestCase
         $this->assertSame('bloqueado', $resumo['status_final']);
         $this->assertGreaterThan(0, count($resumo['pendencias']));
     }
+
+    public function testRetornaBloqueadoQuandoArquivoJsonEstaInvalido(): void
+    {
+        $dir = sys_get_temp_dir() . '/ecidade-gate-invalido-' . uniqid('', true);
+        mkdir($dir, 0777, true);
+
+        file_put_contents($dir . '/s11.json', '{json invalido}');
+        file_put_contents($dir . '/s12.json', json_encode(['status_recomendado' => 'pronto_para_homologacao']));
+        file_put_contents($dir . '/s14.json', json_encode(['status_final' => 'apto_para_banca']));
+        file_put_contents($dir . '/banca.json', json_encode(['status_final' => 'apto_para_banca']));
+
+        $service = new GateEntregaLicitacaoService();
+        $resumo = $service->gerarResumo([
+            'sprint11' => $dir . '/s11.json',
+            'sprint12' => $dir . '/s12.json',
+            'sprint14' => $dir . '/s14.json',
+            'banca' => $dir . '/banca.json',
+        ]);
+
+        $this->assertSame('bloqueado', $resumo['status_final']);
+        $this->assertGreaterThan(0, count($resumo['pendencias']));
+
+        @unlink($dir . '/s11.json');
+        @unlink($dir . '/s12.json');
+        @unlink($dir . '/s14.json');
+        @unlink($dir . '/banca.json');
+        @rmdir($dir);
+    }
 }
