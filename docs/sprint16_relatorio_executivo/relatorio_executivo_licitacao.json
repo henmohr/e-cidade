@@ -1,0 +1,21 @@
+{
+    "gerado_em": "2026-02-18T16:40:51-03:00",
+    "decisao": "recomendado_para_protocolo",
+    "status_entrega": "apto_para_entrega",
+    "indicadores": {
+        "cobertura_modulos_percentual": 100,
+        "rastreabilidade_status": "pronto_para_homologacao",
+        "homologacao_status": "apto_para_banca",
+        "gate_status": "apto_para_entrega"
+    },
+    "pendencias": [],
+    "recomendacoes": [
+        "Protocolar pacote tecnico e manter monitoramento de regressao semanal."
+    ],
+    "arquivos_base": {
+        "sprint11": "docs\/sprint11_cobertura_modulos\/cobertura_modulos_financeiros.json",
+        "sprint12": "docs\/sprint12_rastreabilidade_funcional\/rastreabilidade_funcional.json",
+        "sprint14": "docs\/sprint14_homologacao_externa\/checklist_homologacao_externa.json",
+        "sprint15": "docs\/sprint15_gate_entrega\/gate_entrega_licitacao.json"
+    }
+}
