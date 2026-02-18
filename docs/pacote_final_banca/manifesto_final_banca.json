@@ -1,0 +1,28 @@
+{
+    "gerado_em": "2026-02-18T12:48:27-03:00",
+    "status_final": "apto_para_banca",
+    "cobertura_licitacao": {
+        "arquivo_matriz": "docs/sprint9_matriz_status_licitacao.yml",
+        "total_itens": 8,
+        "percentual_atingido": 100,
+        "status_recomendado": "apto_para_banca"
+    },
+    "anexos_homologacao": {
+        "diretorio": "docs/anexos_homologacao_assinados",
+        "status": "ok",
+        "ausentes": [],
+        "vazios": []
+    },
+    "documentos_obrigatorios": {
+        "total": 6,
+        "presentes": [
+            "docs/matriz_gap_poc_100.md",
+            "docs/plano_execucao_sprints_poc.md",
+            "docs/roteiro_oficial_demonstracao_poc.md",
+            "docs/simulacao_integral_poc.md",
+            "docs/sprint9_relatorio_cobertura_licitacao.md",
+            "docs/pacote_documental_poc.md"
+        ],
+        "ausentes": []
+    }
+}
