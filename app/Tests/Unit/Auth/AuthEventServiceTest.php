@@ -93,6 +93,25 @@ class AuthEventServiceTest extends TestCase
         $this->assertCount(5, $upperBound);
     }
 
+    public function testUsesRequestIdAttributeOverHeader(): void
+    {
+        $this->bootContainer();
+
+        $service = new AuthEventService();
+        $user = $this->mockUser(52, 'carla');
+        $request = Request::create('/web/login', 'POST', [], [], [], [
+            'REMOTE_ADDR' => '127.0.0.1',
+            'HTTP_USER_AGENT' => 'PHPUnit',
+            'HTTP_X_REQUEST_ID' => 'req-header',
+        ]);
+        $request->attributes->set('request_id', 'req-attribute');
+
+        $service->registerSuccess($request, $user);
+        $events = $service->listRecentEventsForUser($user);
+
+        $this->assertSame('req-attribute', (string) ($events[0]['request_id'] ?? ''));
+    }
+
     private function bootContainer(): void
     {
         $container = new Container();

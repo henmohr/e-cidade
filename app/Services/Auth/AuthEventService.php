@@ -12,6 +12,7 @@ class AuthEventService
     private const PENDING_FAILURES_PREFIX = 'auth:events:pending_failures:';
     private const MAX_EVENTS = 30;
     private const MAX_PENDING_FAILURES = 30;
+    private const USER_AGENT_MAX_LENGTH = 300;
 
     public function registerFailure(Request $request, string $identifier): void
     {
@@ -26,13 +27,10 @@ class AuthEventService
             $entries = [];
         }
 
-        $entries[] = [
-            'type' => AuthEventTypes::LOGIN_FAILED,
-            'request_id' => $this->requestId($request),
-            'timestamp' => now()->toIso8601String(),
-            'ip' => (string) $request->ip(),
-            'user_agent' => substr((string) $request->userAgent(), 0, 300),
-        ];
+        $entries[] = array_merge(
+            ['type' => AuthEventTypes::LOGIN_FAILED],
+            $this->baseEventMeta($request)
+        );
 
         if (count($entries) > self::MAX_PENDING_FAILURES) {
             $entries = array_slice($entries, -self::MAX_PENDING_FAILURES);
@@ -43,36 +41,29 @@ class AuthEventService
 
     public function registerSuccess(Request $request, User $user): void
     {
-        $this->appendUserEvent($user, [
-            'type' => AuthEventTypes::LOGIN_SUCCESS,
-            'request_id' => $this->requestId($request),
-            'timestamp' => now()->toIso8601String(),
-            'ip' => (string) $request->ip(),
-            'user_agent' => substr((string) $request->userAgent(), 0, 300),
-        ]);
+        $this->appendUserEvent($user, array_merge(
+            ['type' => AuthEventTypes::LOGIN_SUCCESS],
+            $this->baseEventMeta($request)
+        ));
     }
 
     public function registerExternalSuccess(Request $request, User $user, string $provider): void
     {
-        $this->appendUserEvent($user, [
-            'type' => AuthEventTypes::LOGIN_EXTERNAL_SUCCESS,
-            'provider' => strtolower(trim($provider)),
-            'request_id' => $this->requestId($request),
-            'timestamp' => now()->toIso8601String(),
-            'ip' => (string) $request->ip(),
-            'user_agent' => substr((string) $request->userAgent(), 0, 300),
-        ]);
+        $this->appendUserEvent($user, array_merge(
+            [
+                'type' => AuthEventTypes::LOGIN_EXTERNAL_SUCCESS,
+                'provider' => $this->normalizeIdentifier($provider),
+            ],
+            $this->baseEventMeta($request)
+        ));
     }
 
     public function registerLogout(Request $request, User $user): void
     {
-        $this->appendUserEvent($user, [
-            'type' => AuthEventTypes::LOGOUT,
-            'request_id' => $this->requestId($request),
-            'timestamp' => now()->toIso8601String(),
-            'ip' => (string) $request->ip(),
-            'user_agent' => substr((string) $request->userAgent(), 0, 300),
-        ]);
+        $this->appendUserEvent($user, array_merge(
+            ['type' => AuthEventTypes::LOGOUT],
+            $this->baseEventMeta($request)
+        ));
     }
 
     /**
@@ -85,13 +76,11 @@ class AuthEventService
             return;
         }
 
-        $event = array_merge($meta, [
-            'type' => $type,
-            'request_id' => $this->requestId($request),
-            'timestamp' => now()->toIso8601String(),
-            'ip' => (string) $request->ip(),
-            'user_agent' => substr((string) $request->userAgent(), 0, 300),
-        ]);
+        $event = array_merge(
+            $meta,
+            ['type' => $type],
+            $this->baseEventMeta($request)
+        );
 
         $this->appendUserEvent($user, $event);
     }
@@ -236,6 +225,19 @@ class AuthEventService
     private function eventsRetentionDays(): int
     {
         return max(1, (int) config('auth.auth_events.retention_days', 7));
+    }
+
+    /**
+     * @return array{request_id: string, timestamp: string, ip: string, user_agent: string}
+     */
+    private function baseEventMeta(Request $request): array
+    {
+        return [
+            'request_id' => $this->requestId($request),
+            'timestamp' => now()->toIso8601String(),
+            'ip' => (string) $request->ip(),
+            'user_agent' => substr((string) $request->userAgent(), 0, self::USER_AGENT_MAX_LENGTH),
+        ];
     }
 
     private function requestId(Request $request): string
