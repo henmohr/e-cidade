@@ -1,0 +1,74 @@
+{
+    "sistemas": [
+        {
+            "sistema": "SICONFI",
+            "totais": {
+                "pendente": 1,
+                "enviado": 0,
+                "aceito": 0,
+                "rejeitado": 0
+            },
+            "criterios": {
+                "C1": "falha",
+                "C2": "ok",
+                "C3": "falha"
+            },
+            "status": "em_homologacao",
+            "erro_coleta": "SQLSTATE[08006] [7] could not translate host name \"e-cidade-bd-1\" to address: Temporary failure in name resolution"
+        },
+        {
+            "sistema": "TCE_PR",
+            "totais": {
+                "pendente": 1,
+                "enviado": 0,
+                "aceito": 0,
+                "rejeitado": 0
+            },
+            "criterios": {
+                "C1": "falha",
+                "C2": "ok",
+                "C3": "falha"
+            },
+            "status": "em_homologacao",
+            "erro_coleta": "SQLSTATE[08006] [7] could not translate host name \"e-cidade-bd-1\" to address: Temporary failure in name resolution"
+        },
+        {
+            "sistema": "PORTAL_TRANSPARENCIA",
+            "totais": {
+                "pendente": 1,
+                "enviado": 0,
+                "aceito": 0,
+                "rejeitado": 0
+            },
+            "criterios": {
+                "C1": "falha",
+                "C2": "ok",
+                "C3": "falha"
+            },
+            "status": "em_homologacao",
+            "erro_coleta": "SQLSTATE[08006] [7] could not translate host name \"e-cidade-bd-1\" to address: Temporary failure in name resolution"
+        }
+    ],
+    "totais": {
+        "apto": 0,
+        "em_homologacao": 3,
+        "bloqueado": 0
+    },
+    "anexos": {
+        "diretorio": "docs\/anexos_homologacao_assinados",
+        "obrigatorios": [
+            "siconfi_homologacao_assinada.md",
+            "tce_uf_homologacao_assinada.md",
+            "portal_transparencia_homologacao_assinada.md"
+        ],
+        "presentes": [
+            "siconfi_homologacao_assinada.md",
+            "tce_uf_homologacao_assinada.md",
+            "portal_transparencia_homologacao_assinada.md"
+        ],
+        "ausentes": [],
+        "vazios": [],
+        "status": "ok"
+    },
+    "status_final": "apto_com_ressalvas"
+}
