@@ -3,9 +3,39 @@
 namespace App\Models\Empenho;
 
 use App\Models\LegacyModel;
+use App\Services\Financeiro\ExecucaoOrcamentaria\CicloDespesaService;
+use Throwable;
 
 class Empnota extends LegacyModel
 {
+    protected static function booted(): void
+    {
+        static::saving(static function (Empnota $model): void {
+            if (!self::shouldEnforceCycleGuard()) {
+                return;
+            }
+
+            $numeroEmpenho = (int) ($model->e69_numemp ?? 0);
+            if ($numeroEmpenho <= 0) {
+                return;
+            }
+
+            /** @var CicloDespesaService $service */
+            $service = app(CicloDespesaService::class);
+            $service->assertPodeLiquidar($numeroEmpenho);
+        });
+    }
+
+    private static function shouldEnforceCycleGuard(): bool
+    {
+        try {
+            return function_exists('config')
+                && (bool) config('execucao_orcamentaria.enforce_model_guards', true);
+        } catch (Throwable $exception) {
+            return false;
+        }
+    }
+
     /**
      * @var string
      */

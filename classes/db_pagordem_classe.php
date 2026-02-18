@@ -266,6 +266,18 @@ class cl_pagordem {
       $this->e50_contafornecedor = 0;
     }
 
+     $sSqlValidaEmpenho = "select 1 from empempenho where e60_numemp = ".$this->e50_numemp." limit 1";
+     $rsValidaEmpenho = db_query($sSqlValidaEmpenho);
+     if ($rsValidaEmpenho == false || @pg_num_rows($rsValidaEmpenho) == 0) {
+       $this->erro_sql = "Nao e permitido registrar liquidacao sem empenho correspondente.";
+       $this->erro_campo = "e50_numemp";
+       $this->erro_banco = str_replace("
+","",@pg_last_error());
+       $this->erro_msg = "Usuario: \n\n ".$this->erro_sql." \n\n";
+       $this->erro_msg .= str_replace('"',"",str_replace("'","", "Administrador: \n\n ".$this->erro_banco." \n"));
+       $this->erro_status = "0";
+       return false;
+     }
      $sql = "insert into pagordem(
                                        e50_codord
                                       ,e50_numemp

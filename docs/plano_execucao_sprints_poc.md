@@ -19,7 +19,7 @@ Atingir condição de aprovação na PoC para os itens obrigatórios de 100%, pr
 3. disponibilidade/SLA e evidências operacionais;
 4. cobertura de auditoria e roteiros de demonstração.
 
-## Roadmap (6 Sprints)
+## Roadmap (7 Sprints)
 
 ## Sprint 1 - Segurança de Acesso (Crítico)
 
@@ -133,10 +133,34 @@ Meta: preparar aprovação formal da PoC.
 Total estimado da sprint: 15 dias
 Risco: ajustes de última hora em integração externa.
 
+## Sprint 7 - Nucleo Financeiro e Aderencia Ampliada
+
+Meta: operacionalizar os requisitos dos modulos financeiros centrais e reforcar conformidade legal com evidencias.
+Status: concluida em desenvolvimento interno (2026-02-18), pendente apenas de homologacoes externas formais.
+
+- Frente A: Execucao Orcamentaria (ciclo fixacao -> empenho -> liquidacao -> pagamento com bloqueios).
+  Estimativa: 5 dias
+  Requisitos: `docs/requisitos_modulo3_execucao_orcamentaria.md`
+- Frente B: Tesouraria e Fluxo de Caixa (conciliacao, previsao 7 dias, programacao e restos a pagar).
+  Estimativa: 4 dias
+  Requisitos: `docs/requisitos_modulo4_tesouraria_fluxo_caixa.md`
+- Frente C: Controle de Despesas e Receitas (credores, retencoes, classificacao de receitas).
+  Estimativa: 5 dias
+  Requisitos: `docs/requisitos_modulo5_controle_despesas_receitas.md`
+- Frente D: Integracoes e Conformidade Legal (SICONFI, TCE/TCU, transparencia e trilhas).
+  Estimativa: 4 dias
+  Requisitos: `docs/requisitos_integracoes_conformidade_legal.md`
+- Frente E: Relatorios e Dashboard Executivo (balancos, DVP/DFC, RGF/RREO, exportacoes).
+  Estimativa: 4 dias
+  Requisitos: `docs/requisitos_relatorios_dashboards.md`
+
+Total estimado da sprint: 22 dias
+Risco: dependencias de homologacao e janelas de integracao com orgaos externos.
+
 ## Estimativa Consolidada
 
-- Esforço total estimado: 83 dias úteis
-- Com paralelização proposta (3 pessoas): 6 sprints de 10 dias úteis (aprox. 12 semanas)
+- Esforço total estimado: 105 dias úteis
+- Com paralelização proposta (3 pessoas): 7 sprints de 10 dias úteis + margem de estabilizacao (aprox. 15 semanas)
 - Margem recomendada: +2 semanas para riscos externos (infra/certificados/homologações)
 
 ## Dependências Externas Críticas

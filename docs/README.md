@@ -26,6 +26,17 @@ Catálogo completo dos **61 módulos** atualmente implementados no sistema, orga
 
 ---
 
+#### [ESTRUTURA_CODIGO_ATUAL.md](./ESTRUTURA_CODIGO_ATUAL.md)
+**Estrutura Atual do Código e Diretórios**
+
+Mapa técnico da base atual com foco em manutenção:
+- arquitetura híbrida (moderno + legado);
+- descrição dos diretórios principais e responsabilidades;
+- visão dos módulos por domínio;
+- orientação prática de onde evoluir com menor risco.
+
+---
+
 ### 🗺️ Planejamento e Roadmap
 
 #### [PLANO_MODERNIZACAO_ECIDADE_2026.md](./PLANO_MODERNIZACAO_ECIDADE_2026.md)
@@ -201,6 +212,27 @@ Plano de fechamento da PoC:
 
 ---
 
+#### [sprint7_checklist_execucao.md](./sprint7_checklist_execucao.md)
+**Checklist Executavel da Sprint 7**
+
+Plano de execucao do nucleo financeiro e aderencia ampliada:
+- modulo 3 (execucao orcamentaria com bloqueios de ciclo);
+- modulo 4 (tesouraria, conciliacao e fluxo de caixa);
+- modulo 5 (despesas/receitas e retencoes);
+- integracoes legais e relatorios/dashboard com evidencias.
+
+---
+
+#### [sprint7_evidencias_tecnicas.md](./sprint7_evidencias_tecnicas.md)
+**Evidencias Tecnicas da Sprint 7**
+
+Consolidado tecnico das entregas executadas:
+- testes unitarios executados e resultados;
+- artefatos implementados por frente (D e E);
+- comandos operacionais para homologacao externa.
+
+---
+
 #### [roteiro_oficial_demonstracao_poc.md](./roteiro_oficial_demonstracao_poc.md)
 **Roteiro Oficial de Demonstracao da PoC**
 
@@ -239,6 +271,71 @@ Checklist objetivo para decisao de atingimento no escopo contabil:
 - fluxo ponta a ponta;
 - auditoria e rastreabilidade;
 - relatorios e requisitos transversais.
+
+---
+
+#### [requisitos_modulo3_execucao_orcamentaria.md](./requisitos_modulo3_execucao_orcamentaria.md)
+**Requisitos de Desenvolvimento - Modulo 3: Execucao Orcamentaria**
+
+Baseline funcional para desenvolvimento incremental do modulo:
+- escopo obrigatorio (dotacao, creditos, empenho, licitacao/dispensa, contratos, liquidacao e pagamento);
+- regras de ciclo da despesa (fixacao -> empenho -> liquidacao -> pagamento);
+- controles obrigatorios (LRF, restos a pagar, vinculacao de receitas e reserva de contingencia);
+- criterios de aceite e backlog sprintavel para evidencias de licitacao.
+
+---
+
+#### [requisitos_modulo4_tesouraria_fluxo_caixa.md](./requisitos_modulo4_tesouraria_fluxo_caixa.md)
+**Requisitos de Desenvolvimento - Modulo 4: Tesouraria e Fluxo de Caixa**
+
+Baseline funcional para desenvolvimento incremental do modulo:
+- escopo obrigatorio (conta unica, conciliacao bancaria, previsao de caixa, programacao financeira, aplicacao financeira e restos a pagar);
+- dashboard operacional com saldo atual, projecao de 7 dias e alertas;
+- fluxo de caixa projetado com receitas e despesas consolidadas;
+- criterios de aceite, controles e backlog sprintavel para evidencias de licitacao.
+
+---
+
+#### [requisitos_modulo5_controle_despesas_receitas.md](./requisitos_modulo5_controle_despesas_receitas.md)
+**Requisitos de Desenvolvimento - Modulo 5: Controle de Despesas e Receitas**
+
+Baseline funcional para desenvolvimento incremental do modulo:
+- escopo obrigatorio de despesas (credores, empenho, atesto, retencoes, diarias/passagens e folha);
+- escopo obrigatorio de receitas (tributarias, contribuicoes, patrimoniais, servicos, transferencias e outras);
+- classificacao obrigatoria em receitas correntes e de capital;
+- criterios de aceite, controles e backlog sprintavel para evidencias de licitacao.
+
+---
+
+#### [requisitos_integracoes_conformidade_legal.md](./requisitos_integracoes_conformidade_legal.md)
+**Requisitos de Desenvolvimento - Integracoes e Conformidade Legal**
+
+Baseline funcional e regulatoria para o software:
+- aderencia obrigatoria a Lei 4.320/1964, LRF, LAI, NBCT 16, SICONFI e prestacao aos tribunais de contas;
+- escopo minimo de integracoes externas (SICONFI/STN, TCE/TCU, transparencia, bancos, SIAPE, NFS-e/NF-e e e-SIC);
+- controles transversais de seguranca, LGPD, auditoria e monitoramento;
+- criterios de aceite e backlog sprintavel para evidencias de licitacao.
+
+---
+
+#### [matriz_aderencia_legal_sprint7.md](./matriz_aderencia_legal_sprint7.md)
+**Matriz de Aderencia Legal - Sprint 7**
+
+Consolidado de aderencia legal e evidencia tecnica da frente de integracoes:
+- mapeamento por norma (Lei 4.320, LRF, LAI, NBCT 16, SICONFI e TCU/TCE);
+- referencia de implementacoes atuais no codigo;
+- lacunas e continuidade para homologacao externa.
+
+---
+
+#### [requisitos_relatorios_dashboards.md](./requisitos_relatorios_dashboards.md)
+**Requisitos de Desenvolvimento - Relatorios e Dashboards**
+
+Baseline funcional para informacao gerencial e prestacao de contas:
+- relatorios obrigatorios (balancos, DVP, DFC, RGF, RREO e prestacao de contas anual);
+- dashboard executivo com paineis de receitas, despesas e execucao orcamentaria;
+- alertas operacionais e legais (vencimentos, contratos, limites e pendencias);
+- criterios de aceite, backlog sprintavel e evidencias minimas para licitacao.
 
 ---
 

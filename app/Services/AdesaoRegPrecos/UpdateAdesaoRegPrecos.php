@@ -14,6 +14,7 @@ use App\Repositories\Patrimonial\AcordoRepository;
 use App\Repositories\Patrimonial\Compras\PcprocRepository;
 use App\Repositories\Sicom\AdesaoRegPrecosRepository;
 use App\Repositories\Sicom\ItensRegPrecoRepository;
+use App\Services\Financeiro\ExecucaoOrcamentaria\CicloDespesaService;
 use Illuminate\Database\Capsule\Manager as DB;
 
 class UpdateAdesaoRegPrecos {
@@ -26,6 +27,7 @@ class UpdateAdesaoRegPrecos {
   private EmpEmpenhoRepository $empEmpenhoRepository;
   private EmpempautRepository $empempautRepository;
   private ItensRegPrecoRepository $itensRegPrecoRepository;
+  private CicloDespesaService $cicloDespesaService;
 
   public function __construct()
   {
@@ -38,6 +40,7 @@ class UpdateAdesaoRegPrecos {
     $this->empEmpenhoRepository = new EmpEmpenhoRepository();
     $this->empempautRepository = new EmpempautRepository();
     $this->itensRegPrecoRepository = new ItensRegPrecoRepository();
+    $this->cicloDespesaService = new CicloDespesaService();
   }
 
   public function execute(object $data){
@@ -157,6 +160,8 @@ class UpdateAdesaoRegPrecos {
             );
 
             if(!empty($posicao->e60_numemp)){
+              $this->cicloDespesaService->assertPodeLiquidar((int) $posicao->e60_numemp);
+
               $aEmpEmpenho = new EmpEmpenho([
                 'e60_numerol' => $oAdesaoPreco->si06_numeroadm . "/" . $oAdesaoPreco->si06_anomodadm,
                 'e60_numemp' => $posicao->e60_numemp
@@ -186,6 +191,8 @@ class UpdateAdesaoRegPrecos {
             );
 
             if(!empty($pauta->e61_numemp)){
+              $this->cicloDespesaService->assertPodeLiquidar((int) $pauta->e61_numemp);
+
               $aEmpEmpenho = new EmpEmpenho([
                 'e60_numerol' => $oAdesaoPreco->si06_numeroadm . "/" . $oAdesaoPreco->si06_anomodadm,
                 'e60_numemp' => $pauta->e61_numemp

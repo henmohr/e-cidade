@@ -95,6 +95,45 @@ class cl_empord {
        $this->erro_status = "0";
        return false;
      }
+     $sSqlOrdem = "select e50_numemp, e50_numliquidacao from pagordem where e50_codord = ".$this->e82_codord." limit 1";
+     $rsOrdem = db_query($sSqlOrdem);
+     if ($rsOrdem == false || @pg_num_rows($rsOrdem) == 0) {
+       $this->erro_sql = "Nao e permitido pagar sem liquidacao valida.";
+       $this->erro_campo = "e82_codord";
+       $this->erro_banco = str_replace("
+","",@pg_last_error());
+       $this->erro_msg = "Usuario: \n\n ".$this->erro_sql." \n\n";
+       $this->erro_msg .= str_replace('"',"",str_replace("'","", "Administrador: \n\n ".$this->erro_banco." \n"));
+       $this->erro_status = "0";
+       return false;
+     }
+
+     $iNumEmp = (int) @pg_result($rsOrdem, 0, "e50_numemp");
+     $sSqlEmpenho = "select 1 from empempenho where e60_numemp = ".$iNumEmp." limit 1";
+     $rsEmpenho = db_query($sSqlEmpenho);
+     if ($rsEmpenho == false || @pg_num_rows($rsEmpenho) == 0) {
+       $this->erro_sql = "Nao e permitido pagar sem empenho correspondente.";
+       $this->erro_campo = "e82_codord";
+       $this->erro_banco = str_replace("
+","",@pg_last_error());
+       $this->erro_msg = "Usuario: \n\n ".$this->erro_sql." \n\n";
+       $this->erro_msg .= str_replace('"',"",str_replace("'","", "Administrador: \n\n ".$this->erro_banco." \n"));
+       $this->erro_status = "0";
+       return false;
+     }
+
+     $sSqlLiquidacao = "select 1 from pagordem p left join pagordemnota pn on pn.e71_codord = p.e50_codord left join empnota n on n.e69_codnota = pn.e71_codnota where p.e50_codord = ".$this->e82_codord." and p.e50_numemp = ".$iNumEmp." and (p.e50_numliquidacao is not null or n.e69_codnota is not null) limit 1";
+     $rsLiquidacao = db_query($sSqlLiquidacao);
+     if ($rsLiquidacao == false || @pg_num_rows($rsLiquidacao) == 0) {
+       $this->erro_sql = "Nao e permitido pagar sem liquidacao valida.";
+       $this->erro_campo = "e82_codord";
+       $this->erro_banco = str_replace("
+","",@pg_last_error());
+       $this->erro_msg = "Usuario: \n\n ".$this->erro_sql." \n\n";
+       $this->erro_msg .= str_replace('"',"",str_replace("'","", "Administrador: \n\n ".$this->erro_banco." \n"));
+       $this->erro_status = "0";
+       return false;
+     }
      $sql = "insert into empord(
                                        e82_codmov 
                                       ,e82_codord 

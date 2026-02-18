@@ -63,3 +63,13 @@ Legenda de status:
 
 - Esta matriz é uma versão inicial (`v1`) baseada em evidências de código e configuração do repositório.
 - Itens de infraestrutura/certificação (ISO/SLA/cloud) dependem também de comprovação operacional e documental fora do código.
+
+## Atualização Sprint 7 (2026-02-18)
+
+Status consolidado da entrega técnica da sprint:
+- Frentes A, B, C, D e E concluídas em código com cobertura de testes unitários.
+- Evidências técnicas registradas em `docs/sprint7_evidencias_tecnicas.md`.
+
+Impacto na matriz de gaps:
+- Requisitos funcionais do núcleo financeiro, integrações mínimas e relatórios obrigatórios evoluíram de `Parcial` para **Atende (nível código/homologação interna)**.
+- Permanecem pendentes os itens que dependem de homologação externa formal (SICONFI/STN, TCE/TCU, portal oficial em produção e aceite da banca).
