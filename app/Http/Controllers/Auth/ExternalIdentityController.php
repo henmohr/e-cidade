@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Services\Auth\AuthEventService;
 use App\Services\Auth\AuthMessages;
 use App\Services\Auth\AuthEventTypes;
+use App\Services\Auth\ExternalIdentityReasons;
 use App\Services\Auth\ExternalIdentityService;
 use App\Services\Auth\SessionActivityService;
 use App\Support\Session\LegacySession;
@@ -26,7 +27,7 @@ class ExternalIdentityController extends Controller
         if (!$service->isEnabled()) {
             return $this->deny($request, 404, AuthMessages::EXTERNAL_DISABLED, [
                 'provider' => (string) $request->input('provider', ''),
-                'reason' => 'disabled',
+                'reason' => ExternalIdentityReasons::DISABLED,
             ]);
         }
 
@@ -34,7 +35,7 @@ class ExternalIdentityController extends Controller
         if (!$service->isProviderAllowed($provider)) {
             return $this->deny($request, 422, AuthMessages::EXTERNAL_PROVIDER_NOT_ALLOWED, [
                 'provider' => $provider,
-                'reason' => 'provider_not_allowed',
+                'reason' => ExternalIdentityReasons::PROVIDER_NOT_ALLOWED,
             ]);
         }
 
@@ -49,7 +50,7 @@ class ExternalIdentityController extends Controller
         if (!$service->verifySignature($provider, $rawPayload, $signature)) {
             return $this->deny($request, 403, AuthMessages::EXTERNAL_INVALID_SIGNATURE, [
                 'provider' => $provider,
-                'reason' => 'invalid_signature',
+                'reason' => ExternalIdentityReasons::INVALID_SIGNATURE,
             ]);
         }
 
@@ -57,21 +58,21 @@ class ExternalIdentityController extends Controller
         if (!is_array($claims)) {
             return $this->deny($request, 422, AuthMessages::EXTERNAL_INVALID_PAYLOAD, [
                 'provider' => $provider,
-                'reason' => 'invalid_payload',
+                'reason' => ExternalIdentityReasons::INVALID_PAYLOAD,
             ]);
         }
 
         if (!$service->validateClaimsWindow($claims)) {
             return $this->deny($request, 401, AuthMessages::EXTERNAL_EXPIRED_CLAIMS, [
                 'provider' => $provider,
-                'reason' => 'expired_claims',
+                'reason' => ExternalIdentityReasons::EXPIRED_CLAIMS,
             ]);
         }
 
         if (!$service->consumeNonce($claims)) {
             return $this->deny($request, 409, AuthMessages::EXTERNAL_INVALID_NONCE, [
                 'provider' => $provider,
-                'reason' => 'nonce_reused_or_missing',
+                'reason' => ExternalIdentityReasons::NONCE_REUSED_OR_MISSING,
             ]);
         }
 
@@ -79,7 +80,7 @@ class ExternalIdentityController extends Controller
         if (!$user) {
             return $this->deny($request, 401, AuthMessages::EXTERNAL_USER_NOT_FOUND, [
                 'provider' => $provider,
-                'reason' => 'user_not_found',
+                'reason' => ExternalIdentityReasons::USER_NOT_FOUND,
                 'identifier_hint' => $this->identifierHint($claims),
             ]);
         }
