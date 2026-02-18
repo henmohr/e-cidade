@@ -42,6 +42,7 @@ Resultado esperado:
 9. Confirmar presenca de `request_id` comum entre evento funcional e log tecnico correlato.
 10. Confirmar exibicao da coluna `Request ID` na tela de sessoes para rastreio rapido de cada evento.
 11. Validar filtro da tela por `Tipo`, `Request ID` e `Limite` para isolar eventos especificos em atendimento.
+12. Exportar o resultado filtrado em CSV pela opcao `Exportar CSV` e anexar como evidência da PoC.
 
 ## 4. Limites Conhecidos
 

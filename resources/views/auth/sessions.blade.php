@@ -85,6 +85,11 @@
 
         <button type="submit">Filtrar</button>
         <a href="{{ route('sessions.index') }}">Limpar</a>
+        <a href="{{ route('sessions.export', [
+            'event_type' => $eventFilters['event_type'] ?? '',
+            'event_request_id' => $eventFilters['event_request_id'] ?? '',
+            'event_limit' => $eventFilters['event_limit'] ?? 50,
+        ]) }}">Exportar CSV</a>
     </form>
 
     @if (empty($authEvents))
