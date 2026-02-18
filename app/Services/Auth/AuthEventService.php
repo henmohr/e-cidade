@@ -12,7 +12,6 @@ class AuthEventService
     private const PENDING_FAILURES_PREFIX = 'auth:events:pending_failures:';
     private const MAX_EVENTS = 30;
     private const MAX_PENDING_FAILURES = 30;
-    private const USER_AGENT_MAX_LENGTH = 300;
 
     public function registerFailure(Request $request, string $identifier): void
     {
@@ -236,7 +235,7 @@ class AuthEventService
             AuthEventMetaKeys::REQUEST_ID => RequestIdResolver::resolve($request),
             AuthEventMetaKeys::TIMESTAMP => now()->toIso8601String(),
             AuthEventMetaKeys::IP => (string) $request->ip(),
-            AuthEventMetaKeys::USER_AGENT => substr((string) $request->userAgent(), 0, self::USER_AGENT_MAX_LENGTH),
+            AuthEventMetaKeys::USER_AGENT => RequestMetaFormatter::userAgent($request),
         ];
     }
 }

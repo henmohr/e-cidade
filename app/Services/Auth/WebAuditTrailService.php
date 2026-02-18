@@ -62,7 +62,7 @@ class WebAuditTrailService
             'status' => $statusCode,
             'duration_ms' => $durationMs,
             'ip' => $request->ip(),
-            'user_agent' => substr((string) $request->userAgent(), 0, 300),
+            'user_agent' => RequestMetaFormatter::userAgent($request),
             'module' => $module,
         ];
 

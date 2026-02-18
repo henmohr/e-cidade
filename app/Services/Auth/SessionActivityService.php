@@ -30,7 +30,7 @@ class SessionActivityService
             'started_at' => $existing['started_at'] ?? now()->toIso8601String(),
             'last_seen_at' => now()->toIso8601String(),
             'ip' => (string) $request->ip(),
-            'user_agent' => substr((string) $request->userAgent(), 0, 300),
+            'user_agent' => RequestMetaFormatter::userAgent($request),
             'path' => substr((string) $request->path(), 0, 200),
         ];
 
