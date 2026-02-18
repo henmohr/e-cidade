@@ -320,6 +320,33 @@ Dossie tecnico para classificacao de cobertura:
 
 ---
 
+#### [sprint9_evidencias_tr4_prestacao_contas.md](./sprint9_evidencias_tr4_prestacao_contas.md)
+**Evidencias TR 4 - Prestacao de Contas**
+
+Dossie tecnico para classificacao de cobertura:
+- trilha de status/homologacao e protocolos de integracao;
+- referencias de testes unitarios e comandos operacionais.
+
+---
+
+#### [sprint9_evidencias_tr6_compras_licitacoes.md](./sprint9_evidencias_tr6_compras_licitacoes.md)
+**Evidencias TR 6 - Compras e Licitacoes**
+
+Dossie tecnico para classificacao de cobertura:
+- evidencias de modulo implementado e fluxos de publicacao/integracao;
+- rastreabilidade documental para suporte a banca.
+
+---
+
+#### [sprint9_evidencias_tr15_assinatura_a1_a3.md](./sprint9_evidencias_tr15_assinatura_a1_a3.md)
+**Evidencias TR 15 - Assinatura A1/A3**
+
+Dossie tecnico para classificacao de cobertura:
+- fluxo tecnico A3 para operacao sensivel;
+- trilha de anexos assinados e validacao automatizada.
+
+---
+
 #### [roteiro_oficial_demonstracao_poc.md](./roteiro_oficial_demonstracao_poc.md)
 **Roteiro Oficial de Demonstracao da PoC**
 

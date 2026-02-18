@@ -23,11 +23,17 @@ Referencia:
 
 - [x] Converter TR 2 (Orcamentario) de `parcial` para `atingido` com dossier tecnico.
 - [x] Converter TR 3 (Tesouraria) de `parcial` para `atingido` com dossier tecnico.
+- [x] Converter TR 4 (Prestacao de Contas/TCE) de `parcial` para `atingido` com dossier tecnico.
+- [x] Converter TR 6 (Compras e Licitacoes) de `parcial` para `atingido` com dossier tecnico.
+- [x] Converter TR 15 (Assinatura A1/A3) de `parcial` para `atingido` com dossier tecnico.
 - [x] Regerar relatorio consolidado apos reclassificacao.
 
 Referencias:
 - `docs/sprint9_evidencias_tr2_orcamentario.md`
 - `docs/sprint9_evidencias_tr3_tesouraria.md`
+- `docs/sprint9_evidencias_tr4_prestacao_contas.md`
+- `docs/sprint9_evidencias_tr6_compras_licitacoes.md`
+- `docs/sprint9_evidencias_tr15_assinatura_a1_a3.md`
 
 Evidencias minimas:
 - comando `financeiro:relatorio-cobertura-licitacao` listado no `artisan`;
