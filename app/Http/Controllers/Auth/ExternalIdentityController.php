@@ -41,18 +41,24 @@ class ExternalIdentityController extends Controller
     ): RedirectResponse|JsonResponse
     {
         if (!$service->isEnabled()) {
-            return $this->deny($request, 404, AuthMessages::EXTERNAL_DISABLED, [
-                self::CONTEXT_PROVIDER => (string) $request->input(self::CONTEXT_PROVIDER, ''),
-                self::CONTEXT_REASON => ExternalIdentityReasons::DISABLED,
-            ]);
+            return $this->denyWithProviderReason(
+                $request,
+                404,
+                AuthMessages::EXTERNAL_DISABLED,
+                (string) $request->input(self::CONTEXT_PROVIDER, ''),
+                ExternalIdentityReasons::DISABLED
+            );
         }
 
         $provider = strtolower(trim((string) $request->input(self::CONTEXT_PROVIDER, '')));
         if (!$service->isProviderAllowed($provider)) {
-            return $this->deny($request, 422, AuthMessages::EXTERNAL_PROVIDER_NOT_ALLOWED, [
-                self::CONTEXT_PROVIDER => $provider,
-                self::CONTEXT_REASON => ExternalIdentityReasons::PROVIDER_NOT_ALLOWED,
-            ]);
+            return $this->denyWithProviderReason(
+                $request,
+                422,
+                AuthMessages::EXTERNAL_PROVIDER_NOT_ALLOWED,
+                $provider,
+                ExternalIdentityReasons::PROVIDER_NOT_ALLOWED
+            );
         }
 
         $rawPayload = (string) $request->input('payload', '');
@@ -64,41 +70,56 @@ class ExternalIdentityController extends Controller
 
         $signature = (string) $request->header('X-Identity-Signature', (string) $request->input('signature', ''));
         if (!$service->verifySignature($provider, $rawPayload, $signature)) {
-            return $this->deny($request, 403, AuthMessages::EXTERNAL_INVALID_SIGNATURE, [
-                self::CONTEXT_PROVIDER => $provider,
-                self::CONTEXT_REASON => ExternalIdentityReasons::INVALID_SIGNATURE,
-            ]);
+            return $this->denyWithProviderReason(
+                $request,
+                403,
+                AuthMessages::EXTERNAL_INVALID_SIGNATURE,
+                $provider,
+                ExternalIdentityReasons::INVALID_SIGNATURE
+            );
         }
 
         $claims = json_decode($rawPayload, true);
         if (!is_array($claims)) {
-            return $this->deny($request, 422, AuthMessages::EXTERNAL_INVALID_PAYLOAD, [
-                self::CONTEXT_PROVIDER => $provider,
-                self::CONTEXT_REASON => ExternalIdentityReasons::INVALID_PAYLOAD,
-            ]);
+            return $this->denyWithProviderReason(
+                $request,
+                422,
+                AuthMessages::EXTERNAL_INVALID_PAYLOAD,
+                $provider,
+                ExternalIdentityReasons::INVALID_PAYLOAD
+            );
         }
 
         if (!$service->validateClaimsWindow($claims)) {
-            return $this->deny($request, 401, AuthMessages::EXTERNAL_EXPIRED_CLAIMS, [
-                self::CONTEXT_PROVIDER => $provider,
-                self::CONTEXT_REASON => ExternalIdentityReasons::EXPIRED_CLAIMS,
-            ]);
+            return $this->denyWithProviderReason(
+                $request,
+                401,
+                AuthMessages::EXTERNAL_EXPIRED_CLAIMS,
+                $provider,
+                ExternalIdentityReasons::EXPIRED_CLAIMS
+            );
         }
 
         if (!$service->consumeNonce($claims)) {
-            return $this->deny($request, 409, AuthMessages::EXTERNAL_INVALID_NONCE, [
-                self::CONTEXT_PROVIDER => $provider,
-                self::CONTEXT_REASON => ExternalIdentityReasons::NONCE_REUSED_OR_MISSING,
-            ]);
+            return $this->denyWithProviderReason(
+                $request,
+                409,
+                AuthMessages::EXTERNAL_INVALID_NONCE,
+                $provider,
+                ExternalIdentityReasons::NONCE_REUSED_OR_MISSING
+            );
         }
 
         $user = $service->resolveUser($claims);
         if (!$user) {
-            return $this->deny($request, 401, AuthMessages::EXTERNAL_USER_NOT_FOUND, [
-                self::CONTEXT_PROVIDER => $provider,
-                self::CONTEXT_REASON => ExternalIdentityReasons::USER_NOT_FOUND,
-                self::CONTEXT_IDENTIFIER_HINT => $this->identifierHint($claims),
-            ]);
+            return $this->denyWithProviderReason(
+                $request,
+                401,
+                AuthMessages::EXTERNAL_USER_NOT_FOUND,
+                $provider,
+                ExternalIdentityReasons::USER_NOT_FOUND,
+                [self::CONTEXT_IDENTIFIER_HINT => $this->identifierHint($claims)]
+            );
         }
 
         session()->put(LegacySession::DB_ID_USUARIO, (int) $user->getAuthIdentifier());
@@ -175,6 +196,23 @@ class ExternalIdentityController extends Controller
         }
 
         return redirect()->to('/')->withErrors([self::RESPONSE_AUTH_EXTERNAL => $message]);
+    }
+
+    /**
+     * @param array<string, mixed> $context
+     */
+    private function denyWithProviderReason(
+        Request $request,
+        int $status,
+        string $message,
+        string $provider,
+        string $reason,
+        array $context = []
+    ): RedirectResponse|JsonResponse {
+        return $this->deny($request, $status, $message, array_merge([
+            self::CONTEXT_PROVIDER => $provider,
+            self::CONTEXT_REASON => $reason,
+        ], $context));
     }
 
     /**
