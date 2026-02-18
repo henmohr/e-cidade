@@ -1,0 +1,58 @@
+# Matriz estruturada de status da licitacao (Sprint 9)
+# status permitidos: atingido | parcial | pendente
+itens:
+  - item_tr: "2"
+    lote: "I"
+    sistema: "Orcamentario - PPA, LDO e LOA"
+    status: "parcial"
+    evidencia_principal: "docs/requisitos_modulo3_execucao_orcamentaria.md"
+    observacoes: "Base implementada na Sprint 7; falta aceite funcional formal"
+
+  - item_tr: "3"
+    lote: "I"
+    sistema: "Tesouraria"
+    status: "parcial"
+    evidencia_principal: "docs/sprint7_evidencias_tecnicas.md"
+    observacoes: "Fluxos e testes entregues; falta homologacao externa"
+
+  - item_tr: "4"
+    lote: "I"
+    sistema: "Prestacao de Contas Municipais (inclui atendimento TCE)"
+    status: "parcial"
+    evidencia_principal: "docs/sprint8_homologacao_externa.md"
+    observacoes: "Trilha de homologacao pronta; pendente protocolo oficial"
+
+  - item_tr: "6"
+    lote: "I"
+    sistema: "Compras e Licitacoes"
+    status: "parcial"
+    evidencia_principal: "docs/ESTRUTURA_CODIGO_ATUAL.md"
+    observacoes: "Modulo existente; falta consolidacao de evidencia funcional da banca"
+
+  - item_tr: "15"
+    lote: "I"
+    sistema: "Assinatura Eletronica A1 e A3"
+    status: "parcial"
+    evidencia_principal: "docs/desenho_fluxo_a3_backup.md"
+    observacoes: "Fluxo A3 de backup implementado; homologacao externa pendente"
+
+  - item_tr: "25"
+    lote: "I"
+    sistema: "ISSQN/Nota Fiscal Eletronica"
+    status: "pendente"
+    evidencia_principal: ""
+    observacoes: "Necessario consolidar evidencias formais por cenario"
+
+  - item_tr: "34"
+    lote: "I"
+    sistema: "Provimento de Data Center"
+    status: "parcial"
+    evidencia_principal: "docs/matriz_gap_poc_100.md"
+    observacoes: "Infra e observabilidade avancadas; faltam evidencias contratuais/certificacoes"
+
+  - item_tr: "38-57"
+    lote: "II"
+    sistema: "Plataforma da Camara"
+    status: "pendente"
+    evidencia_principal: ""
+    observacoes: "Necessario abrir trilha dedicada de evidencias por modulo da Camara"

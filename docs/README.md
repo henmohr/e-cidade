@@ -262,6 +262,36 @@ Padrao documental para fechamento formal com orgaos externos:
 
 ---
 
+#### [sprint9_checklist_execucao.md](./sprint9_checklist_execucao.md)
+**Checklist Executavel da Sprint 9**
+
+Plano de consolidacao de cobertura por sistema da licitacao:
+- matriz estruturada de status por modulo/sistema;
+- relatorio automatizado de atingimento e pendencias;
+- trilha objetiva para fechamento da banca.
+
+---
+
+#### [sprint9_matriz_status_licitacao.yml](./sprint9_matriz_status_licitacao.yml)
+**Matriz Estruturada de Status da Licitacao**
+
+Arquivo base para governanca de cobertura:
+- status por item TR (`atingido`, `parcial`, `pendente`);
+- evidencia principal por sistema;
+- observacoes de risco/pendencia.
+
+---
+
+#### [sprint9_relatorio_cobertura_licitacao.md](./sprint9_relatorio_cobertura_licitacao.md)
+**Relatorio Consolidado de Cobertura da Licitacao**
+
+Artefato gerado automaticamente via comando:
+- totais por status;
+- percentual de atingimento;
+- lista objetiva de pendencias por sistema.
+
+---
+
 #### [roteiro_oficial_demonstracao_poc.md](./roteiro_oficial_demonstracao_poc.md)
 **Roteiro Oficial de Demonstracao da PoC**
 
