@@ -1,12 +1,18 @@
-<?
+<?php
 require("libs/db_stdlib.php");
 require("libs/db_conecta.php");
 include("libs/db_sessoes.php");
 include("libs/db_usuariosonline.php");
 include("dbforms/db_funcoes.php");
 include("classes/db_conplanoconta_classe.php");
-db_postmemory($HTTP_POST_VARS);
-parse_str($HTTP_SERVER_VARS["QUERY_STRING"]);
+db_postmemory($_POST);
+$legacyQueryParams = [];
+parse_str((string) ($_SERVER["QUERY_STRING"] ?? ""), $legacyQueryParams);
+foreach ($legacyQueryParams as $legacyKey => $legacyValue) {
+  if (!isset($$legacyKey)) {
+    $$legacyKey = $legacyValue;
+  }
+}
 $clconplanoconta = new cl_conplanoconta;
 $clconplanoconta->rotulo->label("c63_codcon");
 $clconplanoconta->rotulo->label("c63_banco");
@@ -28,7 +34,7 @@ $clconplanoconta->rotulo->label("c63_banco");
               <?=$Lc63_codcon?>
             </td>
             <td width="96%" align="left" nowrap> 
-              <?
+              <?php
 		       db_input("c63_codcon",6,$Ic63_codcon,true,"text",4,"","chave_c63_codcon");
 		       ?>
             </td>
@@ -38,7 +44,7 @@ $clconplanoconta->rotulo->label("c63_banco");
               <?=$Lc63_banco?>
             </td>
             <td width="96%" align="left" nowrap> 
-              <?
+              <?php
 		       db_input("c63_banco",5,$Ic63_banco,true,"text",4,"","chave_c63_banco");
 		       ?>
             </td>
@@ -56,7 +62,7 @@ $clconplanoconta->rotulo->label("c63_banco");
   </tr>
   <tr> 
     <td align="center" valign="top"> 
-      <?
+      <?php
       if(!isset($pesquisa_chave)){
         if(isset($campos)==false){
            if(file_exists("funcoes/db_func_conplanoconta.php")==true){
@@ -92,11 +98,11 @@ $clconplanoconta->rotulo->label("c63_banco");
 </table>
 </body>
 </html>
-<?
+<?php
 if(!isset($pesquisa_chave)){
   ?>
   <script>
   </script>
-  <?
+  <?php
 }
 ?>

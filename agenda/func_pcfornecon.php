@@ -1,12 +1,18 @@
-<?
+<?php
 require("libs/db_stdlib.php");
 require("libs/db_conecta.php");
 include("libs/db_sessoes.php");
 include("libs/db_usuariosonline.php");
 include("dbforms/db_funcoes.php");
 include("classes/db_pcfornecon_classe.php");
-db_postmemory($HTTP_POST_VARS);
-parse_str($HTTP_SERVER_VARS["QUERY_STRING"]);
+db_postmemory($_POST);
+$legacyQueryParams = [];
+parse_str((string) ($_SERVER["QUERY_STRING"] ?? ""), $legacyQueryParams);
+foreach ($legacyQueryParams as $legacyKey => $legacyValue) {
+  if (!isset($$legacyKey)) {
+    $$legacyKey = $legacyValue;
+  }
+}
 $clpcfornecon = new cl_pcfornecon;
 $clpcfornecon->rotulo->label("pc63_contabanco");
 $clpcfornecon->rotulo->label("pc63_numcgm");
@@ -28,7 +34,7 @@ $clpcfornecon->rotulo->label("pc63_numcgm");
               <?=$Lpc63_contabanco?>
             </td>
             <td width="96%" align="left" nowrap> 
-              <?
+              <?php
 		       db_input("pc63_contabanco",6,$Ipc63_contabanco,true,"text",4,"","chave_pc63_contabanco");
 		       ?>
             </td>
@@ -38,7 +44,7 @@ $clpcfornecon->rotulo->label("pc63_numcgm");
               <?=$Lpc63_numcgm?>
             </td>
             <td width="96%" align="left" nowrap> 
-              <?
+              <?php
 		       db_input("pc63_numcgm",10,$Ipc63_numcgm,true,"text",4,"","chave_pc63_numcgm");
 		       ?>
             </td>
@@ -56,7 +62,7 @@ $clpcfornecon->rotulo->label("pc63_numcgm");
   </tr>
   <tr> 
     <td align="center" valign="top"> 
-      <?
+      <?php
       if(!isset($pesquisa_chave)){
         if(isset($campos)==false){
            if(file_exists("funcoes/db_func_pcfornecon.php")==true){
@@ -92,11 +98,11 @@ $clpcfornecon->rotulo->label("pc63_numcgm");
 </table>
 </body>
 </html>
-<?
+<?php
 if(!isset($pesquisa_chave)){
   ?>
   <script>
   </script>
-  <?
+  <?php
 }
 ?>

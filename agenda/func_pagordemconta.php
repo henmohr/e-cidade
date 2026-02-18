@@ -1,12 +1,18 @@
-<?
+<?php
 require("libs/db_stdlib.php");
 require("libs/db_conecta.php");
 include("libs/db_sessoes.php");
 include("libs/db_usuariosonline.php");
 include("dbforms/db_funcoes.php");
 include("classes/db_pagordemconta_classe.php");
-db_postmemory($HTTP_POST_VARS);
-parse_str($HTTP_SERVER_VARS["QUERY_STRING"]);
+db_postmemory($_POST);
+$legacyQueryParams = [];
+parse_str((string) ($_SERVER["QUERY_STRING"] ?? ""), $legacyQueryParams);
+foreach ($legacyQueryParams as $legacyKey => $legacyValue) {
+  if (!isset($$legacyKey)) {
+    $$legacyKey = $legacyValue;
+  }
+}
 $clpagordemconta = new cl_pagordemconta;
 $clpagordemconta->rotulo->label("e49_codord");
 $clpagordemconta->rotulo->label("e49_codord");
@@ -28,7 +34,7 @@ $clpagordemconta->rotulo->label("e49_codord");
               <?=$Le49_codord?>
             </td>
             <td width="96%" align="left" nowrap> 
-              <?
+              <?php
 		       db_input("e49_codord",6,$Ie49_codord,true,"text",4,"","chave_e49_codord");
 		       ?>
             </td>
@@ -38,7 +44,7 @@ $clpagordemconta->rotulo->label("e49_codord");
               <?=$Le49_codord?>
             </td>
             <td width="96%" align="left" nowrap> 
-              <?
+              <?php
 		       db_input("e49_codord",6,$Ie49_codord,true,"text",4,"","chave_e49_codord");
 		       ?>
             </td>
@@ -56,7 +62,7 @@ $clpagordemconta->rotulo->label("e49_codord");
   </tr>
   <tr> 
     <td align="center" valign="top"> 
-      <?
+      <?php
       if(!isset($pesquisa_chave)){
         if(isset($campos)==false){
            if(file_exists("funcoes/db_func_pagordemconta.php")==true){
@@ -92,11 +98,11 @@ $clpagordemconta->rotulo->label("e49_codord");
 </table>
 </body>
 </html>
-<?
+<?php
 if(!isset($pesquisa_chave)){
   ?>
   <script>
   </script>
-  <?
+  <?php
 }
 ?>

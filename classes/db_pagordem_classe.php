@@ -1,4 +1,4 @@
-<?
+<?php
 /*
  *     E-cidade Software Publico para Gestao Municipal
  *  Copyright (C) 2012  DBselller Servicos de Informatica
@@ -102,7 +102,7 @@ class cl_pagordem {
    function cl_pagordem() {
      //classes dos rotulos dos campos
      $this->rotulo = new rotulo("pagordem");
-     $this->pagina_retorno =  basename($GLOBALS["HTTP_SERVER_VARS"]["PHP_SELF"]);
+     $this->pagina_retorno =  basename($_SERVER["PHP_SELF"]);
    }
    //funcao erro
    function erro($mostra,$retorna) {
@@ -116,51 +116,51 @@ class cl_pagordem {
    // funcao para atualizar campos
    function atualizacampos($exclusao=false) {
      if($exclusao==false){
-       $this->e50_codord = ($this->e50_codord == ""?@$GLOBALS["HTTP_POST_VARS"]["e50_codord"]:$this->e50_codord);
-       $this->e50_numemp = ($this->e50_numemp == ""?@$GLOBALS["HTTP_POST_VARS"]["e50_numemp"]:$this->e50_numemp);
+       $this->e50_codord = ($this->e50_codord == ""?@$_POST["e50_codord"]:$this->e50_codord);
+       $this->e50_numemp = ($this->e50_numemp == ""?@$_POST["e50_numemp"]:$this->e50_numemp);
        if($this->e50_data == ""){
-         $this->e50_data_dia = ($this->e50_data_dia == ""?@$GLOBALS["HTTP_POST_VARS"]["e50_data_dia"]:$this->e50_data_dia);
-         $this->e50_data_mes = ($this->e50_data_mes == ""?@$GLOBALS["HTTP_POST_VARS"]["e50_data_mes"]:$this->e50_data_mes);
-         $this->e50_data_ano = ($this->e50_data_ano == ""?@$GLOBALS["HTTP_POST_VARS"]["e50_data_ano"]:$this->e50_data_ano);
+         $this->e50_data_dia = ($this->e50_data_dia == ""?@$_POST["e50_data_dia"]:$this->e50_data_dia);
+         $this->e50_data_mes = ($this->e50_data_mes == ""?@$_POST["e50_data_mes"]:$this->e50_data_mes);
+         $this->e50_data_ano = ($this->e50_data_ano == ""?@$_POST["e50_data_ano"]:$this->e50_data_ano);
          if($this->e50_data_dia != ""){
             $this->e50_data = $this->e50_data_ano."-".$this->e50_data_mes."-".$this->e50_data_dia;
          }
        }
        if($this->e50_dtvencimento == ""){
-        $this->e50_dtvencimento_dia = ($this->e50_dtvencimento_dia == ""?@$GLOBALS["HTTP_POST_VARS"]["e50_dtvencimento_dia"]:$this->e50_dtvencimento_dia);
-        $this->e50_dtvencimento_mes = ($this->e50_dtvencimento_mes == ""?@$GLOBALS["HTTP_POST_VARS"]["e50_dtvencimento_mes"]:$this->e50_dtvencimento_mes);
-        $this->e50_dtvencimento_ano = ($this->e50_dtvencimento_ano == ""?@$GLOBALS["HTTP_POST_VARS"]["e50_dtvencimento_ano"]:$this->e50_dtvencimento_ano);
+        $this->e50_dtvencimento_dia = ($this->e50_dtvencimento_dia == ""?@$_POST["e50_dtvencimento_dia"]:$this->e50_dtvencimento_dia);
+        $this->e50_dtvencimento_mes = ($this->e50_dtvencimento_mes == ""?@$_POST["e50_dtvencimento_mes"]:$this->e50_dtvencimento_mes);
+        $this->e50_dtvencimento_ano = ($this->e50_dtvencimento_ano == ""?@$_POST["e50_dtvencimento_ano"]:$this->e50_dtvencimento_ano);
         if($this->e50_dtvencimento_dia != ""){
            $this->e50_data = $this->e50_dtvencimento_ano."-".$this->e50_dtvencimento_mes."-".$this->e50_dtvencimento_dia;
         }
       }
-       $this->e50_obs = ($this->e50_obs == ""?@$GLOBALS["HTTP_POST_VARS"]["e50_obs"]:$this->e50_obs);
-       $this->e50_id_usuario = ($this->e50_id_usuario == ""?@$GLOBALS["HTTP_POST_VARS"]["e50_id_usuario"]:$this->e50_id_usuario);
-       $this->e50_hora = ($this->e50_hora == ""?@$GLOBALS["HTTP_POST_VARS"]["e50_hora"]:$this->e50_hora);
-       $this->e50_anousu = ($this->e50_anousu == ""?@$GLOBALS["HTTP_POST_VARS"]["e50_anousu"]:$this->e50_anousu);
-       $this->e50_contapag = ($this->e50_contapag == ""?@$GLOBALS["HTTP_POST_VARS"]["e50_contapag"]:$this->e50_contapag);
-       $this->e50_cattrabalhador = ($this->e50_cattrabalhador == ""?@$GLOBALS["HTTP_POST_VARS"]["e50_cattrabalhador"]:$this->e50_cattrabalhador);
-       $this->e50_empresadesconto = ($this->e50_empresadesconto == ""?@$GLOBALS["HTTP_POST_VARS"]["e50_empresadesconto"]:$this->e50_empresadesconto);
-       $this->e50_contribuicaoPrev = ($this->e50_contribuicaoPrev == ""?@$GLOBALS["HTTP_POST_VARS"]["e50_contribuicaoPrev"]:$this->e50_contribuicaoPrev);
-       $this->e50_cattrabalhadorremurenacao = ($this->e50_cattrabalhadorremurenacao == ""?@$GLOBALS["HTTP_POST_VARS"]["e50_cattrabalhadorremurenacao"]:$this->e50_cattrabalhadorremurenacao);
-       $this->e50_valorremuneracao = ($this->e50_valorremuneracao == ""?@$GLOBALS["HTTP_POST_VARS"]["e50_valorremuneracao"]:$this->e50_valorremuneracao);
-       $this->e50_valordesconto = ($this->e50_valordesconto == ""?@$GLOBALS["HTTP_POST_VARS"]["e50_valordesconto"]:$this->e50_valordesconto);
-       $this->e50_datacompetencia = ($this->e50_datacompetencia == ""?@$GLOBALS["HTTP_POST_VARS"]["e50_datacompetencia"]:$this->e50_datacompetencia);
-       $this->e50_retencaoir = ($this->e50_retencaoir == ""?@$GLOBALS["HTTP_POST_VARS"]["e50_retencaoir"]:$this->e50_retencaoir) == 'sim' ? 1 : 0; 
-       $this->e50_naturezabemservico = ($this->e50_naturezabemservico == ""?@$GLOBALS["HTTP_POST_VARS"]["e50_naturezabemservico"]:$this->e50_naturezabemservico);
-       $this->e50_numliquidacao = ($this->e50_numliquidacao == ""?@$GLOBALS["HTTP_POST_VARS"]["e50_numliquidacao"]:$this->e50_numliquidacao);       
-       $this->e50_numcgmordenador = ($this->e50_numcgmordenador == ""?@$GLOBALS["HTTP_POST_VARS"]["e50_numcgmordenador"]:$this->e50_numcgmordenador);       
+       $this->e50_obs = ($this->e50_obs == ""?@$_POST["e50_obs"]:$this->e50_obs);
+       $this->e50_id_usuario = ($this->e50_id_usuario == ""?@$_POST["e50_id_usuario"]:$this->e50_id_usuario);
+       $this->e50_hora = ($this->e50_hora == ""?@$_POST["e50_hora"]:$this->e50_hora);
+       $this->e50_anousu = ($this->e50_anousu == ""?@$_POST["e50_anousu"]:$this->e50_anousu);
+       $this->e50_contapag = ($this->e50_contapag == ""?@$_POST["e50_contapag"]:$this->e50_contapag);
+       $this->e50_cattrabalhador = ($this->e50_cattrabalhador == ""?@$_POST["e50_cattrabalhador"]:$this->e50_cattrabalhador);
+       $this->e50_empresadesconto = ($this->e50_empresadesconto == ""?@$_POST["e50_empresadesconto"]:$this->e50_empresadesconto);
+       $this->e50_contribuicaoPrev = ($this->e50_contribuicaoPrev == ""?@$_POST["e50_contribuicaoPrev"]:$this->e50_contribuicaoPrev);
+       $this->e50_cattrabalhadorremurenacao = ($this->e50_cattrabalhadorremurenacao == ""?@$_POST["e50_cattrabalhadorremurenacao"]:$this->e50_cattrabalhadorremurenacao);
+       $this->e50_valorremuneracao = ($this->e50_valorremuneracao == ""?@$_POST["e50_valorremuneracao"]:$this->e50_valorremuneracao);
+       $this->e50_valordesconto = ($this->e50_valordesconto == ""?@$_POST["e50_valordesconto"]:$this->e50_valordesconto);
+       $this->e50_datacompetencia = ($this->e50_datacompetencia == ""?@$_POST["e50_datacompetencia"]:$this->e50_datacompetencia);
+       $this->e50_retencaoir = ($this->e50_retencaoir == ""?@$_POST["e50_retencaoir"]:$this->e50_retencaoir) == 'sim' ? 1 : 0; 
+       $this->e50_naturezabemservico = ($this->e50_naturezabemservico == ""?@$_POST["e50_naturezabemservico"]:$this->e50_naturezabemservico);
+       $this->e50_numliquidacao = ($this->e50_numliquidacao == ""?@$_POST["e50_numliquidacao"]:$this->e50_numliquidacao);       
+       $this->e50_numcgmordenador = ($this->e50_numcgmordenador == ""?@$_POST["e50_numcgmordenador"]:$this->e50_numcgmordenador);       
        if($this->e50_compdesp == ""){ 
-        $this->e50_compdesp_dia = ($this->e50_compdesp_dia == ""?@$GLOBALS["HTTP_POST_VARS"]["e50_compdesp_dia"]:$this->e50_compdesp_dia);
-        $this->e50_compdesp_mes = ($this->e50_compdesp_mes == ""?@$GLOBALS["HTTP_POST_VARS"]["e50_compdesp_mes"]:$this->e50_compdesp_mes);
-        $this->e50_compdesp_ano = ($this->e50_compdesp_ano == ""?@$GLOBALS["HTTP_POST_VARS"]["e50_compdesp_ano"]:$this->e50_compdesp_ano);
+        $this->e50_compdesp_dia = ($this->e50_compdesp_dia == ""?@$_POST["e50_compdesp_dia"]:$this->e50_compdesp_dia);
+        $this->e50_compdesp_mes = ($this->e50_compdesp_mes == ""?@$_POST["e50_compdesp_mes"]:$this->e50_compdesp_mes);
+        $this->e50_compdesp_ano = ($this->e50_compdesp_ano == ""?@$_POST["e50_compdesp_ano"]:$this->e50_compdesp_ano);
         if($this->e50_compdesp_dia != ""){
            $this->e50_compdesp = $this->e50_compdesp_ano."-".$this->e50_compdesp_mes."-".$this->e50_compdesp_dia;
         }
-        $this->e50_contafornecedor = ($this->e50_contafornecedor == ""?@$GLOBALS["HTTP_POST_VARS"]["e50_contafornecedor"]:$this->e50_contafornecedor);
+        $this->e50_contafornecedor = ($this->e50_contafornecedor == ""?@$_POST["e50_contafornecedor"]:$this->e50_contafornecedor);
       }
      }else{
-       $this->e50_codord = ($this->e50_codord == ""?@$GLOBALS["HTTP_POST_VARS"]["e50_codord"]:$this->e50_codord);
+       $this->e50_codord = ($this->e50_codord == ""?@$_POST["e50_codord"]:$this->e50_codord);
      }
    }
    // funcao para inclusao
@@ -360,7 +360,7 @@ class cl_pagordem {
       $this->atualizacampos();
      $sql = " update pagordem set ";
      $virgula = "";
-     if(trim($this->e50_codord)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e50_codord"])){
+     if(trim($this->e50_codord)!="" || isset($_POST["e50_codord"])){
        $sql  .= $virgula." e50_codord = $this->e50_codord ";
        $virgula = ",";
        if(trim($this->e50_codord) == null ){
@@ -373,7 +373,7 @@ class cl_pagordem {
          return false;
        }
      }
-     if(trim($this->e50_numemp)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e50_numemp"])){
+     if(trim($this->e50_numemp)!="" || isset($_POST["e50_numemp"])){
        $sql  .= $virgula." e50_numemp = $this->e50_numemp ";
        $virgula = ",";
        if(trim($this->e50_numemp) == null ){
@@ -386,7 +386,7 @@ class cl_pagordem {
          return false;
        }
      }
-     if(trim($this->e50_data)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e50_data_dia"]) &&  ($GLOBALS["HTTP_POST_VARS"]["e50_data_dia"] !="") ){
+     if(trim($this->e50_data)!="" || isset($_POST["e50_data_dia"]) &&  ($_POST["e50_data_dia"] !="") ){
        $sql  .= $virgula." e50_data = '$this->e50_data' ";
        $virgula = ",";
        if(trim($this->e50_data) == null ){
@@ -399,7 +399,7 @@ class cl_pagordem {
          return false;
        }
      }else{
-       if(isset($GLOBALS["HTTP_POST_VARS"]["e50_data_dia"])){
+       if(isset($_POST["e50_data_dia"])){
          $sql  .= $virgula." e50_data = null ";
          $virgula = ",";
          if(trim($this->e50_data) == null ){
@@ -413,11 +413,11 @@ class cl_pagordem {
          }
        }
      }
-     if(trim($this->e50_obs)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e50_obs"])){
+     if(trim($this->e50_obs)!="" || isset($_POST["e50_obs"])){
        $sql  .= $virgula." e50_obs = '$this->e50_obs' ";
        $virgula = ",";
      }
-     if(trim($this->e50_id_usuario)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e50_id_usuario"])){
+     if(trim($this->e50_id_usuario)!="" || isset($_POST["e50_id_usuario"])){
        $sql  .= $virgula." e50_id_usuario = $this->e50_id_usuario ";
        $virgula = ",";
        if(trim($this->e50_id_usuario) == null ){
@@ -430,7 +430,7 @@ class cl_pagordem {
          return false;
        }
      }
-     if(trim($this->e50_hora)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e50_hora"])){
+     if(trim($this->e50_hora)!="" || isset($_POST["e50_hora"])){
        $sql  .= $virgula." e50_hora = '$this->e50_hora' ";
        $virgula = ",";
        if(trim($this->e50_hora) == null ){
@@ -443,7 +443,7 @@ class cl_pagordem {
          return false;
        }
      }
-     if(trim($this->e50_anousu)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e50_anousu"])){
+     if(trim($this->e50_anousu)!="" || isset($_POST["e50_anousu"])){
        $sql  .= $virgula." e50_anousu = $this->e50_anousu ";
        $virgula = ",";
        if(trim($this->e50_anousu) == null ){
@@ -456,7 +456,7 @@ class cl_pagordem {
          return false;
        }
      }
-     if(trim($this->e50_compdesp)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e50_compdesp_dia"]) &&  ($GLOBALS["HTTP_POST_VARS"]["e50_compdesp_dia"] !="") ){
+     if(trim($this->e50_compdesp)!="" || isset($_POST["e50_compdesp_dia"]) &&  ($_POST["e50_compdesp_dia"] !="") ){
        $sql  .= $virgula." e50_compdesp = '$this->e50_compdesp' ";
        $virgula = ",";
        if(trim($this->e50_compdesp) == null ){
@@ -469,7 +469,7 @@ class cl_pagordem {
          return false;
        }
      }else{
-       if(isset($GLOBALS["HTTP_POST_VARS"]["e50_compdesp_dia"])){
+       if(isset($_POST["e50_compdesp_dia"])){
          $sql  .= $virgula." e50_compdesp = null ";
          $virgula = ",";
          if(trim($this->e50_compdesp) == null && in_array(substr($o56_elemento,0,7),array("3319092","3319192","3319592","3319692"))){
@@ -483,72 +483,72 @@ class cl_pagordem {
          }
        }
      }
-     if(trim($this->e50_contapag)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e50_contapag"])){
+     if(trim($this->e50_contapag)!="" || isset($_POST["e50_contapag"])){
         $sql  .= $virgula." e50_contapag = $this->e50_contapag ";
         $virgula = ",";
       }
-      if(trim($this->e50_retencaoir)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e50_retencaoir"])){
+      if(trim($this->e50_retencaoir)!="" || isset($_POST["e50_retencaoir"])){
         $sql  .= $virgula." e50_retencaoir = $this->e50_retencaoir::bool ";
         $virgula = ",";
       }
-      if(trim($this->e50_naturezabemservico)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e50_naturezabemservico"])){
+      if(trim($this->e50_naturezabemservico)!="" || isset($_POST["e50_naturezabemservico"])){
         $sql  .= $virgula." e50_naturezabemservico = $this->e50_naturezabemservico ";
         $virgula = ",";
       }
-      if(trim($this->e50_cattrabalhador)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e50_cattrabalhador"])){
+      if(trim($this->e50_cattrabalhador)!="" || isset($_POST["e50_cattrabalhador"])){
         $sql  .= $virgula." e50_cattrabalhador = $this->e50_cattrabalhador ";
         $virgula = ",";
       } else {
         $sql  .= $virgula." e50_cattrabalhador = null ";
         $virgula = ",";
       }
-      if(trim($this->e50_cattrabalhadorremurenacao)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e50_cattrabalhadorremurenacao"])){
+      if(trim($this->e50_cattrabalhadorremurenacao)!="" || isset($_POST["e50_cattrabalhadorremurenacao"])){
         $sql  .= $virgula." e50_cattrabalhadorremurenacao = $this->e50_cattrabalhadorremurenacao ";
         $virgula = ",";
       } else {
         $sql  .= $virgula." e50_cattrabalhadorremurenacao = null ";
         $virgula = ",";
       }
-      if(trim($this->e50_empresadesconto)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e50_empresadesconto"])){
+      if(trim($this->e50_empresadesconto)!="" || isset($_POST["e50_empresadesconto"])){
         $sql  .= $virgula." e50_empresadesconto = $this->e50_empresadesconto ";
         $virgula = ",";
       } else {
         $sql  .= $virgula." e50_empresadesconto = null ";
         $virgula = ",";
       }
-      if(trim($this->e50_contribuicaoPrev)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e50_contribuicaoPrev"])){
+      if(trim($this->e50_contribuicaoPrev)!="" || isset($_POST["e50_contribuicaoPrev"])){
         $sql  .= $virgula." e50_contribuicaoPrev = $this->e50_contribuicaoPrev ";
         $virgula = ",";
       } else {
         $sql  .= $virgula." e50_contribuicaoPrev = null ";
         $virgula = ",";
       }
-      if(trim($this->e50_valorremuneracao)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e50_valorremuneracao"])){
+      if(trim($this->e50_valorremuneracao)!="" || isset($_POST["e50_valorremuneracao"])){
         $sql  .= $virgula." e50_valorremuneracao = $this->e50_valorremuneracao ";
         $virgula = ",";
       } else {
         $sql  .= $virgula." e50_valorremuneracao = null ";
         $virgula = ",";
       }
-      if(trim($this->e50_valordesconto)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e50_valordesconto"])){
+      if(trim($this->e50_valordesconto)!="" || isset($_POST["e50_valordesconto"])){
         $sql  .= $virgula." e50_valordesconto = $this->e50_valordesconto ";
         $virgula = ",";
       }else {
         $sql  .= $virgula." e50_valordesconto = null ";
         $virgula = ",";
       }
-      if(trim($this->e50_datacompetencia)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e50_datacompetencia"])){
+      if(trim($this->e50_datacompetencia)!="" || isset($_POST["e50_datacompetencia"])){
         $sql  .= $virgula." e50_datacompetencia = '$this->e50_datacompetencia' ";
         $virgula = ",";
       } else {
         $sql  .= $virgula." e50_datacompetencia = null ";
         $virgula = ",";
       }
-      if(trim($this->e50_contafornecedor)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e50_contafornecedor"])){
+      if(trim($this->e50_contafornecedor)!="" || isset($_POST["e50_contafornecedor"])){
         $sql  .= $virgula." e50_contafornecedor = $this->e50_contafornecedor ";
         $virgula = ",";
       }
-      if(trim($this->e50_numcgmordenador)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e50_numcgmordenador"]) &&  ($GLOBALS["HTTP_POST_VARS"]["e50_numcgmordenador"] != "")){
+      if(trim($this->e50_numcgmordenador)!="" || isset($_POST["e50_numcgmordenador"]) &&  ($_POST["e50_numcgmordenador"] != "")){
         $sql  .= $virgula." e50_numcgmordenador = '$this->e50_numcgmordenador' ";
         $virgula = ",";
       } else {
@@ -567,19 +567,19 @@ class cl_pagordem {
          $acount = pg_result($resac,0,0);
          $resac = db_query("insert into db_acountacesso values($acount,".db_getsession("DB_acessado").")");
          $resac = db_query("insert into db_acountkey values($acount,5437,'$this->e50_codord','A')");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e50_codord"]) || $this->e50_codord != "")
+         if(isset($_POST["e50_codord"]) || $this->e50_codord != "")
            $resac = db_query("insert into db_acount values($acount,808,5437,'".AddSlashes(pg_result($resaco,$conresaco,'e50_codord'))."','$this->e50_codord',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e50_numemp"]) || $this->e50_numemp != "")
+         if(isset($_POST["e50_numemp"]) || $this->e50_numemp != "")
            $resac = db_query("insert into db_acount values($acount,808,5438,'".AddSlashes(pg_result($resaco,$conresaco,'e50_numemp'))."','$this->e50_numemp',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e50_data"]) || $this->e50_data != "")
+         if(isset($_POST["e50_data"]) || $this->e50_data != "")
            $resac = db_query("insert into db_acount values($acount,808,5439,'".AddSlashes(pg_result($resaco,$conresaco,'e50_data'))."','$this->e50_data',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e50_obs"]) || $this->e50_obs != "")
+         if(isset($_POST["e50_obs"]) || $this->e50_obs != "")
            $resac = db_query("insert into db_acount values($acount,808,5441,'".AddSlashes(pg_result($resaco,$conresaco,'e50_obs'))."','$this->e50_obs',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e50_id_usuario"]) || $this->e50_id_usuario != "")
+         if(isset($_POST["e50_id_usuario"]) || $this->e50_id_usuario != "")
            $resac = db_query("insert into db_acount values($acount,808,9190,'".AddSlashes(pg_result($resaco,$conresaco,'e50_id_usuario'))."','$this->e50_id_usuario',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e50_hora"]) || $this->e50_hora != "")
+         if(isset($_POST["e50_hora"]) || $this->e50_hora != "")
            $resac = db_query("insert into db_acount values($acount,808,9191,'".AddSlashes(pg_result($resaco,$conresaco,'e50_hora'))."','$this->e50_hora',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e50_anousu"]) || $this->e50_anousu != "")
+         if(isset($_POST["e50_anousu"]) || $this->e50_anousu != "")
            $resac = db_query("insert into db_acount values($acount,808,11134,'".AddSlashes(pg_result($resaco,$conresaco,'e50_anousu'))."','$this->e50_anousu',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
        }
      } 

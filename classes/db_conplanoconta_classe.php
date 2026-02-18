@@ -1,4 +1,4 @@
-<?
+<?php
 /*
  *     E-cidade Software Publico para Gestao Municipal                
  *  Copyright (C) 2009  DBselller Servicos de Informatica             
@@ -69,7 +69,7 @@ class cl_conplanoconta {
    function cl_conplanoconta() { 
      //classes dos rotulos dos campos
      $this->rotulo = new rotulo("conplanoconta"); 
-     $this->pagina_retorno =  basename($GLOBALS["HTTP_SERVER_VARS"]["PHP_SELF"]);
+     $this->pagina_retorno =  basename($_SERVER["PHP_SELF"]);
    }
    //funcao erro 
    function erro($mostra,$retorna) { 
@@ -83,19 +83,19 @@ class cl_conplanoconta {
    // funcao para atualizar campos
    function atualizacampos($exclusao=false) {
      if($exclusao==false){
-       $this->c63_codcon = ($this->c63_codcon == ""?@$GLOBALS["HTTP_POST_VARS"]["c63_codcon"]:$this->c63_codcon);
-       $this->c63_anousu = ($this->c63_anousu == ""?@$GLOBALS["HTTP_POST_VARS"]["c63_anousu"]:$this->c63_anousu);
-       $this->c63_banco = ($this->c63_banco == ""?@$GLOBALS["HTTP_POST_VARS"]["c63_banco"]:$this->c63_banco);
-       $this->c63_agencia = ($this->c63_agencia == ""?@$GLOBALS["HTTP_POST_VARS"]["c63_agencia"]:$this->c63_agencia);
-       $this->c63_conta = ($this->c63_conta == ""?@$GLOBALS["HTTP_POST_VARS"]["c63_conta"]:$this->c63_conta);
-       $this->c63_dvconta = ($this->c63_dvconta == ""?@$GLOBALS["HTTP_POST_VARS"]["c63_dvconta"]:$this->c63_dvconta);
-       $this->c63_dvagencia = ($this->c63_dvagencia == ""?@$GLOBALS["HTTP_POST_VARS"]["c63_dvagencia"]:$this->c63_dvagencia);
-       $this->c63_identificador = ($this->c63_identificador == ""?@$GLOBALS["HTTP_POST_VARS"]["c63_identificador"]:$this->c63_identificador);
-       $this->c63_codigooperacao = ($this->c63_codigooperacao == ""?@$GLOBALS["HTTP_POST_VARS"]["c63_codigooperacao"]:$this->c63_codigooperacao);
-       $this->c63_tipoconta = ($this->c63_tipoconta == ""?@$GLOBALS["HTTP_POST_VARS"]["c63_tipoconta"]:$this->c63_tipoconta);
+       $this->c63_codcon = ($this->c63_codcon == ""?@$_POST["c63_codcon"]:$this->c63_codcon);
+       $this->c63_anousu = ($this->c63_anousu == ""?@$_POST["c63_anousu"]:$this->c63_anousu);
+       $this->c63_banco = ($this->c63_banco == ""?@$_POST["c63_banco"]:$this->c63_banco);
+       $this->c63_agencia = ($this->c63_agencia == ""?@$_POST["c63_agencia"]:$this->c63_agencia);
+       $this->c63_conta = ($this->c63_conta == ""?@$_POST["c63_conta"]:$this->c63_conta);
+       $this->c63_dvconta = ($this->c63_dvconta == ""?@$_POST["c63_dvconta"]:$this->c63_dvconta);
+       $this->c63_dvagencia = ($this->c63_dvagencia == ""?@$_POST["c63_dvagencia"]:$this->c63_dvagencia);
+       $this->c63_identificador = ($this->c63_identificador == ""?@$_POST["c63_identificador"]:$this->c63_identificador);
+       $this->c63_codigooperacao = ($this->c63_codigooperacao == ""?@$_POST["c63_codigooperacao"]:$this->c63_codigooperacao);
+       $this->c63_tipoconta = ($this->c63_tipoconta == ""?@$_POST["c63_tipoconta"]:$this->c63_tipoconta);
      }else{
-       $this->c63_codcon = ($this->c63_codcon == ""?@$GLOBALS["HTTP_POST_VARS"]["c63_codcon"]:$this->c63_codcon);
-       $this->c63_anousu = ($this->c63_anousu == ""?@$GLOBALS["HTTP_POST_VARS"]["c63_anousu"]:$this->c63_anousu);
+       $this->c63_codcon = ($this->c63_codcon == ""?@$_POST["c63_codcon"]:$this->c63_codcon);
+       $this->c63_anousu = ($this->c63_anousu == ""?@$_POST["c63_anousu"]:$this->c63_anousu);
      }
    }
    // funcao para inclusao
@@ -236,7 +236,7 @@ class cl_conplanoconta {
       $this->atualizacampos();
      $sql = " update conplanoconta set ";
      $virgula = "";
-     if(trim($this->c63_codcon)!="" || isset($GLOBALS["HTTP_POST_VARS"]["c63_codcon"])){ 
+     if(trim($this->c63_codcon)!="" || isset($_POST["c63_codcon"])){ 
        $sql  .= $virgula." c63_codcon = $this->c63_codcon ";
        $virgula = ",";
        if(trim($this->c63_codcon) == null ){ 
@@ -249,7 +249,7 @@ class cl_conplanoconta {
          return false;
        }
      }
-     if(trim($this->c63_anousu)!="" || isset($GLOBALS["HTTP_POST_VARS"]["c63_anousu"])){ 
+     if(trim($this->c63_anousu)!="" || isset($_POST["c63_anousu"])){ 
        $sql  .= $virgula." c63_anousu = $this->c63_anousu ";
        $virgula = ",";
        if(trim($this->c63_anousu) == null ){ 
@@ -262,7 +262,7 @@ class cl_conplanoconta {
          return false;
        }
      }
-     if(trim($this->c63_banco)!="" || isset($GLOBALS["HTTP_POST_VARS"]["c63_banco"])){ 
+     if(trim($this->c63_banco)!="" || isset($_POST["c63_banco"])){ 
        $sql  .= $virgula." c63_banco = '$this->c63_banco' ";
        $virgula = ",";
        if(trim($this->c63_banco) == null ){ 
@@ -275,7 +275,7 @@ class cl_conplanoconta {
          return false;
        }
      }
-     if(trim($this->c63_agencia)!="" || isset($GLOBALS["HTTP_POST_VARS"]["c63_agencia"])){ 
+     if(trim($this->c63_agencia)!="" || isset($_POST["c63_agencia"])){ 
        $sql  .= $virgula." c63_agencia = '$this->c63_agencia' ";
        $virgula = ",";
        if(trim($this->c63_agencia) == null ){ 
@@ -288,7 +288,7 @@ class cl_conplanoconta {
          return false;
        }
      }
-     if(trim($this->c63_conta)!="" || isset($GLOBALS["HTTP_POST_VARS"]["c63_conta"])){ 
+     if(trim($this->c63_conta)!="" || isset($_POST["c63_conta"])){ 
        $sql  .= $virgula." c63_conta = '$this->c63_conta' ";
        $virgula = ",";
        if(trim($this->c63_conta) == null ){ 
@@ -301,7 +301,7 @@ class cl_conplanoconta {
          return false;
        }
      }
-     if(trim($this->c63_dvconta)!="" || isset($GLOBALS["HTTP_POST_VARS"]["c63_dvconta"])){ 
+     if(trim($this->c63_dvconta)!="" || isset($_POST["c63_dvconta"])){ 
        $sql  .= $virgula." c63_dvconta = '$this->c63_dvconta' ";
        $virgula = ",";
        if(trim($this->c63_dvconta) == null ){ 
@@ -314,7 +314,7 @@ class cl_conplanoconta {
          return false;
        }
      }
-     if(trim($this->c63_dvagencia)!="" || isset($GLOBALS["HTTP_POST_VARS"]["c63_dvagencia"])){ 
+     if(trim($this->c63_dvagencia)!="" || isset($_POST["c63_dvagencia"])){ 
        $sql  .= $virgula." c63_dvagencia = '$this->c63_dvagencia' ";
        $virgula = ",";
        if(trim($this->c63_dvagencia) == null ){ 
@@ -327,16 +327,16 @@ class cl_conplanoconta {
          return false;
        }
      }
-     if(trim($this->c63_identificador)!="" || isset($GLOBALS["HTTP_POST_VARS"]["c63_identificador"])){ 
+     if(trim($this->c63_identificador)!="" || isset($_POST["c63_identificador"])){ 
        $sql  .= $virgula." c63_identificador = '$this->c63_identificador' ";
        $virgula = ",";
      }
-     if(trim($this->c63_codigooperacao)!="" || isset($GLOBALS["HTTP_POST_VARS"]["c63_codigooperacao"])){ 
+     if(trim($this->c63_codigooperacao)!="" || isset($_POST["c63_codigooperacao"])){ 
        $sql  .= $virgula." c63_codigooperacao = '$this->c63_codigooperacao' ";
        $virgula = ",";
      }
-     if(trim($this->c63_tipoconta)!="" || isset($GLOBALS["HTTP_POST_VARS"]["c63_tipoconta"])){ 
-        if(trim($this->c63_tipoconta)=="" && isset($GLOBALS["HTTP_POST_VARS"]["c63_tipoconta"])){ 
+     if(trim($this->c63_tipoconta)!="" || isset($_POST["c63_tipoconta"])){ 
+        if(trim($this->c63_tipoconta)=="" && isset($_POST["c63_tipoconta"])){ 
            $this->c63_tipoconta = "0" ; 
         } 
        $sql  .= $virgula." c63_tipoconta = $this->c63_tipoconta ";
@@ -357,25 +357,25 @@ class cl_conplanoconta {
          $resac = db_query("insert into db_acountacesso values($acount,".db_getsession("DB_acessado").")");
          $resac = db_query("insert into db_acountkey values($acount,5239,'$this->c63_codcon','A')");
          $resac = db_query("insert into db_acountkey values($acount,8061,'$this->c63_anousu','A')");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["c63_codcon"]) || $this->c63_codcon != "")
+         if(isset($_POST["c63_codcon"]) || $this->c63_codcon != "")
            $resac = db_query("insert into db_acount values($acount,813,5239,'".AddSlashes(pg_result($resaco,$conresaco,'c63_codcon'))."','$this->c63_codcon',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["c63_anousu"]) || $this->c63_anousu != "")
+         if(isset($_POST["c63_anousu"]) || $this->c63_anousu != "")
            $resac = db_query("insert into db_acount values($acount,813,8061,'".AddSlashes(pg_result($resaco,$conresaco,'c63_anousu'))."','$this->c63_anousu',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["c63_banco"]) || $this->c63_banco != "")
+         if(isset($_POST["c63_banco"]) || $this->c63_banco != "")
            $resac = db_query("insert into db_acount values($acount,813,5240,'".AddSlashes(pg_result($resaco,$conresaco,'c63_banco'))."','$this->c63_banco',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["c63_agencia"]) || $this->c63_agencia != "")
+         if(isset($_POST["c63_agencia"]) || $this->c63_agencia != "")
            $resac = db_query("insert into db_acount values($acount,813,5241,'".AddSlashes(pg_result($resaco,$conresaco,'c63_agencia'))."','$this->c63_agencia',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["c63_conta"]) || $this->c63_conta != "")
+         if(isset($_POST["c63_conta"]) || $this->c63_conta != "")
            $resac = db_query("insert into db_acount values($acount,813,5242,'".AddSlashes(pg_result($resaco,$conresaco,'c63_conta'))."','$this->c63_conta',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["c63_dvconta"]) || $this->c63_dvconta != "")
+         if(isset($_POST["c63_dvconta"]) || $this->c63_dvconta != "")
            $resac = db_query("insert into db_acount values($acount,813,7172,'".AddSlashes(pg_result($resaco,$conresaco,'c63_dvconta'))."','$this->c63_dvconta',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["c63_dvagencia"]) || $this->c63_dvagencia != "")
+         if(isset($_POST["c63_dvagencia"]) || $this->c63_dvagencia != "")
            $resac = db_query("insert into db_acount values($acount,813,7171,'".AddSlashes(pg_result($resaco,$conresaco,'c63_dvagencia'))."','$this->c63_dvagencia',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["c63_identificador"]) || $this->c63_identificador != "")
+         if(isset($_POST["c63_identificador"]) || $this->c63_identificador != "")
            $resac = db_query("insert into db_acount values($acount,813,9829,'".AddSlashes(pg_result($resaco,$conresaco,'c63_identificador'))."','$this->c63_identificador',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["c63_codigooperacao"]) || $this->c63_codigooperacao != "")
+         if(isset($_POST["c63_codigooperacao"]) || $this->c63_codigooperacao != "")
            $resac = db_query("insert into db_acount values($acount,813,15307,'".AddSlashes(pg_result($resaco,$conresaco,'c63_codigooperacao'))."','$this->c63_codigooperacao',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["c63_tipoconta"]) || $this->c63_tipoconta != "")
+         if(isset($_POST["c63_tipoconta"]) || $this->c63_tipoconta != "")
            $resac = db_query("insert into db_acount values($acount,813,15308,'".AddSlashes(pg_result($resaco,$conresaco,'c63_tipoconta'))."','$this->c63_tipoconta',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
        }
      }

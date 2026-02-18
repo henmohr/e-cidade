@@ -1,4 +1,4 @@
-<?
+<?php
 //MODULO: compras
 //CLASSE DA ENTIDADE pcfornecon
 class cl_pcfornecon { 
@@ -46,7 +46,7 @@ class cl_pcfornecon {
    function cl_pcfornecon() { 
      //classes dos rotulos dos campos
      $this->rotulo = new rotulo("pcfornecon"); 
-     $this->pagina_retorno =  basename($GLOBALS["HTTP_SERVER_VARS"]["PHP_SELF"]);
+     $this->pagina_retorno =  basename($_SERVER["PHP_SELF"]);
    }
    //funcao erro 
    function erro($mostra,$retorna) { 
@@ -60,26 +60,26 @@ class cl_pcfornecon {
    // funcao para atualizar campos
    function atualizacampos($exclusao=false) {
      if($exclusao==false){
-       $this->pc63_contabanco = ($this->pc63_contabanco == ""?@$GLOBALS["HTTP_POST_VARS"]["pc63_contabanco"]:$this->pc63_contabanco);
-       $this->pc63_numcgm = ($this->pc63_numcgm == ""?@$GLOBALS["HTTP_POST_VARS"]["pc63_numcgm"]:$this->pc63_numcgm);
-       $this->pc63_banco = ($this->pc63_banco == ""?@$GLOBALS["HTTP_POST_VARS"]["pc63_banco"]:$this->pc63_banco);
-       $this->pc63_agencia = ($this->pc63_agencia == ""?@$GLOBALS["HTTP_POST_VARS"]["pc63_agencia"]:$this->pc63_agencia);
-       $this->pc63_conta = ($this->pc63_conta == ""?@$GLOBALS["HTTP_POST_VARS"]["pc63_conta"]:$this->pc63_conta);
-       $this->pc63_id_usuario = ($this->pc63_id_usuario == ""?@$GLOBALS["HTTP_POST_VARS"]["pc63_id_usuario"]:$this->pc63_id_usuario);
-       $this->pc63_cnpjcpf = ($this->pc63_cnpjcpf == ""?@$GLOBALS["HTTP_POST_VARS"]["pc63_cnpjcpf"]:$this->pc63_cnpjcpf);
-       $this->pc63_agencia_dig = ($this->pc63_agencia_dig == ""?@$GLOBALS["HTTP_POST_VARS"]["pc63_agencia_dig"]:$this->pc63_agencia_dig);
-       $this->pc63_conta_dig = ($this->pc63_conta_dig == ""?@$GLOBALS["HTTP_POST_VARS"]["pc63_conta_dig"]:$this->pc63_conta_dig);
+       $this->pc63_contabanco = ($this->pc63_contabanco == ""?@$_POST["pc63_contabanco"]:$this->pc63_contabanco);
+       $this->pc63_numcgm = ($this->pc63_numcgm == ""?@$_POST["pc63_numcgm"]:$this->pc63_numcgm);
+       $this->pc63_banco = ($this->pc63_banco == ""?@$_POST["pc63_banco"]:$this->pc63_banco);
+       $this->pc63_agencia = ($this->pc63_agencia == ""?@$_POST["pc63_agencia"]:$this->pc63_agencia);
+       $this->pc63_conta = ($this->pc63_conta == ""?@$_POST["pc63_conta"]:$this->pc63_conta);
+       $this->pc63_id_usuario = ($this->pc63_id_usuario == ""?@$_POST["pc63_id_usuario"]:$this->pc63_id_usuario);
+       $this->pc63_cnpjcpf = ($this->pc63_cnpjcpf == ""?@$_POST["pc63_cnpjcpf"]:$this->pc63_cnpjcpf);
+       $this->pc63_agencia_dig = ($this->pc63_agencia_dig == ""?@$_POST["pc63_agencia_dig"]:$this->pc63_agencia_dig);
+       $this->pc63_conta_dig = ($this->pc63_conta_dig == ""?@$_POST["pc63_conta_dig"]:$this->pc63_conta_dig);
        if($this->pc63_dataconf == ""){
-         $this->pc63_dataconf_dia = ($this->pc63_dataconf_dia == ""?@$GLOBALS["HTTP_POST_VARS"]["pc63_dataconf_dia"]:$this->pc63_dataconf_dia);
-         $this->pc63_dataconf_mes = ($this->pc63_dataconf_mes == ""?@$GLOBALS["HTTP_POST_VARS"]["pc63_dataconf_mes"]:$this->pc63_dataconf_mes);
-         $this->pc63_dataconf_ano = ($this->pc63_dataconf_ano == ""?@$GLOBALS["HTTP_POST_VARS"]["pc63_dataconf_ano"]:$this->pc63_dataconf_ano);
+         $this->pc63_dataconf_dia = ($this->pc63_dataconf_dia == ""?@$_POST["pc63_dataconf_dia"]:$this->pc63_dataconf_dia);
+         $this->pc63_dataconf_mes = ($this->pc63_dataconf_mes == ""?@$_POST["pc63_dataconf_mes"]:$this->pc63_dataconf_mes);
+         $this->pc63_dataconf_ano = ($this->pc63_dataconf_ano == ""?@$_POST["pc63_dataconf_ano"]:$this->pc63_dataconf_ano);
          if($this->pc63_dataconf_dia != ""){
             $this->pc63_dataconf = $this->pc63_dataconf_ano."-".$this->pc63_dataconf_mes."-".$this->pc63_dataconf_dia;
          }
        }
      }else{
-       $this->pc63_contabanco = ($this->pc63_contabanco == ""?@$GLOBALS["HTTP_POST_VARS"]["pc63_contabanco"]:$this->pc63_contabanco);
-       $this->pc63_conta = ($this->pc63_conta == ""?@$GLOBALS["HTTP_POST_VARS"]["pc63_conta"]:$this->pc63_conta);
+       $this->pc63_contabanco = ($this->pc63_contabanco == ""?@$_POST["pc63_contabanco"]:$this->pc63_contabanco);
+       $this->pc63_conta = ($this->pc63_conta == ""?@$_POST["pc63_conta"]:$this->pc63_conta);
      }
    }
    // funcao para inclusao
@@ -239,7 +239,7 @@ class cl_pcfornecon {
       $this->atualizacampos();
      $sql = " update pcfornecon set ";
      $virgula = "";
-     if(trim($this->pc63_contabanco)!="" || isset($GLOBALS["HTTP_POST_VARS"]["pc63_contabanco"])){ 
+     if(trim($this->pc63_contabanco)!="" || isset($_POST["pc63_contabanco"])){ 
        $sql  .= $virgula." pc63_contabanco = $this->pc63_contabanco ";
        $virgula = ",";
        if(trim($this->pc63_contabanco) == null ){ 
@@ -252,7 +252,7 @@ class cl_pcfornecon {
          return false;
        }
      }
-     if(trim($this->pc63_numcgm)!="" || isset($GLOBALS["HTTP_POST_VARS"]["pc63_numcgm"])){ 
+     if(trim($this->pc63_numcgm)!="" || isset($_POST["pc63_numcgm"])){ 
        $sql  .= $virgula." pc63_numcgm = $this->pc63_numcgm ";
        $virgula = ",";
        if(trim($this->pc63_numcgm) == null ){ 
@@ -265,7 +265,7 @@ class cl_pcfornecon {
          return false;
        }
      }
-     if(trim($this->pc63_banco)!="" || isset($GLOBALS["HTTP_POST_VARS"]["pc63_banco"])){ 
+     if(trim($this->pc63_banco)!="" || isset($_POST["pc63_banco"])){ 
        $sql  .= $virgula." pc63_banco = '$this->pc63_banco' ";
        $virgula = ",";
        if(trim($this->pc63_banco) == null ){ 
@@ -278,7 +278,7 @@ class cl_pcfornecon {
          return false;
        }
      }
-     if(trim($this->pc63_agencia)!="" || isset($GLOBALS["HTTP_POST_VARS"]["pc63_agencia"])){ 
+     if(trim($this->pc63_agencia)!="" || isset($_POST["pc63_agencia"])){ 
        $sql  .= $virgula." pc63_agencia = '$this->pc63_agencia' ";
        $virgula = ",";
        if(trim($this->pc63_agencia) == null ){ 
@@ -291,7 +291,7 @@ class cl_pcfornecon {
          return false;
        }
      }
-     if(trim($this->pc63_conta)!="" || isset($GLOBALS["HTTP_POST_VARS"]["pc63_conta"])){ 
+     if(trim($this->pc63_conta)!="" || isset($_POST["pc63_conta"])){ 
        $sql  .= $virgula." pc63_conta = '$this->pc63_conta' ";
        $virgula = ",";
        if(trim($this->pc63_conta) == null ){ 
@@ -304,7 +304,7 @@ class cl_pcfornecon {
          return false;
        }
      }
-     if(trim($this->pc63_id_usuario)!="" || isset($GLOBALS["HTTP_POST_VARS"]["pc63_id_usuario"])){ 
+     if(trim($this->pc63_id_usuario)!="" || isset($_POST["pc63_id_usuario"])){ 
        $sql  .= $virgula." pc63_id_usuario = $this->pc63_id_usuario ";
        $virgula = ",";
        if(trim($this->pc63_id_usuario) == null ){ 
@@ -317,11 +317,11 @@ class cl_pcfornecon {
          return false;
        }
      }
-     if(trim($this->pc63_cnpjcpf)!="" || isset($GLOBALS["HTTP_POST_VARS"]["pc63_cnpjcpf"])){ 
+     if(trim($this->pc63_cnpjcpf)!="" || isset($_POST["pc63_cnpjcpf"])){ 
        $sql  .= $virgula." pc63_cnpjcpf = '$this->pc63_cnpjcpf' ";
        $virgula = ",";
      }
-     if(trim($this->pc63_agencia_dig)!="" || isset($GLOBALS["HTTP_POST_VARS"]["pc63_agencia_dig"])){ 
+     if(trim($this->pc63_agencia_dig)!="" || isset($_POST["pc63_agencia_dig"])){ 
        $sql  .= $virgula." pc63_agencia_dig = '$this->pc63_agencia_dig' ";
        $virgula = ",";
        if(trim($this->pc63_agencia_dig) == null ){ 
@@ -334,15 +334,15 @@ class cl_pcfornecon {
          return false;
        }
      }
-     if(trim($this->pc63_conta_dig)!="" || isset($GLOBALS["HTTP_POST_VARS"]["pc63_conta_dig"])){ 
+     if(trim($this->pc63_conta_dig)!="" || isset($_POST["pc63_conta_dig"])){ 
        $sql  .= $virgula." pc63_conta_dig = '$this->pc63_conta_dig' ";
        $virgula = ",";
      }
-     if(trim($this->pc63_dataconf)!="" || isset($GLOBALS["HTTP_POST_VARS"]["pc63_dataconf_dia"]) &&  ($GLOBALS["HTTP_POST_VARS"]["pc63_dataconf_dia"] !="") ){ 
+     if(trim($this->pc63_dataconf)!="" || isset($_POST["pc63_dataconf_dia"]) &&  ($_POST["pc63_dataconf_dia"] !="") ){ 
        $sql  .= $virgula." pc63_dataconf = '$this->pc63_dataconf' ";
        $virgula = ",";
      }     else{ 
-       if(isset($GLOBALS["HTTP_POST_VARS"]["pc63_dataconf_dia"])){ 
+       if(isset($_POST["pc63_dataconf_dia"])){ 
          $sql  .= $virgula." pc63_dataconf = null ";
          $virgula = ",";
        }
@@ -357,25 +357,25 @@ class cl_pcfornecon {
          $resac = pg_query("select nextval('db_acount_id_acount_seq') as acount");
          $acount = pg_result($resac,0,0);
          $resac = pg_query("insert into db_acountkey values($acount,6003,'$this->pc63_contabanco','A')");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["pc63_contabanco"]))
+         if(isset($_POST["pc63_contabanco"]))
            $resac = pg_query("insert into db_acount values($acount,963,6003,'".AddSlashes(pg_result($resaco,$conresaco,'pc63_contabanco'))."','$this->pc63_contabanco',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["pc63_numcgm"]))
+         if(isset($_POST["pc63_numcgm"]))
            $resac = pg_query("insert into db_acount values($acount,963,6004,'".AddSlashes(pg_result($resaco,$conresaco,'pc63_numcgm'))."','$this->pc63_numcgm',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["pc63_banco"]))
+         if(isset($_POST["pc63_banco"]))
            $resac = pg_query("insert into db_acount values($acount,963,6005,'".AddSlashes(pg_result($resaco,$conresaco,'pc63_banco'))."','$this->pc63_banco',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["pc63_agencia"]))
+         if(isset($_POST["pc63_agencia"]))
            $resac = pg_query("insert into db_acount values($acount,963,6006,'".AddSlashes(pg_result($resaco,$conresaco,'pc63_agencia'))."','$this->pc63_agencia',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["pc63_conta"]))
+         if(isset($_POST["pc63_conta"]))
            $resac = pg_query("insert into db_acount values($acount,963,6007,'".AddSlashes(pg_result($resaco,$conresaco,'pc63_conta'))."','$this->pc63_conta',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["pc63_id_usuario"]))
+         if(isset($_POST["pc63_id_usuario"]))
            $resac = pg_query("insert into db_acount values($acount,963,6008,'".AddSlashes(pg_result($resaco,$conresaco,'pc63_id_usuario'))."','$this->pc63_id_usuario',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["pc63_cnpjcpf"]))
+         if(isset($_POST["pc63_cnpjcpf"]))
            $resac = pg_query("insert into db_acount values($acount,963,6580,'".AddSlashes(pg_result($resaco,$conresaco,'pc63_cnpjcpf'))."','$this->pc63_cnpjcpf',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["pc63_agencia_dig"]))
+         if(isset($_POST["pc63_agencia_dig"]))
            $resac = pg_query("insert into db_acount values($acount,963,6785,'".AddSlashes(pg_result($resaco,$conresaco,'pc63_agencia_dig'))."','$this->pc63_agencia_dig',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["pc63_conta_dig"]))
+         if(isset($_POST["pc63_conta_dig"]))
            $resac = pg_query("insert into db_acount values($acount,963,7181,'".AddSlashes(pg_result($resaco,$conresaco,'pc63_conta_dig'))."','$this->pc63_conta_dig',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["pc63_dataconf"]))
+         if(isset($_POST["pc63_dataconf"]))
            $resac = pg_query("insert into db_acount values($acount,963,7231,'".AddSlashes(pg_result($resaco,$conresaco,'pc63_dataconf'))."','$this->pc63_dataconf',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
        }
      }
