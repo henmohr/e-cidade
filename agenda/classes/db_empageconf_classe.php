@@ -1,4 +1,4 @@
-<?
+<?php
 //MODULO: empenho
 //CLASSE DA ENTIDADE empageconf
 class cl_empageconf { 
@@ -32,7 +32,7 @@ class cl_empageconf {
    function cl_empageconf() { 
      //classes dos rotulos dos campos
      $this->rotulo = new rotulo("empageconf"); 
-     $this->pagina_retorno =  basename($GLOBALS["HTTP_SERVER_VARS"]["PHP_SELF"]);
+     $this->pagina_retorno =  basename($_SERVER["PHP_SELF"]);
    }
    //funcao erro 
    function erro($mostra,$retorna) { 
@@ -46,18 +46,18 @@ class cl_empageconf {
    // funcao para atualizar campos
    function atualizacampos($exclusao=false) {
      if($exclusao==false){
-       $this->e86_codmov = ($this->e86_codmov == ""?@$GLOBALS["HTTP_POST_VARS"]["e86_codmov"]:$this->e86_codmov);
+       $this->e86_codmov = ($this->e86_codmov == ""?@$_POST["e86_codmov"]:$this->e86_codmov);
        if($this->e86_data == ""){
-         $this->e86_data_dia = ($this->e86_data_dia == ""?@$GLOBALS["HTTP_POST_VARS"]["e86_data_dia"]:$this->e86_data_dia);
-         $this->e86_data_mes = ($this->e86_data_mes == ""?@$GLOBALS["HTTP_POST_VARS"]["e86_data_mes"]:$this->e86_data_mes);
-         $this->e86_data_ano = ($this->e86_data_ano == ""?@$GLOBALS["HTTP_POST_VARS"]["e86_data_ano"]:$this->e86_data_ano);
+         $this->e86_data_dia = ($this->e86_data_dia == ""?@$_POST["e86_data_dia"]:$this->e86_data_dia);
+         $this->e86_data_mes = ($this->e86_data_mes == ""?@$_POST["e86_data_mes"]:$this->e86_data_mes);
+         $this->e86_data_ano = ($this->e86_data_ano == ""?@$_POST["e86_data_ano"]:$this->e86_data_ano);
          if($this->e86_data_dia != ""){
             $this->e86_data = $this->e86_data_ano."-".$this->e86_data_mes."-".$this->e86_data_dia;
          }
        }
-       $this->e86_cheque = ($this->e86_cheque == ""?@$GLOBALS["HTTP_POST_VARS"]["e86_cheque"]:$this->e86_cheque);
+       $this->e86_cheque = ($this->e86_cheque == ""?@$_POST["e86_cheque"]:$this->e86_cheque);
      }else{
-       $this->e86_codmov = ($this->e86_codmov == ""?@$GLOBALS["HTTP_POST_VARS"]["e86_codmov"]:$this->e86_codmov);
+       $this->e86_codmov = ($this->e86_codmov == ""?@$_POST["e86_codmov"]:$this->e86_codmov);
      }
    }
    // funcao para inclusao
@@ -141,7 +141,7 @@ class cl_empageconf {
       $this->atualizacampos();
      $sql = " update empageconf set ";
      $virgula = "";
-     if(trim($this->e86_codmov)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e86_codmov"])){ 
+     if(trim($this->e86_codmov)!="" || isset($_POST["e86_codmov"])){ 
        $sql  .= $virgula." e86_codmov = $this->e86_codmov ";
        $virgula = ",";
        if(trim($this->e86_codmov) == null ){ 
@@ -154,7 +154,7 @@ class cl_empageconf {
          return false;
        }
      }
-     if(trim($this->e86_data)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e86_data_dia"]) &&  ($GLOBALS["HTTP_POST_VARS"]["e86_data_dia"] !="") ){ 
+     if(trim($this->e86_data)!="" || isset($_POST["e86_data_dia"]) &&  ($_POST["e86_data_dia"] !="") ){ 
        $sql  .= $virgula." e86_data = '$this->e86_data' ";
        $virgula = ",";
        if(trim($this->e86_data) == null ){ 
@@ -167,7 +167,7 @@ class cl_empageconf {
          return false;
        }
      }     else{ 
-       if(isset($GLOBALS["HTTP_POST_VARS"]["e86_data_dia"])){ 
+       if(isset($_POST["e86_data_dia"])){ 
          $sql  .= $virgula." e86_data = null ";
          $virgula = ",";
          if(trim($this->e86_data) == null ){ 
@@ -181,7 +181,7 @@ class cl_empageconf {
          }
        }
      }
-     if(trim($this->e86_cheque)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e86_cheque"])){ 
+     if(trim($this->e86_cheque)!="" || isset($_POST["e86_cheque"])){ 
        $sql  .= $virgula." e86_cheque = '$this->e86_cheque' ";
        $virgula = ",";
        if(trim($this->e86_cheque) == null ){ 
@@ -204,11 +204,11 @@ class cl_empageconf {
          $resac = pg_query("select nextval('db_acount_id_acount_seq') as acount");
          $acount = pg_result($resac,0,0);
          $resac = pg_query("insert into db_acountkey values($acount,6188,'$this->e86_codmov','A')");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e86_codmov"]))
+         if(isset($_POST["e86_codmov"]))
            $resac = pg_query("insert into db_acount values($acount,1000,6188,'".AddSlashes(pg_result($resaco,$conresaco,'e86_codmov'))."','$this->e86_codmov',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e86_data"]))
+         if(isset($_POST["e86_data"]))
            $resac = pg_query("insert into db_acount values($acount,1000,6189,'".AddSlashes(pg_result($resaco,$conresaco,'e86_data'))."','$this->e86_data',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e86_cheque"]))
+         if(isset($_POST["e86_cheque"]))
            $resac = pg_query("insert into db_acount values($acount,1000,6190,'".AddSlashes(pg_result($resaco,$conresaco,'e86_cheque'))."','$this->e86_cheque',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
        }
      }
