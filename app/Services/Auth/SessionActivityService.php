@@ -75,6 +75,36 @@ class SessionActivityService
         return true;
     }
 
+    public function revokeOtherSessions(User $user, string $keepSessionId): int
+    {
+        $keepSessionId = trim($keepSessionId);
+        if ($keepSessionId === '') {
+            return 0;
+        }
+
+        $cacheKey = $this->userSessionsKey((int) $user->getAuthIdentifier());
+        $sessions = Cache::get($cacheKey, []);
+        if (!is_array($sessions) || empty($sessions)) {
+            return 0;
+        }
+
+        $ttlMinutes = max(10, (int) config('session.lifetime', 120));
+        $revoked = 0;
+        foreach (array_keys($sessions) as $sessionId) {
+            if ((string) $sessionId === $keepSessionId) {
+                continue;
+            }
+
+            unset($sessions[$sessionId]);
+            Cache::put($this->revokedSessionKey((string) $sessionId), true, now()->addMinutes($ttlMinutes));
+            $revoked++;
+        }
+
+        Cache::put($cacheKey, $sessions, now()->addMinutes($ttlMinutes));
+
+        return $revoked;
+    }
+
     public function isRevoked(string $sessionId): bool
     {
         if ($sessionId === '') {

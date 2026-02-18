@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Services\Auth\AuthEventService;
 use App\Services\Auth\ExternalIdentityService;
+use App\Services\Auth\SessionActivityService;
 use App\Support\Session\LegacySession;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -14,7 +15,11 @@ use Illuminate\Support\Facades\Log;
 
 class ExternalIdentityController extends Controller
 {
-    public function callback(Request $request, ExternalIdentityService $service): RedirectResponse|JsonResponse
+    public function callback(
+        Request $request,
+        ExternalIdentityService $service,
+        SessionActivityService $sessionService
+    ): RedirectResponse|JsonResponse
     {
         if (!$service->isEnabled()) {
             return $this->deny($request, 404, 'Integracao de identidade externa desabilitada.', [
@@ -87,13 +92,23 @@ class ExternalIdentityController extends Controller
         session()->put('auth.external.provider', $provider);
 
         Auth::loginUsingId((int) $user->getAuthIdentifier());
+        $request->session()->regenerate();
+        $sessionService->touch($user, $request);
+        $revokedCount = $sessionService->revokeOtherSessions($user, (string) $request->session()->getId());
+
         app(AuthEventService::class)->registerExternalSuccess($request, $user, $provider);
+        if ($revokedCount > 0) {
+            app(AuthEventService::class)->registerCustomEvent($request, $user, 'session_revoke_others', [
+                'revoked_count' => $revokedCount,
+            ]);
+        }
 
         Log::info('External identity login succeeded', [
             'provider' => $provider,
             'user_id' => $user->getAuthIdentifier(),
             'login' => $user->login,
             'ip' => $request->ip(),
+            'revoked_sessions' => $revokedCount,
         ]);
 
         $redirectPath = (string) config('external_identity.redirect_path', '/web/welcome');

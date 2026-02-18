@@ -59,6 +59,8 @@ Claims minimas no payload:
 - esperado: bloqueio por replay (`409`).
 8. Disparar varias chamadas consecutivas acima do limite:
 - esperado: bloqueio por rate limit (`429`).
+9. Validar controle de sessão concorrente:
+- esperado: sessões anteriores do mesmo usuário são revogadas automaticamente (`session_revoke_others`).
 
 ## 5. Evidencias esperadas
 
