@@ -36,6 +36,7 @@ class AuthEventServiceTest extends TestCase
         ]);
 
         $service->registerExternalSuccess($request, $user, 'govbr');
+        $service->registerCustomEvent($request, $user, 'session_revoked', ['target_session_id' => 'abc123']);
         $service->registerLogout($request, $user);
 
         $events = $service->listRecentEventsForUser($user);
@@ -44,6 +45,7 @@ class AuthEventServiceTest extends TestCase
         }, $events);
 
         $this->assertContains('login_external_success', $types);
+        $this->assertContains('session_revoked', $types);
         $this->assertContains('logout', $types);
     }
 

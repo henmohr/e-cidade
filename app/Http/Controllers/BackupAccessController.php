@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\Auth\AuthEventService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -60,6 +61,13 @@ class BackupAccessController extends Controller
             'a3_mode' => $cert['mode'] ?? 'unknown',
             'a3_subject' => $cert['subject'] ?? null,
         ]);
+        $user = auth()->user();
+        if ($user) {
+            app(AuthEventService::class)->registerCustomEvent($request, $user, 'backup_link_generated', [
+                'tier' => $data['tier'],
+                'file' => $fileName,
+            ]);
+        }
 
         return back()->with('download_url', $url);
     }
@@ -89,6 +97,14 @@ class BackupAccessController extends Controller
             'a3_subject' => $cert['subject'] ?? null,
             'ip' => $request->ip(),
         ]);
+        $user = auth()->user();
+        if ($user) {
+            app(AuthEventService::class)->registerCustomEvent($request, $user, 'backup_download_executed', [
+                'tier' => $tier,
+                'file' => $fileName,
+                'a3_mode' => $cert['mode'] ?? 'unknown',
+            ]);
+        }
 
         return response()->download($path, $fileName);
     }

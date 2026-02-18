@@ -50,6 +50,9 @@ class SessionController extends Controller
             'actor_session_id' => (string) session()->getId(),
             'ip' => $request->ip(),
         ]);
+        app(AuthEventService::class)->registerCustomEvent($request, $user, 'session_revoked', [
+            'target_session_id' => $sessionId,
+        ]);
 
         return back()->with('status', 'Sessao encerrada com sucesso.');
     }

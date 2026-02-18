@@ -71,6 +71,26 @@ class AuthEventService
         ]);
     }
 
+    /**
+     * @param array<string, mixed> $meta
+     */
+    public function registerCustomEvent(Request $request, User $user, string $type, array $meta = []): void
+    {
+        $type = strtolower(trim($type));
+        if ($type === '') {
+            return;
+        }
+
+        $event = array_merge($meta, [
+            'type' => $type,
+            'timestamp' => now()->toIso8601String(),
+            'ip' => (string) $request->ip(),
+            'user_agent' => substr((string) $request->userAgent(), 0, 300),
+        ]);
+
+        $this->appendUserEvent($user, $event);
+    }
+
     public function absorbPendingFailuresForUser(User $user): int
     {
         $all = [];

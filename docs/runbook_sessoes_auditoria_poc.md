@@ -30,6 +30,10 @@ Resultado esperado:
    - `User session revoked`
 5. Captura do alerta de tentativas de login mal sucedidas (quando houver).
 6. Trecho de historico com tipos de evento (`login_success`, `login_external_success`, `logout`) quando aplicavel.
+7. Trecho de historico com eventos operacionais de seguranca:
+   - `mfa_verify_success` / `mfa_verify_failed`
+   - `mfa_code_resent`
+   - `session_revoked`
 
 ## 4. Limites Conhecidos
 

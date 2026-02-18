@@ -25,7 +25,8 @@ Headers esperados:
 Resultado esperado:
 - acesso permitido apenas com certificado válido;
 - tentativa sem certificado retorna `403`;
-- logs de geração e download registrados.
+- logs de geração e download registrados;
+- histórico de autenticação inclui `backup_link_generated` e `backup_download_executed`.
 
 ## 3. Evidências para PoC
 
