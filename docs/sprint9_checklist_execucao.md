@@ -8,6 +8,10 @@ Objetivo:
 - [x] Criar matriz estruturada em YAML para status por sistema/modulo.
 - [x] Definir status padrao (`atingido`, `parcial`, `pendente`) e campo de evidencia principal.
 - [x] Versionar baseline inicial da cobertura da licitacao.
+- [x] Reclassificar itens antes pendentes com evidencias tecnicas objetivas (quando localizadas).
+
+Referencia:
+- `docs/sprint9_evidencias_itens_pendentes.md`
 
 ## Frente B - Relatorio automatizado de cobertura
 

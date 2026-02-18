@@ -292,6 +292,16 @@ Artefato gerado automaticamente via comando:
 
 ---
 
+#### [sprint9_evidencias_itens_pendentes.md](./sprint9_evidencias_itens_pendentes.md)
+**Evidencias dos Itens Antes Pendentes - Sprint 9**
+
+Consolidado tecnico para reducao de pendencias:
+- evidencias objetivas para ISSQN/NF-e (TR 25);
+- evidencias objetivas para Plataforma da Camara (TR 38-57);
+- criterio para evolucao futura de `parcial` para `atingido`.
+
+---
+
 #### [roteiro_oficial_demonstracao_poc.md](./roteiro_oficial_demonstracao_poc.md)
 **Roteiro Oficial de Demonstracao da PoC**
 
