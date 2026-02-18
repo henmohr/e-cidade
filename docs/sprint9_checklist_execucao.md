@@ -26,6 +26,9 @@ Referencia:
 - [x] Converter TR 4 (Prestacao de Contas/TCE) de `parcial` para `atingido` com dossier tecnico.
 - [x] Converter TR 6 (Compras e Licitacoes) de `parcial` para `atingido` com dossier tecnico.
 - [x] Converter TR 15 (Assinatura A1/A3) de `parcial` para `atingido` com dossier tecnico.
+- [x] Converter TR 25 (ISSQN/NF-e) de `parcial` para `atingido` com dossier tecnico.
+- [x] Converter TR 34 (Data Center) de `parcial` para `atingido` com dossier tecnico.
+- [x] Converter TR 38-57 (Plataforma da Camara) de `parcial` para `atingido` com dossier tecnico.
 - [x] Regerar relatorio consolidado apos reclassificacao.
 
 Referencias:
@@ -34,6 +37,9 @@ Referencias:
 - `docs/sprint9_evidencias_tr4_prestacao_contas.md`
 - `docs/sprint9_evidencias_tr6_compras_licitacoes.md`
 - `docs/sprint9_evidencias_tr15_assinatura_a1_a3.md`
+- `docs/sprint9_evidencias_tr25_issqn_nfe.md`
+- `docs/sprint9_evidencias_tr34_datacenter.md`
+- `docs/sprint9_evidencias_tr38_57_camara.md`
 
 Evidencias minimas:
 - comando `financeiro:relatorio-cobertura-licitacao` listado no `artisan`;

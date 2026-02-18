@@ -347,6 +347,33 @@ Dossie tecnico para classificacao de cobertura:
 
 ---
 
+#### [sprint9_evidencias_tr25_issqn_nfe.md](./sprint9_evidencias_tr25_issqn_nfe.md)
+**Evidencias TR 25 - ISSQN/NF-e**
+
+Dossie tecnico para classificacao de cobertura:
+- modulo ISSQN documentado como implementado;
+- base tributaria ativa no codigo-fonte.
+
+---
+
+#### [sprint9_evidencias_tr34_datacenter.md](./sprint9_evidencias_tr34_datacenter.md)
+**Evidencias TR 34 - Data Center**
+
+Dossie tecnico para classificacao de cobertura:
+- observabilidade e SLA;
+- backup/restore e controles de acesso sensivel.
+
+---
+
+#### [sprint9_evidencias_tr38_57_camara.md](./sprint9_evidencias_tr38_57_camara.md)
+**Evidencias TR 38-57 - Plataforma da Camara**
+
+Dossie tecnico para classificacao de cobertura:
+- rotinas de camara/legislativo no legado contabil/fiscal;
+- referencias de regras por instituicao em relatorios.
+
+---
+
 #### [roteiro_oficial_demonstracao_poc.md](./roteiro_oficial_demonstracao_poc.md)
 **Roteiro Oficial de Demonstracao da PoC**
 
