@@ -1,12 +1,18 @@
-<?
+<?php
 require("libs/db_stdlib.php");
 require("libs/db_conecta.php");
 include("libs/db_sessoes.php");
 include("libs/db_usuariosonline.php");
 include("dbforms/db_funcoes.php");
 include("classes/db_empagetipo_classe.php");
-db_postmemory($HTTP_POST_VARS);
-parse_str($HTTP_SERVER_VARS["QUERY_STRING"]);
+db_postmemory($_POST);
+$legacyQueryParams = [];
+parse_str((string) ($_SERVER["QUERY_STRING"] ?? ""), $legacyQueryParams);
+foreach ($legacyQueryParams as $legacyKey => $legacyValue) {
+  if (!isset($$legacyKey)) {
+    $$legacyKey = $legacyValue;
+  }
+}
 $clempagetipo = new cl_empagetipo;
 $clempagetipo->rotulo->label("e83_codtipo");
 $clempagetipo->rotulo->label("e83_conta");
@@ -29,7 +35,7 @@ $clempagetipo->rotulo->label("e83_descr");
               <?=$Le83_codtipo?>
             </td>
             <td width="96%" align="left" nowrap> 
-              <?
+              <?php
 		       db_input("e83_codtipo",6,$Ie83_codtipo,true,"text",4,"","chave_e83_codtipo");
 		       ?>
             </td>
@@ -39,7 +45,7 @@ $clempagetipo->rotulo->label("e83_descr");
               <?=$Le83_conta?>
             </td>
             <td width="96%" align="left" nowrap> 
-              <?
+              <?php
 		       db_input("e83_conta",6,$Ie83_conta,true,"text",4,"","chave_e83_conta");
 		       ?>
             </td>
@@ -49,7 +55,7 @@ $clempagetipo->rotulo->label("e83_descr");
               <?=$Le83_descr?>
             </td>
             <td width="96%" align="left" nowrap> 
-              <?
+              <?php
 		       db_input("e83_descr",30,$Ie83_descr,true,"text",4,"","chave_e83_descr");
 		       ?>
             </td>
@@ -63,7 +69,7 @@ $clempagetipo->rotulo->label("e83_descr");
           </tr>
   <tr> 
     <td align="center" valign="top" colspan='2'> 
-      <?
+      <?php
       if(!isset($pesquisa_chave)){
         if(isset($campos)==false){
            if(file_exists("funcoes/db_func_empagetipo.php")==true){
@@ -111,11 +117,11 @@ $clempagetipo->rotulo->label("e83_descr");
 </table>
 </body>
 </html>
-<?
+<?php
 if(!isset($pesquisa_chave)){
   ?>
   <script>
   </script>
-  <?
+  <?php
 }
 ?>
