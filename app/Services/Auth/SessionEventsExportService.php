@@ -4,6 +4,7 @@ namespace App\Services\Auth;
 
 class SessionEventsExportService
 {
+    public const CSV_DETAILS_COLUMN = 'details';
     /** @var array<int, string> */
     public const CSV_HEADER = [
         AuthEventMetaKeys::TYPE,
@@ -11,9 +12,14 @@ class SessionEventsExportService
         AuthEventMetaKeys::TIMESTAMP,
         AuthEventMetaKeys::IP,
         AuthEventMetaKeys::PROVIDER,
-        'details',
+        self::CSV_DETAILS_COLUMN,
     ];
     public const DETAILS_PARTS_SEPARATOR = ';';
+    public const DETAILS_REVOKED_COUNT_KEY = 'revoked_count=';
+    public const DETAILS_TARGET_SESSION_ID_KEY = 'target_session_id=';
+    public const DETAILS_TIER_KEY = 'tier=';
+    public const DETAILS_FILE_KEY = 'file=';
+    public const DETAILS_BLOCKED_SECONDS_KEY = 'blocked_seconds=';
 
     /**
      * @param array<int, array<string, mixed>> $events
@@ -54,23 +60,23 @@ class SessionEventsExportService
         $parts = [];
 
         if (isset($event[AuthEventMetaKeys::REVOKED_COUNT])) {
-            $parts[] = 'revoked_count=' . (int) $event[AuthEventMetaKeys::REVOKED_COUNT];
+            $parts[] = self::DETAILS_REVOKED_COUNT_KEY . (int) $event[AuthEventMetaKeys::REVOKED_COUNT];
         }
 
         if (!empty($event[AuthEventMetaKeys::TARGET_SESSION_ID])) {
-            $parts[] = 'target_session_id=' . (string) $event[AuthEventMetaKeys::TARGET_SESSION_ID];
+            $parts[] = self::DETAILS_TARGET_SESSION_ID_KEY . (string) $event[AuthEventMetaKeys::TARGET_SESSION_ID];
         }
 
         if (!empty($event[AuthEventMetaKeys::TIER])) {
-            $parts[] = 'tier=' . (string) $event[AuthEventMetaKeys::TIER];
+            $parts[] = self::DETAILS_TIER_KEY . (string) $event[AuthEventMetaKeys::TIER];
         }
 
         if (!empty($event[AuthEventMetaKeys::FILE])) {
-            $parts[] = 'file=' . (string) $event[AuthEventMetaKeys::FILE];
+            $parts[] = self::DETAILS_FILE_KEY . (string) $event[AuthEventMetaKeys::FILE];
         }
 
         if (isset($event[AuthEventMetaKeys::BLOCKED_SECONDS])) {
-            $parts[] = 'blocked_seconds=' . (int) $event[AuthEventMetaKeys::BLOCKED_SECONDS];
+            $parts[] = self::DETAILS_BLOCKED_SECONDS_KEY . (int) $event[AuthEventMetaKeys::BLOCKED_SECONDS];
         }
 
         return implode(self::DETAILS_PARTS_SEPARATOR, $parts);

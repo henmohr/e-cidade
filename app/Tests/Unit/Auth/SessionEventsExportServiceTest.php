@@ -31,7 +31,9 @@ class SessionEventsExportServiceTest extends TestCase
         );
         $this->assertStringContainsString(AuthEventTypes::SESSIONS_EXPORT_CSV . ',req-1', $csv);
         $this->assertStringContainsString(
-            'revoked_count=2' . SessionEventsExportService::DETAILS_PARTS_SEPARATOR . 'file=auth.csv',
+            SessionEventsExportService::DETAILS_REVOKED_COUNT_KEY . '2'
+                . SessionEventsExportService::DETAILS_PARTS_SEPARATOR
+                . SessionEventsExportService::DETAILS_FILE_KEY . 'auth.csv',
             $csv
         );
 
