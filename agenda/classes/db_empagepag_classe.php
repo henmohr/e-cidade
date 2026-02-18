@@ -1,4 +1,4 @@
-<?
+<?php
 //MODULO: empenho
 //CLASSE DA ENTIDADE empagepag
 class cl_empagepag { 
@@ -27,7 +27,7 @@ class cl_empagepag {
    function cl_empagepag() { 
      //classes dos rotulos dos campos
      $this->rotulo = new rotulo("empagepag"); 
-     $this->pagina_retorno =  basename($GLOBALS["HTTP_SERVER_VARS"]["PHP_SELF"]);
+     $this->pagina_retorno =  basename($_SERVER["PHP_SELF"]);
    }
    //funcao erro 
    function erro($mostra,$retorna) { 
@@ -41,11 +41,11 @@ class cl_empagepag {
    // funcao para atualizar campos
    function atualizacampos($exclusao=false) {
      if($exclusao==false){
-       $this->e85_codmov = ($this->e85_codmov == ""?@$GLOBALS["HTTP_POST_VARS"]["e85_codmov"]:$this->e85_codmov);
-       $this->e85_codtipo = ($this->e85_codtipo == ""?@$GLOBALS["HTTP_POST_VARS"]["e85_codtipo"]:$this->e85_codtipo);
+       $this->e85_codmov = ($this->e85_codmov == ""?@$_POST["e85_codmov"]:$this->e85_codmov);
+       $this->e85_codtipo = ($this->e85_codtipo == ""?@$_POST["e85_codtipo"]:$this->e85_codtipo);
      }else{
-       $this->e85_codmov = ($this->e85_codmov == ""?@$GLOBALS["HTTP_POST_VARS"]["e85_codmov"]:$this->e85_codmov);
-       $this->e85_codtipo = ($this->e85_codtipo == ""?@$GLOBALS["HTTP_POST_VARS"]["e85_codtipo"]:$this->e85_codtipo);
+       $this->e85_codmov = ($this->e85_codmov == ""?@$_POST["e85_codmov"]:$this->e85_codmov);
+       $this->e85_codtipo = ($this->e85_codtipo == ""?@$_POST["e85_codtipo"]:$this->e85_codtipo);
      }
    }
    // funcao para inclusao
@@ -118,7 +118,7 @@ class cl_empagepag {
       $this->atualizacampos();
      $sql = " update empagepag set ";
      $virgula = "";
-     if(trim($this->e85_codmov)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e85_codmov"])){ 
+     if(trim($this->e85_codmov)!="" || isset($_POST["e85_codmov"])){ 
        $sql  .= $virgula." e85_codmov = $this->e85_codmov ";
        $virgula = ",";
        if(trim($this->e85_codmov) == null ){ 
@@ -131,7 +131,7 @@ class cl_empagepag {
          return false;
        }
      }
-     if(trim($this->e85_codtipo)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e85_codtipo"])){ 
+     if(trim($this->e85_codtipo)!="" || isset($_POST["e85_codtipo"])){ 
        $sql  .= $virgula." e85_codtipo = $this->e85_codtipo ";
        $virgula = ",";
        if(trim($this->e85_codtipo) == null ){ 
@@ -158,9 +158,9 @@ class cl_empagepag {
          $acount = pg_result($resac,0,0);
          $resac = pg_query("insert into db_acountkey values($acount,6186,'$this->e85_codmov','A')");
          $resac = pg_query("insert into db_acountkey values($acount,6187,'$this->e85_codtipo','A')");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e85_codmov"]))
+         if(isset($_POST["e85_codmov"]))
            $resac = pg_query("insert into db_acount values($acount,999,6186,'".AddSlashes(pg_result($resaco,$conresaco,'e85_codmov'))."','$this->e85_codmov',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e85_codtipo"]))
+         if(isset($_POST["e85_codtipo"]))
            $resac = pg_query("insert into db_acount values($acount,999,6187,'".AddSlashes(pg_result($resaco,$conresaco,'e85_codtipo'))."','$this->e85_codtipo',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
        }
      }

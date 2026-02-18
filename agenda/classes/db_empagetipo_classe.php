@@ -1,4 +1,4 @@
-<?
+<?php
 //MODULO: empenho
 //CLASSE DA ENTIDADE empagetipo
 class cl_empagetipo { 
@@ -35,7 +35,7 @@ class cl_empagetipo {
    function cl_empagetipo() { 
      //classes dos rotulos dos campos
      $this->rotulo = new rotulo("empagetipo"); 
-     $this->pagina_retorno =  basename($GLOBALS["HTTP_SERVER_VARS"]["PHP_SELF"]);
+     $this->pagina_retorno =  basename($_SERVER["PHP_SELF"]);
    }
    //funcao erro 
    function erro($mostra,$retorna) { 
@@ -49,14 +49,14 @@ class cl_empagetipo {
    // funcao para atualizar campos
    function atualizacampos($exclusao=false) {
      if($exclusao==false){
-       $this->e83_codtipo = ($this->e83_codtipo == ""?@$GLOBALS["HTTP_POST_VARS"]["e83_codtipo"]:$this->e83_codtipo);
-       $this->e83_descr = ($this->e83_descr == ""?@$GLOBALS["HTTP_POST_VARS"]["e83_descr"]:$this->e83_descr);
-       $this->e83_conta = ($this->e83_conta == ""?@$GLOBALS["HTTP_POST_VARS"]["e83_conta"]:$this->e83_conta);
-       $this->e83_codmod = ($this->e83_codmod == ""?@$GLOBALS["HTTP_POST_VARS"]["e83_codmod"]:$this->e83_codmod);
-       $this->e83_convenio = ($this->e83_convenio == ""?@$GLOBALS["HTTP_POST_VARS"]["e83_convenio"]:$this->e83_convenio);
-       $this->e83_sequencia = ($this->e83_sequencia == ""?@$GLOBALS["HTTP_POST_VARS"]["e83_sequencia"]:$this->e83_sequencia);
+       $this->e83_codtipo = ($this->e83_codtipo == ""?@$_POST["e83_codtipo"]:$this->e83_codtipo);
+       $this->e83_descr = ($this->e83_descr == ""?@$_POST["e83_descr"]:$this->e83_descr);
+       $this->e83_conta = ($this->e83_conta == ""?@$_POST["e83_conta"]:$this->e83_conta);
+       $this->e83_codmod = ($this->e83_codmod == ""?@$_POST["e83_codmod"]:$this->e83_codmod);
+       $this->e83_convenio = ($this->e83_convenio == ""?@$_POST["e83_convenio"]:$this->e83_convenio);
+       $this->e83_sequencia = ($this->e83_sequencia == ""?@$_POST["e83_sequencia"]:$this->e83_sequencia);
      }else{
-       $this->e83_codtipo = ($this->e83_codtipo == ""?@$GLOBALS["HTTP_POST_VARS"]["e83_codtipo"]:$this->e83_codtipo);
+       $this->e83_codtipo = ($this->e83_codtipo == ""?@$_POST["e83_codtipo"]:$this->e83_codtipo);
      }
    }
    // funcao para inclusao
@@ -198,7 +198,7 @@ class cl_empagetipo {
       $this->atualizacampos();
      $sql = " update empagetipo set ";
      $virgula = "";
-     if(trim($this->e83_codtipo)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e83_codtipo"])){ 
+     if(trim($this->e83_codtipo)!="" || isset($_POST["e83_codtipo"])){ 
        $sql  .= $virgula." e83_codtipo = $this->e83_codtipo ";
        $virgula = ",";
        if(trim($this->e83_codtipo) == null ){ 
@@ -211,7 +211,7 @@ class cl_empagetipo {
          return false;
        }
      }
-     if(trim($this->e83_descr)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e83_descr"])){ 
+     if(trim($this->e83_descr)!="" || isset($_POST["e83_descr"])){ 
        $sql  .= $virgula." e83_descr = '$this->e83_descr' ";
        $virgula = ",";
        if(trim($this->e83_descr) == null ){ 
@@ -224,7 +224,7 @@ class cl_empagetipo {
          return false;
        }
      }
-     if(trim($this->e83_conta)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e83_conta"])){ 
+     if(trim($this->e83_conta)!="" || isset($_POST["e83_conta"])){ 
        $sql  .= $virgula." e83_conta = $this->e83_conta ";
        $virgula = ",";
        if(trim($this->e83_conta) == null ){ 
@@ -237,7 +237,7 @@ class cl_empagetipo {
          return false;
        }
      }
-     if(trim($this->e83_codmod)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e83_codmod"])){ 
+     if(trim($this->e83_codmod)!="" || isset($_POST["e83_codmod"])){ 
        $sql  .= $virgula." e83_codmod = $this->e83_codmod ";
        $virgula = ",";
        if(trim($this->e83_codmod) == null ){ 
@@ -250,7 +250,7 @@ class cl_empagetipo {
          return false;
        }
      }
-     if(trim($this->e83_convenio)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e83_convenio"])){ 
+     if(trim($this->e83_convenio)!="" || isset($_POST["e83_convenio"])){ 
        $sql  .= $virgula." e83_convenio = '$this->e83_convenio' ";
        $virgula = ",";
        if(trim($this->e83_convenio) == null ){ 
@@ -263,7 +263,7 @@ class cl_empagetipo {
          return false;
        }
      }
-     if(trim($this->e83_sequencia)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e83_sequencia"])){ 
+     if(trim($this->e83_sequencia)!="" || isset($_POST["e83_sequencia"])){ 
        $sql  .= $virgula." e83_sequencia = $this->e83_sequencia ";
        $virgula = ",";
        if(trim($this->e83_sequencia) == null ){ 
@@ -286,17 +286,17 @@ class cl_empagetipo {
          $resac = pg_query("select nextval('db_acount_id_acount_seq') as acount");
          $acount = pg_result($resac,0,0);
          $resac = pg_query("insert into db_acountkey values($acount,6179,'$this->e83_codtipo','A')");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e83_codtipo"]))
+         if(isset($_POST["e83_codtipo"]))
            $resac = pg_query("insert into db_acount values($acount,997,6179,'".AddSlashes(pg_result($resaco,$conresaco,'e83_codtipo'))."','$this->e83_codtipo',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e83_descr"]))
+         if(isset($_POST["e83_descr"]))
            $resac = pg_query("insert into db_acount values($acount,997,6180,'".AddSlashes(pg_result($resaco,$conresaco,'e83_descr'))."','$this->e83_descr',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e83_conta"]))
+         if(isset($_POST["e83_conta"]))
            $resac = pg_query("insert into db_acount values($acount,997,6181,'".AddSlashes(pg_result($resaco,$conresaco,'e83_conta'))."','$this->e83_conta',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e83_codmod"]))
+         if(isset($_POST["e83_codmod"]))
            $resac = pg_query("insert into db_acount values($acount,997,6182,'".AddSlashes(pg_result($resaco,$conresaco,'e83_codmod'))."','$this->e83_codmod',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e83_convenio"]))
+         if(isset($_POST["e83_convenio"]))
            $resac = pg_query("insert into db_acount values($acount,997,6199,'".AddSlashes(pg_result($resaco,$conresaco,'e83_convenio'))."','$this->e83_convenio',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e83_sequencia"]))
+         if(isset($_POST["e83_sequencia"]))
            $resac = pg_query("insert into db_acount values($acount,997,6200,'".AddSlashes(pg_result($resaco,$conresaco,'e83_sequencia'))."','$this->e83_sequencia',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
        }
      }

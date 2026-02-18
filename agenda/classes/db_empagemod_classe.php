@@ -1,4 +1,4 @@
-<?
+<?php
 //MODULO: empenho
 //CLASSE DA ENTIDADE empagemod
 class cl_empagemod { 
@@ -31,7 +31,7 @@ class cl_empagemod {
    function cl_empagemod() { 
      //classes dos rotulos dos campos
      $this->rotulo = new rotulo("empagemod"); 
-     $this->pagina_retorno =  basename($GLOBALS["HTTP_SERVER_VARS"]["PHP_SELF"]);
+     $this->pagina_retorno =  basename($_SERVER["PHP_SELF"]);
    }
    //funcao erro 
    function erro($mostra,$retorna) { 
@@ -45,12 +45,12 @@ class cl_empagemod {
    // funcao para atualizar campos
    function atualizacampos($exclusao=false) {
      if($exclusao==false){
-       $this->e84_codmod = ($this->e84_codmod == ""?@$GLOBALS["HTTP_POST_VARS"]["e84_codmod"]:$this->e84_codmod);
-       $this->e84_descr = ($this->e84_descr == ""?@$GLOBALS["HTTP_POST_VARS"]["e84_descr"]:$this->e84_descr);
-       $this->e84_layout = ($this->e84_layout == ""?@$GLOBALS["HTTP_POST_VARS"]["e84_layout"]:$this->e84_layout);
-       $this->e84_sequencia = ($this->e84_sequencia == ""?@$GLOBALS["HTTP_POST_VARS"]["e84_sequencia"]:$this->e84_sequencia);
+       $this->e84_codmod = ($this->e84_codmod == ""?@$_POST["e84_codmod"]:$this->e84_codmod);
+       $this->e84_descr = ($this->e84_descr == ""?@$_POST["e84_descr"]:$this->e84_descr);
+       $this->e84_layout = ($this->e84_layout == ""?@$_POST["e84_layout"]:$this->e84_layout);
+       $this->e84_sequencia = ($this->e84_sequencia == ""?@$_POST["e84_sequencia"]:$this->e84_sequencia);
      }else{
-       $this->e84_codmod = ($this->e84_codmod == ""?@$GLOBALS["HTTP_POST_VARS"]["e84_codmod"]:$this->e84_codmod);
+       $this->e84_codmod = ($this->e84_codmod == ""?@$_POST["e84_codmod"]:$this->e84_codmod);
      }
    }
    // funcao para inclusao
@@ -168,7 +168,7 @@ class cl_empagemod {
       $this->atualizacampos();
      $sql = " update empagemod set ";
      $virgula = "";
-     if(trim($this->e84_codmod)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e84_codmod"])){ 
+     if(trim($this->e84_codmod)!="" || isset($_POST["e84_codmod"])){ 
        $sql  .= $virgula." e84_codmod = $this->e84_codmod ";
        $virgula = ",";
        if(trim($this->e84_codmod) == null ){ 
@@ -181,7 +181,7 @@ class cl_empagemod {
          return false;
        }
      }
-     if(trim($this->e84_descr)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e84_descr"])){ 
+     if(trim($this->e84_descr)!="" || isset($_POST["e84_descr"])){ 
        $sql  .= $virgula." e84_descr = '$this->e84_descr' ";
        $virgula = ",";
        if(trim($this->e84_descr) == null ){ 
@@ -194,7 +194,7 @@ class cl_empagemod {
          return false;
        }
      }
-     if(trim($this->e84_layout)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e84_layout"])){ 
+     if(trim($this->e84_layout)!="" || isset($_POST["e84_layout"])){ 
        $sql  .= $virgula." e84_layout = $this->e84_layout ";
        $virgula = ",";
        if(trim($this->e84_layout) == null ){ 
@@ -207,7 +207,7 @@ class cl_empagemod {
          return false;
        }
      }
-     if(trim($this->e84_sequencia)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e84_sequencia"])){ 
+     if(trim($this->e84_sequencia)!="" || isset($_POST["e84_sequencia"])){ 
        $sql  .= $virgula." e84_sequencia = $this->e84_sequencia ";
        $virgula = ",";
        if(trim($this->e84_sequencia) == null ){ 
@@ -230,13 +230,13 @@ class cl_empagemod {
          $resac = pg_query("select nextval('db_acount_id_acount_seq') as acount");
          $acount = pg_result($resac,0,0);
          $resac = pg_query("insert into db_acountkey values($acount,6183,'$this->e84_codmod','A')");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e84_codmod"]))
+         if(isset($_POST["e84_codmod"]))
            $resac = pg_query("insert into db_acount values($acount,998,6183,'".AddSlashes(pg_result($resaco,$conresaco,'e84_codmod'))."','$this->e84_codmod',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e84_descr"]))
+         if(isset($_POST["e84_descr"]))
            $resac = pg_query("insert into db_acount values($acount,998,6184,'".AddSlashes(pg_result($resaco,$conresaco,'e84_descr'))."','$this->e84_descr',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e84_layout"]))
+         if(isset($_POST["e84_layout"]))
            $resac = pg_query("insert into db_acount values($acount,998,6185,'".AddSlashes(pg_result($resaco,$conresaco,'e84_layout'))."','$this->e84_layout',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e84_sequencia"]))
+         if(isset($_POST["e84_sequencia"]))
            $resac = pg_query("insert into db_acount values($acount,998,6251,'".AddSlashes(pg_result($resaco,$conresaco,'e84_sequencia'))."','$this->e84_sequencia',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
        }
      }
