@@ -11,9 +11,9 @@ class SessionEventFiltersTest extends TestCase
     public function testBuildsFiltersFromRequestAndNormalizesLimit(): void
     {
         $request = Request::create('/web/sessions', 'GET', [
-            'event_type' => ' login_success ',
-            'event_request_id' => ' req-123 ',
-            'event_limit' => 999,
+            SessionEventFilters::QUERY_EVENT_TYPE => ' login_success ',
+            SessionEventFilters::QUERY_EVENT_REQUEST_ID => ' req-123 ',
+            SessionEventFilters::QUERY_EVENT_LIMIT => 999,
         ]);
 
         $filters = SessionEventFilters::fromRequest($request, 50);
@@ -26,15 +26,15 @@ class SessionEventFiltersTest extends TestCase
     public function testAppliesDefaultLimitAndLowerBound(): void
     {
         $request = Request::create('/web/sessions', 'GET', [
-            'event_limit' => 0,
+            SessionEventFilters::QUERY_EVENT_LIMIT => 0,
         ]);
 
         $filters = SessionEventFilters::fromRequest($request, 50);
         $this->assertSame(1, $filters->eventLimit());
         $this->assertSame([
-            'event_type' => '',
-            'event_request_id' => '',
-            'event_limit' => 1,
+            SessionEventFilters::QUERY_EVENT_TYPE => '',
+            SessionEventFilters::QUERY_EVENT_REQUEST_ID => '',
+            SessionEventFilters::QUERY_EVENT_LIMIT => 1,
         ], $filters->toArray());
     }
 

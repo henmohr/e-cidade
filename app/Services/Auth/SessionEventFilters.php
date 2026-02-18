@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 
 class SessionEventFilters
 {
+    public const QUERY_EVENT_TYPE = 'event_type';
+    public const QUERY_EVENT_REQUEST_ID = 'event_request_id';
+    public const QUERY_EVENT_LIMIT = 'event_limit';
+
     public const MIN_LIMIT = 1;
     public const MAX_LIMIT = 200;
     public const DEFAULT_SCREEN_LIMIT = 50;
@@ -29,9 +33,9 @@ class SessionEventFilters
     public static function fromRequest(Request $request, int $defaultLimit = self::DEFAULT_SCREEN_LIMIT): self
     {
         return new self(
-            (string) $request->query('event_type', ''),
-            (string) $request->query('event_request_id', ''),
-            (int) $request->query('event_limit', $defaultLimit)
+            (string) $request->query(self::QUERY_EVENT_TYPE, ''),
+            (string) $request->query(self::QUERY_EVENT_REQUEST_ID, ''),
+            (int) $request->query(self::QUERY_EVENT_LIMIT, $defaultLimit)
         );
     }
 
@@ -66,9 +70,9 @@ class SessionEventFilters
     public function toArray(): array
     {
         return [
-            'event_type' => $this->eventType,
-            'event_request_id' => $this->eventRequestId,
-            'event_limit' => $this->eventLimit,
+            self::QUERY_EVENT_TYPE => $this->eventType,
+            self::QUERY_EVENT_REQUEST_ID => $this->eventRequestId,
+            self::QUERY_EVENT_LIMIT => $this->eventLimit,
         ];
     }
 
