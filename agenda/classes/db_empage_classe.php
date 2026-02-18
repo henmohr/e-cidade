@@ -1,4 +1,4 @@
-<?
+<?php
 //MODULO: empenho
 //CLASSE DA ENTIDADE empage
 class cl_empage { 
@@ -35,7 +35,7 @@ class cl_empage {
    function cl_empage() { 
      //classes dos rotulos dos campos
      $this->rotulo = new rotulo("empage"); 
-     $this->pagina_retorno =  basename($GLOBALS["HTTP_SERVER_VARS"]["PHP_SELF"]);
+     $this->pagina_retorno =  basename($_SERVER["PHP_SELF"]);
    }
    //funcao erro 
    function erro($mostra,$retorna) { 
@@ -49,25 +49,25 @@ class cl_empage {
    // funcao para atualizar campos
    function atualizacampos($exclusao=false) {
      if($exclusao==false){
-       $this->e80_codage = ($this->e80_codage == ""?@$GLOBALS["HTTP_POST_VARS"]["e80_codage"]:$this->e80_codage);
+       $this->e80_codage = ($this->e80_codage == ""?@$_POST["e80_codage"]:$this->e80_codage);
        if($this->e80_data == ""){
-         $this->e80_data_dia = ($this->e80_data_dia == ""?@$GLOBALS["HTTP_POST_VARS"]["e80_data_dia"]:$this->e80_data_dia);
-         $this->e80_data_mes = ($this->e80_data_mes == ""?@$GLOBALS["HTTP_POST_VARS"]["e80_data_mes"]:$this->e80_data_mes);
-         $this->e80_data_ano = ($this->e80_data_ano == ""?@$GLOBALS["HTTP_POST_VARS"]["e80_data_ano"]:$this->e80_data_ano);
+         $this->e80_data_dia = ($this->e80_data_dia == ""?@$_POST["e80_data_dia"]:$this->e80_data_dia);
+         $this->e80_data_mes = ($this->e80_data_mes == ""?@$_POST["e80_data_mes"]:$this->e80_data_mes);
+         $this->e80_data_ano = ($this->e80_data_ano == ""?@$_POST["e80_data_ano"]:$this->e80_data_ano);
          if($this->e80_data_dia != ""){
             $this->e80_data = $this->e80_data_ano."-".$this->e80_data_mes."-".$this->e80_data_dia;
          }
        }
        if($this->e80_cancelado == ""){
-         $this->e80_cancelado_dia = ($this->e80_cancelado_dia == ""?@$GLOBALS["HTTP_POST_VARS"]["e80_cancelado_dia"]:$this->e80_cancelado_dia);
-         $this->e80_cancelado_mes = ($this->e80_cancelado_mes == ""?@$GLOBALS["HTTP_POST_VARS"]["e80_cancelado_mes"]:$this->e80_cancelado_mes);
-         $this->e80_cancelado_ano = ($this->e80_cancelado_ano == ""?@$GLOBALS["HTTP_POST_VARS"]["e80_cancelado_ano"]:$this->e80_cancelado_ano);
+         $this->e80_cancelado_dia = ($this->e80_cancelado_dia == ""?@$_POST["e80_cancelado_dia"]:$this->e80_cancelado_dia);
+         $this->e80_cancelado_mes = ($this->e80_cancelado_mes == ""?@$_POST["e80_cancelado_mes"]:$this->e80_cancelado_mes);
+         $this->e80_cancelado_ano = ($this->e80_cancelado_ano == ""?@$_POST["e80_cancelado_ano"]:$this->e80_cancelado_ano);
          if($this->e80_cancelado_dia != ""){
             $this->e80_cancelado = $this->e80_cancelado_ano."-".$this->e80_cancelado_mes."-".$this->e80_cancelado_dia;
          }
        }
      }else{
-       $this->e80_codage = ($this->e80_codage == ""?@$GLOBALS["HTTP_POST_VARS"]["e80_codage"]:$this->e80_codage);
+       $this->e80_codage = ($this->e80_codage == ""?@$_POST["e80_codage"]:$this->e80_codage);
      }
    }
    // funcao para inclusao
@@ -167,7 +167,7 @@ class cl_empage {
       $this->atualizacampos();
      $sql = " update empage set ";
      $virgula = "";
-     if(trim($this->e80_codage)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e80_codage"])){ 
+     if(trim($this->e80_codage)!="" || isset($_POST["e80_codage"])){ 
        $sql  .= $virgula." e80_codage = $this->e80_codage ";
        $virgula = ",";
        if(trim($this->e80_codage) == null ){ 
@@ -180,7 +180,7 @@ class cl_empage {
          return false;
        }
      }
-     if(trim($this->e80_data)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e80_data_dia"]) &&  ($GLOBALS["HTTP_POST_VARS"]["e80_data_dia"] !="") ){ 
+     if(trim($this->e80_data)!="" || isset($_POST["e80_data_dia"]) &&  ($_POST["e80_data_dia"] !="") ){ 
        $sql  .= $virgula." e80_data = '$this->e80_data' ";
        $virgula = ",";
        if(trim($this->e80_data) == null ){ 
@@ -193,7 +193,7 @@ class cl_empage {
          return false;
        }
      }     else{ 
-       if(isset($GLOBALS["HTTP_POST_VARS"]["e80_data_dia"])){ 
+       if(isset($_POST["e80_data_dia"])){ 
          $sql  .= $virgula." e80_data = null ";
          $virgula = ",";
          if(trim($this->e80_data) == null ){ 
@@ -207,11 +207,11 @@ class cl_empage {
          }
        }
      }
-     if(trim($this->e80_cancelado)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e80_cancelado_dia"]) &&  ($GLOBALS["HTTP_POST_VARS"]["e80_cancelado_dia"] !="") ){ 
+     if(trim($this->e80_cancelado)!="" || isset($_POST["e80_cancelado_dia"]) &&  ($_POST["e80_cancelado_dia"] !="") ){ 
        $sql  .= $virgula." e80_cancelado = '$this->e80_cancelado' ";
        $virgula = ",";
      }     else{ 
-       if(isset($GLOBALS["HTTP_POST_VARS"]["e80_cancelado_dia"])){ 
+       if(isset($_POST["e80_cancelado_dia"])){ 
          $sql  .= $virgula." e80_cancelado = null ";
          $virgula = ",";
        }
@@ -226,11 +226,11 @@ class cl_empage {
          $resac = pg_query("select nextval('db_acount_id_acount_seq') as acount");
          $acount = pg_result($resac,0,0);
          $resac = pg_query("insert into db_acountkey values($acount,6169,'$this->e80_codage','A')");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e80_codage"]))
+         if(isset($_POST["e80_codage"]))
            $resac = pg_query("insert into db_acount values($acount,994,6169,'".AddSlashes(pg_result($resaco,$conresaco,'e80_codage'))."','$this->e80_codage',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e80_data"]))
+         if(isset($_POST["e80_data"]))
            $resac = pg_query("insert into db_acount values($acount,994,6170,'".AddSlashes(pg_result($resaco,$conresaco,'e80_data'))."','$this->e80_data',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e80_cancelado"]))
+         if(isset($_POST["e80_cancelado"]))
            $resac = pg_query("insert into db_acount values($acount,994,6171,'".AddSlashes(pg_result($resaco,$conresaco,'e80_cancelado'))."','$this->e80_cancelado',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
        }
      }
