@@ -144,7 +144,7 @@ class AuthEventService
         User $user,
         ?string $type = null,
         ?string $requestId = null,
-        int $limit = 50
+        int $limit = SessionEventFilters::DEFAULT_SCREEN_LIMIT
     ): array {
         $events = $this->listRecentEventsForUser($user);
         $type = strtolower(trim((string) $type));
@@ -162,7 +162,7 @@ class AuthEventService
             return true;
         }));
 
-        $limit = max(1, min(200, $limit));
+        $limit = max(SessionEventFilters::MIN_LIMIT, min(SessionEventFilters::MAX_LIMIT, $limit));
         return array_slice($events, 0, $limit);
     }
 
@@ -176,7 +176,12 @@ class AuthEventService
             return null;
         }
 
-        $events = $this->listRecentEventsForUserFiltered($user, AuthEventTypes::SESSIONS_EXPORT_CSV, null, 200);
+        $events = $this->listRecentEventsForUserFiltered(
+            $user,
+            AuthEventTypes::SESSIONS_EXPORT_CSV,
+            null,
+            SessionEventFilters::DEFAULT_EXPORT_LIMIT
+        );
         foreach ($events as $event) {
             $hash = strtolower((string) ($event['export_sha256'] ?? ''));
             if ($hash === $sha256) {

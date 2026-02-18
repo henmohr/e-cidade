@@ -70,6 +70,29 @@ class AuthEventServiceTest extends TestCase
         $this->assertSame(AuthEventTypes::SESSIONS_EXPORT_CSV, (string) ($foundExport['type'] ?? ''));
     }
 
+    public function testFilteredListNormalizesLimitBoundaries(): void
+    {
+        $this->bootContainer();
+
+        $service = new AuthEventService();
+        $user = $this->mockUser(51, 'maria');
+        $request = Request::create('/web/login', 'POST', [], [], [], [
+            'REMOTE_ADDR' => '127.0.0.1',
+            'HTTP_USER_AGENT' => 'PHPUnit',
+            'HTTP_X_REQUEST_ID' => 'req-limit-1',
+        ]);
+
+        for ($i = 0; $i < 5; $i++) {
+            $service->registerCustomEvent($request, $user, AuthEventTypes::LOGIN_SUCCESS, ['index' => $i]);
+        }
+
+        $lowerBound = $service->listRecentEventsForUserFiltered($user, null, null, 0);
+        $upperBound = $service->listRecentEventsForUserFiltered($user, null, null, 999);
+
+        $this->assertCount(1, $lowerBound);
+        $this->assertCount(5, $upperBound);
+    }
+
     private function bootContainer(): void
     {
         $container = new Container();
