@@ -1,0 +1,111 @@
+{
+    "total_cenarios": 5,
+    "totais": {
+        "pronto": 5,
+        "parcial": 0
+    },
+    "percentual_global": 100,
+    "status_recomendado": "pronto_para_homologacao",
+    "cenarios": [
+        {
+            "id": "C1",
+            "modulo": "M1 Contabilidade Publica",
+            "objetivo": "Gerar balancos e demonstracoes obrigatorias com rastreabilidade.",
+            "pre_condicoes": [
+                "Ambiente de homologacao com base contabil carregada.",
+                "Permissao para execucao de relatorios financeiros."
+            ],
+            "passos": [
+                "Executar comando de geracao de balancos.",
+                "Executar comando de demonstracoes contabeis.",
+                "Anexar saidas e logs ao dossie da licitacao."
+            ],
+            "status": "pronto",
+            "total_evidencias": 3,
+            "evidencias_ok": 3,
+            "evidencias_faltantes": 0,
+            "percentual": 100,
+            "faltantes": []
+        },
+        {
+            "id": "C2",
+            "modulo": "M2 Orcamento e Planejamento",
+            "objetivo": "Validar ciclo PPA\/LDO\/LOA com criterio de consistencia.",
+            "pre_condicoes": [
+                "Regras de classificacao orcamentaria definidas.",
+                "Perfis tecnicos autorizados para planejamento."
+            ],
+            "passos": [
+                "Conferir requisitos baseline do modulo.",
+                "Executar simulacao com reflexo na execucao.",
+                "Registrar evidencias no dossie tecnico."
+            ],
+            "status": "pronto",
+            "total_evidencias": 3,
+            "evidencias_ok": 3,
+            "evidencias_faltantes": 0,
+            "percentual": 100,
+            "faltantes": []
+        },
+        {
+            "id": "C3",
+            "modulo": "M3 Execucao Orcamentaria",
+            "objetivo": "Comprovar ciclo fixacao->empenho->liquidacao->pagamento.",
+            "pre_condicoes": [
+                "Dotacao inicial disponivel.",
+                "Credor habilitado e regras de bloqueio ativas."
+            ],
+            "passos": [
+                "Executar validacao do ciclo da despesa.",
+                "Registrar bloqueios e alertas aplicados.",
+                "Anexar resultado da execucao ao pacote de evidencias."
+            ],
+            "status": "pronto",
+            "total_evidencias": 3,
+            "evidencias_ok": 3,
+            "evidencias_faltantes": 0,
+            "percentual": 100,
+            "faltantes": []
+        },
+        {
+            "id": "C4",
+            "modulo": "M4 Tesouraria e Fluxo de Caixa",
+            "objetivo": "Comprovar conciliacao, projecao de caixa e alertas operacionais.",
+            "pre_condicoes": [
+                "Contas bancarias e movimentos importados.",
+                "Parametros de janela de previsao configurados."
+            ],
+            "passos": [
+                "Executar conciliacao bancaria.",
+                "Gerar previsao de fluxo de caixa.",
+                "Publicar dashboard de tesouraria para evidencias."
+            ],
+            "status": "pronto",
+            "total_evidencias": 3,
+            "evidencias_ok": 3,
+            "evidencias_faltantes": 0,
+            "percentual": 100,
+            "faltantes": []
+        },
+        {
+            "id": "C5",
+            "modulo": "M5 Controle de Despesas e Receitas",
+            "objetivo": "Comprovar validacao de credor, retencoes e classificacao de receitas.",
+            "pre_condicoes": [
+                "Cadastro de credor com documentos obrigatorios.",
+                "Regras tributarias parametrizadas."
+            ],
+            "passos": [
+                "Executar validacao de credor e fluxo de despesa.",
+                "Calcular retencoes tributarias.",
+                "Executar classificacao e consolidacao de receitas."
+            ],
+            "status": "pronto",
+            "total_evidencias": 3,
+            "evidencias_ok": 3,
+            "evidencias_faltantes": 0,
+            "percentual": 100,
+            "faltantes": []
+        }
+    ]
+}
