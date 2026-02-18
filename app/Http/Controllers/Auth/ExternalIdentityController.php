@@ -9,6 +9,7 @@ use App\Services\Auth\AuthMessages;
 use App\Services\Auth\AuthEventTypes;
 use App\Services\Auth\ExternalIdentityReasons;
 use App\Services\Auth\ExternalIdentityService;
+use App\Services\Auth\RequestMetaFormatter;
 use App\Services\Auth\SessionActivityService;
 use App\Support\Session\LegacySession;
 use Illuminate\Http\JsonResponse;
@@ -19,6 +20,20 @@ use Illuminate\Support\Facades\Log;
 
 class ExternalIdentityController extends Controller
 {
+    private const CONTEXT_PROVIDER = 'provider';
+    private const CONTEXT_REASON = 'reason';
+    private const CONTEXT_IDENTIFIER_HINT = 'identifier_hint';
+
+    private const AUDIT_STATUS = 'status';
+    private const AUDIT_MESSAGE = 'message';
+    private const AUDIT_IP = 'ip';
+    private const AUDIT_PATH = 'path';
+    private const AUDIT_METHOD = 'method';
+
+    private const SESSION_EXTERNAL_PROVIDER = 'auth.external.provider';
+    private const LOG_CHANNEL_WEB_AUDIT = 'web_audit';
+    private const RESPONSE_AUTH_EXTERNAL = 'auth_external';
+
     public function callback(
         Request $request,
         ExternalIdentityService $service,
@@ -27,62 +42,62 @@ class ExternalIdentityController extends Controller
     {
         if (!$service->isEnabled()) {
             return $this->deny($request, 404, AuthMessages::EXTERNAL_DISABLED, [
-                'provider' => (string) $request->input('provider', ''),
-                'reason' => ExternalIdentityReasons::DISABLED,
+                self::CONTEXT_PROVIDER => (string) $request->input(self::CONTEXT_PROVIDER, ''),
+                self::CONTEXT_REASON => ExternalIdentityReasons::DISABLED,
             ]);
         }
 
-        $provider = strtolower(trim((string) $request->input('provider', '')));
+        $provider = strtolower(trim((string) $request->input(self::CONTEXT_PROVIDER, '')));
         if (!$service->isProviderAllowed($provider)) {
             return $this->deny($request, 422, AuthMessages::EXTERNAL_PROVIDER_NOT_ALLOWED, [
-                'provider' => $provider,
-                'reason' => ExternalIdentityReasons::PROVIDER_NOT_ALLOWED,
+                self::CONTEXT_PROVIDER => $provider,
+                self::CONTEXT_REASON => ExternalIdentityReasons::PROVIDER_NOT_ALLOWED,
             ]);
         }
 
         $rawPayload = (string) $request->input('payload', '');
         if ($rawPayload === '') {
-            $payloadArray = $request->only(['provider', 'subject', 'cpf', 'login', 'email', 'name', 'expires_at']);
-            $payloadArray['provider'] = $provider;
+            $payloadArray = $request->only([self::CONTEXT_PROVIDER, 'subject', 'cpf', 'login', 'email', 'name', 'expires_at']);
+            $payloadArray[self::CONTEXT_PROVIDER] = $provider;
             $rawPayload = json_encode($payloadArray) ?: '{}';
         }
 
         $signature = (string) $request->header('X-Identity-Signature', (string) $request->input('signature', ''));
         if (!$service->verifySignature($provider, $rawPayload, $signature)) {
             return $this->deny($request, 403, AuthMessages::EXTERNAL_INVALID_SIGNATURE, [
-                'provider' => $provider,
-                'reason' => ExternalIdentityReasons::INVALID_SIGNATURE,
+                self::CONTEXT_PROVIDER => $provider,
+                self::CONTEXT_REASON => ExternalIdentityReasons::INVALID_SIGNATURE,
             ]);
         }
 
         $claims = json_decode($rawPayload, true);
         if (!is_array($claims)) {
             return $this->deny($request, 422, AuthMessages::EXTERNAL_INVALID_PAYLOAD, [
-                'provider' => $provider,
-                'reason' => ExternalIdentityReasons::INVALID_PAYLOAD,
+                self::CONTEXT_PROVIDER => $provider,
+                self::CONTEXT_REASON => ExternalIdentityReasons::INVALID_PAYLOAD,
             ]);
         }
 
         if (!$service->validateClaimsWindow($claims)) {
             return $this->deny($request, 401, AuthMessages::EXTERNAL_EXPIRED_CLAIMS, [
-                'provider' => $provider,
-                'reason' => ExternalIdentityReasons::EXPIRED_CLAIMS,
+                self::CONTEXT_PROVIDER => $provider,
+                self::CONTEXT_REASON => ExternalIdentityReasons::EXPIRED_CLAIMS,
             ]);
         }
 
         if (!$service->consumeNonce($claims)) {
             return $this->deny($request, 409, AuthMessages::EXTERNAL_INVALID_NONCE, [
-                'provider' => $provider,
-                'reason' => ExternalIdentityReasons::NONCE_REUSED_OR_MISSING,
+                self::CONTEXT_PROVIDER => $provider,
+                self::CONTEXT_REASON => ExternalIdentityReasons::NONCE_REUSED_OR_MISSING,
             ]);
         }
 
         $user = $service->resolveUser($claims);
         if (!$user) {
             return $this->deny($request, 401, AuthMessages::EXTERNAL_USER_NOT_FOUND, [
-                'provider' => $provider,
-                'reason' => ExternalIdentityReasons::USER_NOT_FOUND,
-                'identifier_hint' => $this->identifierHint($claims),
+                self::CONTEXT_PROVIDER => $provider,
+                self::CONTEXT_REASON => ExternalIdentityReasons::USER_NOT_FOUND,
+                self::CONTEXT_IDENTIFIER_HINT => $this->identifierHint($claims),
             ]);
         }
 
@@ -93,7 +108,7 @@ class ExternalIdentityController extends Controller
         session()->put(LegacySession::DB_UOL_HORA, time());
         session()->put(LegacySession::DB_ANOUSU, (int) date('Y'));
         session()->put(LegacySession::DB_INSTIT, (int) config('external_identity.default_instit', 1));
-        session()->put('auth.external.provider', $provider);
+        session()->put(self::SESSION_EXTERNAL_PROVIDER, $provider);
 
         Auth::loginUsingId((int) $user->getAuthIdentifier());
         $request->session()->regenerate();
@@ -144,22 +159,22 @@ class ExternalIdentityController extends Controller
     private function deny(Request $request, int $status, string $message, array $context = []): RedirectResponse|JsonResponse
     {
         $payload = array_merge([
-            'status' => $status,
-            'message' => $message,
-            'ip' => $request->ip(),
-            'path' => '/' . ltrim($request->path(), '/'),
-            'method' => $request->method(),
+            self::AUDIT_STATUS => $status,
+            self::AUDIT_MESSAGE => $message,
+            self::AUDIT_IP => $request->ip(),
+            self::AUDIT_PATH => RequestMetaFormatter::normalizedPath($request),
+            self::AUDIT_METHOD => $request->method(),
         ], $context);
 
         Log::warning('External identity login denied', $payload);
-        Log::channel((string) config('web_audit.channel', 'web_audit'))
+        Log::channel((string) config('web_audit.channel', self::LOG_CHANNEL_WEB_AUDIT))
             ->warning('External identity callback denied', $payload);
 
         if ($request->expectsJson()) {
             return response()->json(['message' => $message], $status);
         }
 
-        return redirect()->to('/')->withErrors(['auth_external' => $message]);
+        return redirect()->to('/')->withErrors([self::RESPONSE_AUTH_EXTERNAL => $message]);
     }
 
     /**
