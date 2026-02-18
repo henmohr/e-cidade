@@ -1,0 +1,33 @@
+{
+    "gerado_em": "2026-02-18T14:35:12-03:00",
+    "status_final": "apto_para_entrega",
+    "arquivos": {
+        "sprint11": "docs\/sprint11_cobertura_modulos\/cobertura_modulos_financeiros.json",
+        "sprint12": "docs\/sprint12_rastreabilidade_funcional\/rastreabilidade_funcional.json",
+        "sprint14": "docs\/sprint14_homologacao_externa\/checklist_homologacao_externa.json",
+        "banca": "docs\/pacote_final_banca\/manifesto_final_banca.json"
+    },
+    "checks": [
+        {
+            "nome": "Cobertura modulos M1-M5",
+            "status": "ok",
+            "mensagem": "Percentual global da Sprint 11: 100.00%"
+        },
+        {
+            "nome": "Rastreabilidade funcional",
+            "status": "ok",
+            "mensagem": "Status da Sprint 12: pronto_para_homologacao"
+        },
+        {
+            "nome": "Homologacao externa",
+            "status": "ok",
+            "mensagem": "Status da Sprint 14: apto_para_banca"
+        },
+        {
+            "nome": "Pacote final de banca",
+            "status": "ok",
+            "mensagem": "Status do manifesto final de banca: apto_para_banca"
+        }
+    ],
+    "pendencias": []
+}

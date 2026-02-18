@@ -616,6 +616,7 @@ Documentação técnica completa do sistema de migração gradual de código leg
 | 2026-02-18 | sprint12_rastreabilidade_funcional/rastreabilidade_funcional.md | Rastreabilidade funcional por cenarios executaveis para os modulos M1 a M5 |
 | 2026-02-18 | sprint13_homologacao_externa/checklist_homologacao_externa.md | Checklist automatizado de homologacao externa (SICONFI, TCE_PR e Portal Transparencia) com criterios de aceite |
 | 2026-02-18 | sprint14_homologacao_externa/checklist_homologacao_externa.md | Checklist de homologacao externa em modo offline com protocolo oficial para fechamento de banca |
+| 2026-02-18 | sprint15_gate_entrega/gate_entrega_licitacao.md | Gate final consolidado da licitacao com decisao automatica de apto_para_entrega |
 
 ---
 
