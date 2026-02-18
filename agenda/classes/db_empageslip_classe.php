@@ -1,4 +1,4 @@
-<?
+<?php
 //MODULO: empenho
 //CLASSE DA ENTIDADE empageslip
 class cl_empageslip { 
@@ -27,7 +27,7 @@ class cl_empageslip {
    function cl_empageslip() { 
      //classes dos rotulos dos campos
      $this->rotulo = new rotulo("empageslip"); 
-     $this->pagina_retorno =  basename($GLOBALS["HTTP_SERVER_VARS"]["PHP_SELF"]);
+     $this->pagina_retorno =  basename($_SERVER["PHP_SELF"]);
    }
    //funcao erro 
    function erro($mostra,$retorna) { 
@@ -41,11 +41,11 @@ class cl_empageslip {
    // funcao para atualizar campos
    function atualizacampos($exclusao=false) {
      if($exclusao==false){
-       $this->e89_codmov = ($this->e89_codmov == ""?@$GLOBALS["HTTP_POST_VARS"]["e89_codmov"]:$this->e89_codmov);
-       $this->e89_codigo = ($this->e89_codigo == ""?@$GLOBALS["HTTP_POST_VARS"]["e89_codigo"]:$this->e89_codigo);
+       $this->e89_codmov = ($this->e89_codmov == ""?@$_POST["e89_codmov"]:$this->e89_codmov);
+       $this->e89_codigo = ($this->e89_codigo == ""?@$_POST["e89_codigo"]:$this->e89_codigo);
      }else{
-       $this->e89_codmov = ($this->e89_codmov == ""?@$GLOBALS["HTTP_POST_VARS"]["e89_codmov"]:$this->e89_codmov);
-       $this->e89_codigo = ($this->e89_codigo == ""?@$GLOBALS["HTTP_POST_VARS"]["e89_codigo"]:$this->e89_codigo);
+       $this->e89_codmov = ($this->e89_codmov == ""?@$_POST["e89_codmov"]:$this->e89_codmov);
+       $this->e89_codigo = ($this->e89_codigo == ""?@$_POST["e89_codigo"]:$this->e89_codigo);
      }
    }
    // funcao para inclusao
@@ -108,7 +108,7 @@ class cl_empageslip {
       $this->atualizacampos();
      $sql = " update empageslip set ";
      $virgula = "";
-     if(trim($this->e89_codmov)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e89_codmov"])){ 
+     if(trim($this->e89_codmov)!="" || isset($_POST["e89_codmov"])){ 
        $sql  .= $virgula." e89_codmov = $this->e89_codmov ";
        $virgula = ",";
        if(trim($this->e89_codmov) == null ){ 
@@ -121,7 +121,7 @@ class cl_empageslip {
          return false;
        }
      }
-     if(trim($this->e89_codigo)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e89_codigo"])){ 
+     if(trim($this->e89_codigo)!="" || isset($_POST["e89_codigo"])){ 
        $sql  .= $virgula." e89_codigo = $this->e89_codigo ";
        $virgula = ",";
        if(trim($this->e89_codigo) == null ){ 

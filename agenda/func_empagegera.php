@@ -1,12 +1,18 @@
-<?
+<?php
 require("libs/db_stdlib.php");
 require("libs/db_conecta.php");
 include("libs/db_sessoes.php");
 include("libs/db_usuariosonline.php");
 include("dbforms/db_funcoes.php");
 include("classes/db_empagegera_classe.php");
-db_postmemory($HTTP_POST_VARS);
-parse_str($HTTP_SERVER_VARS["QUERY_STRING"]);
+db_postmemory($_POST);
+$legacyQueryParams = [];
+parse_str((string) ($_SERVER["QUERY_STRING"] ?? ""), $legacyQueryParams);
+foreach ($legacyQueryParams as $legacyKey => $legacyValue) {
+  if (!isset($$legacyKey)) {
+    $$legacyKey = $legacyValue;
+  }
+}
 $clempagegera = new cl_empagegera;
 $clempagegera->rotulo->label("e87_codgera");
 $clempagegera->rotulo->label("e87_descgera");
@@ -28,7 +34,7 @@ $clempagegera->rotulo->label("e87_descgera");
               <?=$Le87_codgera?>
             </td>
             <td width="96%" align="left" nowrap> 
-              <?
+              <?php
 		       db_input("e87_codgera",6,$Ie87_codgera,true,"text",4,"","chave_e87_codgera");
 		       ?>
             </td>
@@ -38,7 +44,7 @@ $clempagegera->rotulo->label("e87_descgera");
               <?=$Le87_descgera?>
             </td>
             <td width="96%" align="left" nowrap> 
-              <?
+              <?php
 		       db_input("e87_descgera",40,$Ie87_descgera,true,"text",4,"","chave_e87_descgera");
 		       ?>
             </td>
@@ -56,7 +62,7 @@ $clempagegera->rotulo->label("e87_descgera");
   </tr>
   <tr> 
     <td align="center" valign="top"> 
-      <?
+      <?php
       if(!isset($pesquisa_chave)){
         if(isset($campos)==false){
            if(file_exists("funcoes/db_func_empagegera.php")==true){
@@ -92,11 +98,11 @@ $clempagegera->rotulo->label("e87_descgera");
 </table>
 </body>
 </html>
-<?
+<?php
 if(!isset($pesquisa_chave)){
   ?>
   <script>
   </script>
-  <?
+  <?php
 }
 ?>

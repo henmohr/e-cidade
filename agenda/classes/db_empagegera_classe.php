@@ -1,4 +1,4 @@
-<?
+<?php
 //MODULO: empenho
 //CLASSE DA ENTIDADE empagegera
 class cl_empagegera { 
@@ -39,7 +39,7 @@ class cl_empagegera {
    function cl_empagegera() { 
      //classes dos rotulos dos campos
      $this->rotulo = new rotulo("empagegera"); 
-     $this->pagina_retorno =  basename($GLOBALS["HTTP_SERVER_VARS"]["PHP_SELF"]);
+     $this->pagina_retorno =  basename($_SERVER["PHP_SELF"]);
    }
    //funcao erro 
    function erro($mostra,$retorna) { 
@@ -53,27 +53,27 @@ class cl_empagegera {
    // funcao para atualizar campos
    function atualizacampos($exclusao=false) {
      if($exclusao==false){
-       $this->e87_codgera = ($this->e87_codgera == ""?@$GLOBALS["HTTP_POST_VARS"]["e87_codgera"]:$this->e87_codgera);
-       $this->e87_descgera = ($this->e87_descgera == ""?@$GLOBALS["HTTP_POST_VARS"]["e87_descgera"]:$this->e87_descgera);
+       $this->e87_codgera = ($this->e87_codgera == ""?@$_POST["e87_codgera"]:$this->e87_codgera);
+       $this->e87_descgera = ($this->e87_descgera == ""?@$_POST["e87_descgera"]:$this->e87_descgera);
        if($this->e87_data == ""){
-         $this->e87_data_dia = ($this->e87_data_dia == ""?@$GLOBALS["HTTP_POST_VARS"]["e87_data_dia"]:$this->e87_data_dia);
-         $this->e87_data_mes = ($this->e87_data_mes == ""?@$GLOBALS["HTTP_POST_VARS"]["e87_data_mes"]:$this->e87_data_mes);
-         $this->e87_data_ano = ($this->e87_data_ano == ""?@$GLOBALS["HTTP_POST_VARS"]["e87_data_ano"]:$this->e87_data_ano);
+         $this->e87_data_dia = ($this->e87_data_dia == ""?@$_POST["e87_data_dia"]:$this->e87_data_dia);
+         $this->e87_data_mes = ($this->e87_data_mes == ""?@$_POST["e87_data_mes"]:$this->e87_data_mes);
+         $this->e87_data_ano = ($this->e87_data_ano == ""?@$_POST["e87_data_ano"]:$this->e87_data_ano);
          if($this->e87_data_dia != ""){
             $this->e87_data = $this->e87_data_ano."-".$this->e87_data_mes."-".$this->e87_data_dia;
          }
        }
-       $this->e87_hora = ($this->e87_hora == ""?@$GLOBALS["HTTP_POST_VARS"]["e87_hora"]:$this->e87_hora);
+       $this->e87_hora = ($this->e87_hora == ""?@$_POST["e87_hora"]:$this->e87_hora);
        if($this->e87_dataproc == ""){
-         $this->e87_dataproc_dia = ($this->e87_dataproc_dia == ""?@$GLOBALS["HTTP_POST_VARS"]["e87_dataproc_dia"]:$this->e87_dataproc_dia);
-         $this->e87_dataproc_mes = ($this->e87_dataproc_mes == ""?@$GLOBALS["HTTP_POST_VARS"]["e87_dataproc_mes"]:$this->e87_dataproc_mes);
-         $this->e87_dataproc_ano = ($this->e87_dataproc_ano == ""?@$GLOBALS["HTTP_POST_VARS"]["e87_dataproc_ano"]:$this->e87_dataproc_ano);
+         $this->e87_dataproc_dia = ($this->e87_dataproc_dia == ""?@$_POST["e87_dataproc_dia"]:$this->e87_dataproc_dia);
+         $this->e87_dataproc_mes = ($this->e87_dataproc_mes == ""?@$_POST["e87_dataproc_mes"]:$this->e87_dataproc_mes);
+         $this->e87_dataproc_ano = ($this->e87_dataproc_ano == ""?@$_POST["e87_dataproc_ano"]:$this->e87_dataproc_ano);
          if($this->e87_dataproc_dia != ""){
             $this->e87_dataproc = $this->e87_dataproc_ano."-".$this->e87_dataproc_mes."-".$this->e87_dataproc_dia;
          }
        }
      }else{
-       $this->e87_codgera = ($this->e87_codgera == ""?@$GLOBALS["HTTP_POST_VARS"]["e87_codgera"]:$this->e87_codgera);
+       $this->e87_codgera = ($this->e87_codgera == ""?@$_POST["e87_codgera"]:$this->e87_codgera);
      }
    }
    // funcao para inclusao
@@ -204,7 +204,7 @@ class cl_empagegera {
       $this->atualizacampos();
      $sql = " update empagegera set ";
      $virgula = "";
-     if(trim($this->e87_codgera)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e87_codgera"])){ 
+     if(trim($this->e87_codgera)!="" || isset($_POST["e87_codgera"])){ 
        $sql  .= $virgula." e87_codgera = $this->e87_codgera ";
        $virgula = ",";
        if(trim($this->e87_codgera) == null ){ 
@@ -217,7 +217,7 @@ class cl_empagegera {
          return false;
        }
      }
-     if(trim($this->e87_descgera)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e87_descgera"])){ 
+     if(trim($this->e87_descgera)!="" || isset($_POST["e87_descgera"])){ 
        $sql  .= $virgula." e87_descgera = '$this->e87_descgera' ";
        $virgula = ",";
        if(trim($this->e87_descgera) == null ){ 
@@ -230,7 +230,7 @@ class cl_empagegera {
          return false;
        }
      }
-     if(trim($this->e87_data)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e87_data_dia"]) &&  ($GLOBALS["HTTP_POST_VARS"]["e87_data_dia"] !="") ){ 
+     if(trim($this->e87_data)!="" || isset($_POST["e87_data_dia"]) &&  ($_POST["e87_data_dia"] !="") ){ 
        $sql  .= $virgula." e87_data = '$this->e87_data' ";
        $virgula = ",";
        if(trim($this->e87_data) == null ){ 
@@ -243,7 +243,7 @@ class cl_empagegera {
          return false;
        }
      }     else{ 
-       if(isset($GLOBALS["HTTP_POST_VARS"]["e87_data_dia"])){ 
+       if(isset($_POST["e87_data_dia"])){ 
          $sql  .= $virgula." e87_data = null ";
          $virgula = ",";
          if(trim($this->e87_data) == null ){ 
@@ -257,7 +257,7 @@ class cl_empagegera {
          }
        }
      }
-     if(trim($this->e87_hora)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e87_hora"])){ 
+     if(trim($this->e87_hora)!="" || isset($_POST["e87_hora"])){ 
        $sql  .= $virgula." e87_hora = '$this->e87_hora' ";
        $virgula = ",";
        if(trim($this->e87_hora) == null ){ 
@@ -270,7 +270,7 @@ class cl_empagegera {
          return false;
        }
      }
-     if(trim($this->e87_dataproc)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e87_dataproc_dia"]) &&  ($GLOBALS["HTTP_POST_VARS"]["e87_dataproc_dia"] !="") ){ 
+     if(trim($this->e87_dataproc)!="" || isset($_POST["e87_dataproc_dia"]) &&  ($_POST["e87_dataproc_dia"] !="") ){ 
        $sql  .= $virgula." e87_dataproc = '$this->e87_dataproc' ";
        $virgula = ",";
        if(trim($this->e87_dataproc) == null ){ 
@@ -283,7 +283,7 @@ class cl_empagegera {
          return false;
        }
      }     else{ 
-       if(isset($GLOBALS["HTTP_POST_VARS"]["e87_dataproc_dia"])){ 
+       if(isset($_POST["e87_dataproc_dia"])){ 
          $sql  .= $virgula." e87_dataproc = null ";
          $virgula = ",";
          if(trim($this->e87_dataproc) == null ){ 
@@ -307,15 +307,15 @@ class cl_empagegera {
          $resac = pg_query("select nextval('db_acount_id_acount_seq') as acount");
          $acount = pg_result($resac,0,0);
          $resac = pg_query("insert into db_acountkey values($acount,6194,'$this->e87_codgera','A')");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e87_codgera"]))
+         if(isset($_POST["e87_codgera"]))
            $resac = pg_query("insert into db_acount values($acount,1002,6194,'".AddSlashes(pg_result($resaco,$conresaco,'e87_codgera'))."','$this->e87_codgera',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e87_descgera"]))
+         if(isset($_POST["e87_descgera"]))
            $resac = pg_query("insert into db_acount values($acount,1002,6195,'".AddSlashes(pg_result($resaco,$conresaco,'e87_descgera'))."','$this->e87_descgera',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e87_data"]))
+         if(isset($_POST["e87_data"]))
            $resac = pg_query("insert into db_acount values($acount,1002,6196,'".AddSlashes(pg_result($resaco,$conresaco,'e87_data'))."','$this->e87_data',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e87_hora"]))
+         if(isset($_POST["e87_hora"]))
            $resac = pg_query("insert into db_acount values($acount,1002,6197,'".AddSlashes(pg_result($resaco,$conresaco,'e87_hora'))."','$this->e87_hora',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e87_dataproc"]))
+         if(isset($_POST["e87_dataproc"]))
            $resac = pg_query("insert into db_acount values($acount,1002,7235,'".AddSlashes(pg_result($resaco,$conresaco,'e87_dataproc'))."','$this->e87_dataproc',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
        }
      }

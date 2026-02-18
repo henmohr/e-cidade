@@ -1,4 +1,4 @@
-<?
+<?php
 //MODULO: empenho
 //CLASSE DA ENTIDADE empord
 class cl_empord { 
@@ -27,7 +27,7 @@ class cl_empord {
    function cl_empord() { 
      //classes dos rotulos dos campos
      $this->rotulo = new rotulo("empord"); 
-     $this->pagina_retorno =  basename($GLOBALS["HTTP_SERVER_VARS"]["PHP_SELF"]);
+     $this->pagina_retorno =  basename($_SERVER["PHP_SELF"]);
    }
    //funcao erro 
    function erro($mostra,$retorna) { 
@@ -41,11 +41,11 @@ class cl_empord {
    // funcao para atualizar campos
    function atualizacampos($exclusao=false) {
      if($exclusao==false){
-       $this->e82_codmov = ($this->e82_codmov == ""?@$GLOBALS["HTTP_POST_VARS"]["e82_codmov"]:$this->e82_codmov);
-       $this->e82_codord = ($this->e82_codord == ""?@$GLOBALS["HTTP_POST_VARS"]["e82_codord"]:$this->e82_codord);
+       $this->e82_codmov = ($this->e82_codmov == ""?@$_POST["e82_codmov"]:$this->e82_codmov);
+       $this->e82_codord = ($this->e82_codord == ""?@$_POST["e82_codord"]:$this->e82_codord);
      }else{
-       $this->e82_codmov = ($this->e82_codmov == ""?@$GLOBALS["HTTP_POST_VARS"]["e82_codmov"]:$this->e82_codmov);
-       $this->e82_codord = ($this->e82_codord == ""?@$GLOBALS["HTTP_POST_VARS"]["e82_codord"]:$this->e82_codord);
+       $this->e82_codmov = ($this->e82_codmov == ""?@$_POST["e82_codmov"]:$this->e82_codmov);
+       $this->e82_codord = ($this->e82_codord == ""?@$_POST["e82_codord"]:$this->e82_codord);
      }
    }
    // funcao para inclusao
@@ -117,7 +117,7 @@ class cl_empord {
       $this->atualizacampos();
      $sql = " update empord set ";
      $virgula = "";
-     if(trim($this->e82_codmov)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e82_codmov"])){ 
+     if(trim($this->e82_codmov)!="" || isset($_POST["e82_codmov"])){ 
        $sql  .= $virgula." e82_codmov = $this->e82_codmov ";
        $virgula = ",";
        if(trim($this->e82_codmov) == null ){ 
@@ -130,7 +130,7 @@ class cl_empord {
          return false;
        }
      }
-     if(trim($this->e82_codord)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e82_codord"])){ 
+     if(trim($this->e82_codord)!="" || isset($_POST["e82_codord"])){ 
        $sql  .= $virgula." e82_codord = $this->e82_codord ";
        $virgula = ",";
        if(trim($this->e82_codord) == null ){ 
@@ -157,9 +157,9 @@ class cl_empord {
          $acount = pg_result($resac,0,0);
          $resac = pg_query("insert into db_acountkey values($acount,6177,'$this->e82_codmov','A')");
          $resac = pg_query("insert into db_acountkey values($acount,6178,'$this->e82_codord','A')");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e82_codmov"]))
+         if(isset($_POST["e82_codmov"]))
            $resac = pg_query("insert into db_acount values($acount,996,6177,'".AddSlashes(pg_result($resaco,$conresaco,'e82_codmov'))."','$this->e82_codmov',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e82_codord"]))
+         if(isset($_POST["e82_codord"]))
            $resac = pg_query("insert into db_acount values($acount,996,6178,'".AddSlashes(pg_result($resaco,$conresaco,'e82_codord'))."','$this->e82_codord',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
        }
      }
