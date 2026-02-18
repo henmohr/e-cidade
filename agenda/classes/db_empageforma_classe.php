@@ -1,4 +1,4 @@
-<?
+<?php
 //MODULO: empenho
 //CLASSE DA ENTIDADE empageforma
 class cl_empageforma { 
@@ -27,7 +27,7 @@ class cl_empageforma {
    function cl_empageforma() { 
      //classes dos rotulos dos campos
      $this->rotulo = new rotulo("empageforma"); 
-     $this->pagina_retorno =  basename($GLOBALS["HTTP_SERVER_VARS"]["PHP_SELF"]);
+     $this->pagina_retorno =  basename($_SERVER["PHP_SELF"]);
    }
    //funcao erro 
    function erro($mostra,$retorna) { 
@@ -41,10 +41,10 @@ class cl_empageforma {
    // funcao para atualizar campos
    function atualizacampos($exclusao=false) {
      if($exclusao==false){
-       $this->e96_codigo = ($this->e96_codigo == ""?@$GLOBALS["HTTP_POST_VARS"]["e96_codigo"]:$this->e96_codigo);
-       $this->e96_descr = ($this->e96_descr == ""?@$GLOBALS["HTTP_POST_VARS"]["e96_descr"]:$this->e96_descr);
+       $this->e96_codigo = ($this->e96_codigo == ""?@$_POST["e96_codigo"]:$this->e96_codigo);
+       $this->e96_descr = ($this->e96_descr == ""?@$_POST["e96_descr"]:$this->e96_descr);
      }else{
-       $this->e96_codigo = ($this->e96_codigo == ""?@$GLOBALS["HTTP_POST_VARS"]["e96_codigo"]:$this->e96_codigo);
+       $this->e96_codigo = ($this->e96_codigo == ""?@$_POST["e96_codigo"]:$this->e96_codigo);
      }
    }
    // funcao para inclusao
@@ -138,7 +138,7 @@ class cl_empageforma {
       $this->atualizacampos();
      $sql = " update empageforma set ";
      $virgula = "";
-     if(trim($this->e96_codigo)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e96_codigo"])){ 
+     if(trim($this->e96_codigo)!="" || isset($_POST["e96_codigo"])){ 
        $sql  .= $virgula." e96_codigo = $this->e96_codigo ";
        $virgula = ",";
        if(trim($this->e96_codigo) == null ){ 
@@ -151,7 +151,7 @@ class cl_empageforma {
          return false;
        }
      }
-     if(trim($this->e96_descr)!="" || isset($GLOBALS["HTTP_POST_VARS"]["e96_descr"])){ 
+     if(trim($this->e96_descr)!="" || isset($_POST["e96_descr"])){ 
        $sql  .= $virgula." e96_descr = '$this->e96_descr' ";
        $virgula = ",";
        if(trim($this->e96_descr) == null ){ 
@@ -174,9 +174,9 @@ class cl_empageforma {
          $resac = pg_query("select nextval('db_acount_id_acount_seq') as acount");
          $acount = pg_result($resac,0,0);
          $resac = pg_query("insert into db_acountkey values($acount,7015,'$this->e96_codigo','A')");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e96_codigo"]))
+         if(isset($_POST["e96_codigo"]))
            $resac = pg_query("insert into db_acount values($acount,1156,7015,'".AddSlashes(pg_result($resaco,$conresaco,'e96_codigo'))."','$this->e96_codigo',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
-         if(isset($GLOBALS["HTTP_POST_VARS"]["e96_descr"]))
+         if(isset($_POST["e96_descr"]))
            $resac = pg_query("insert into db_acount values($acount,1156,7016,'".AddSlashes(pg_result($resaco,$conresaco,'e96_descr'))."','$this->e96_descr',".db_getsession('DB_datausu').",".db_getsession('DB_id_usuario').")");
        }
      }

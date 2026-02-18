@@ -1,12 +1,19 @@
-<?
+<?php
 require("libs/db_stdlib.php");
 require("libs/db_conecta.php");
 include("libs/db_sessoes.php");
 include("libs/db_usuariosonline.php");
 include("dbforms/db_funcoes.php");
 include("classes/db_empageforma_classe.php");
-db_postmemory($HTTP_POST_VARS);
-parse_str($HTTP_SERVER_VARS["QUERY_STRING"]);
+db_postmemory($_POST);
+
+$legacyQueryParams = [];
+parse_str((string) ($_SERVER["QUERY_STRING"] ?? ""), $legacyQueryParams);
+foreach ($legacyQueryParams as $legacyKey => $legacyValue) {
+  if (!isset($$legacyKey)) {
+    $$legacyKey = $legacyValue;
+  }
+}
 $clempageforma = new cl_empageforma;
 $clempageforma->rotulo->label("e96_codigo");
 $clempageforma->rotulo->label("e96_codigo");
@@ -28,7 +35,7 @@ $clempageforma->rotulo->label("e96_codigo");
               <?=$Le96_codigo?>
             </td>
             <td width="96%" align="left" nowrap> 
-              <?
+              <?php
 		       db_input("e96_codigo",10,$Ie96_codigo,true,"text",4,"","chave_e96_codigo");
 		       ?>
             </td>
@@ -56,7 +63,7 @@ $clempageforma->rotulo->label("e96_codigo");
   </tr>
   <tr> 
     <td align="center" valign="top"> 
-      <?
+      <?php
       if(!isset($pesquisa_chave)){
         if(isset($campos)==false){
            if(file_exists("funcoes/db_func_empageforma.php")==true){
@@ -92,11 +99,11 @@ $clempageforma->rotulo->label("e96_codigo");
 </table>
 </body>
 </html>
-<?
+<?php
 if(!isset($pesquisa_chave)){
   ?>
   <script>
   </script>
-  <?
+  <?php
 }
 ?>
