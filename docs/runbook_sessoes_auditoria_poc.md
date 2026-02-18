@@ -32,6 +32,7 @@ Resultado esperado:
 6. Trecho de historico com tipos de evento (`login_success`, `login_external_success`, `logout`) quando aplicavel.
 7. Trecho de historico com eventos operacionais de seguranca:
    - `mfa_verify_success` / `mfa_verify_failed`
+   - `mfa_verify_blocked`
    - `mfa_code_resent`
    - `session_revoked`
 

@@ -18,6 +18,10 @@ Objetivo:
 - `MFA_REQUIRED_GROUPS=financeiro,licitacao`
 - `MFA_USER_GROUPS_JSON={"33":["financeiro"]}`
 - `MFA_ALLOW_ADMIN_BYPASS=false`
+- `MFA_VERIFY_MAX_ATTEMPTS=5`
+- `MFA_VERIFY_LOCK_PRIMARY_SECONDS=120`
+- `MFA_VERIFY_LOCK_SECONDARY_SECONDS=600`
+- `MFA_VERIFY_LOCK_TERTIARY_SECONDS=1800`
 
 Observacoes:
 - `MFA_REQUIRED_USERS` e `MFA_REQUIRED_GROUPS` permitem rollout gradual por risco;
@@ -36,10 +40,13 @@ Observacoes:
 6. Testar usuario fora do grupo:
 - esperado: sem desafio MFA quando regra de grupo estiver ativa.
 7. Registrar evidencias de tela e log.
+8. Realizar tentativas repetidas de codigo invalido ate bloquear:
+- esperado: mensagem de bloqueio temporario e evento `mfa_verify_blocked`.
 
 ## 4. Evidencias esperadas
 
 - captura de tela do desafio MFA;
 - evidencias de sucesso/falha de validacao do codigo;
+- evidencia de bloqueio temporario apos excesso de tentativas;
 - log `MFA code issued` com identificador do usuario;
 - aceite funcional do avaliador da PoC.

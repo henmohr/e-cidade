@@ -37,4 +37,14 @@ return [
     */
     'code_length' => (int) env('MFA_CODE_LENGTH', 6),
     'ttl_seconds' => (int) env('MFA_TTL_SECONDS', 300),
+
+    /*
+    |--------------------------------------------------------------------------
+    | MFA verify hardening
+    |--------------------------------------------------------------------------
+    */
+    'verify_max_attempts' => (int) env('MFA_VERIFY_MAX_ATTEMPTS', 5),
+    'verify_lock_primary_seconds' => (int) env('MFA_VERIFY_LOCK_PRIMARY_SECONDS', 120),
+    'verify_lock_secondary_seconds' => (int) env('MFA_VERIFY_LOCK_SECONDARY_SECONDS', 600),
+    'verify_lock_tertiary_seconds' => (int) env('MFA_VERIFY_LOCK_TERTIARY_SECONDS', 1800),
 ];

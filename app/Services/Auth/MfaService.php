@@ -14,6 +14,8 @@ class MfaService
     private const SESSION_CODE_HASH = 'auth.mfa.code_hash';
     private const SESSION_EXPIRES_AT = 'auth.mfa.expires_at';
     private const SESSION_VERIFIED_USER_ID = 'auth.mfa.verified_user_id';
+    private const SESSION_FAILED_ATTEMPTS = 'auth.mfa.failed_attempts';
+    private const SESSION_BLOCKED_UNTIL = 'auth.mfa.blocked_until';
 
     public function requiresMfa(User $user): bool
     {
@@ -71,20 +73,27 @@ class MfaService
 
     public function verifyForUser(User $user, string $code): bool
     {
+        if ($this->currentBlockSecondsForUser($user) > 0) {
+            return false;
+        }
+
         $sessionUser = (int) session(self::SESSION_USER_ID);
         $hash = (string) session(self::SESSION_CODE_HASH, '');
         $expiresAt = (int) session(self::SESSION_EXPIRES_AT, 0);
 
         if ($sessionUser !== (int) $user->getAuthIdentifier() || empty($hash) || time() > $expiresAt) {
+            $this->registerVerifyFailure($user);
             return false;
         }
 
         if (!Hash::check(trim($code), $hash)) {
+            $this->registerVerifyFailure($user);
             return false;
         }
 
         session()->put(self::SESSION_VERIFIED_USER_ID, (int) $user->getAuthIdentifier());
         session()->forget([self::SESSION_USER_ID, self::SESSION_CODE_HASH, self::SESSION_EXPIRES_AT]);
+        $this->clearVerifyFailures($user);
         return true;
     }
 
@@ -97,6 +106,26 @@ class MfaService
         if ((int) session(self::SESSION_USER_ID) === (int) $user->getAuthIdentifier()) {
             session()->forget([self::SESSION_USER_ID, self::SESSION_CODE_HASH, self::SESSION_EXPIRES_AT]);
         }
+
+        $this->clearVerifyFailures($user);
+    }
+
+    public function currentBlockSecondsForUser(User $user): int
+    {
+        $blocked = session(self::SESSION_BLOCKED_UNTIL, []);
+        if (!is_array($blocked)) {
+            return 0;
+        }
+
+        $userId = (int) $user->getAuthIdentifier();
+        $blockedUser = (int) ($blocked['user_id'] ?? 0);
+        $until = (int) ($blocked['until'] ?? 0);
+
+        if ($blockedUser !== $userId || $until <= time()) {
+            return 0;
+        }
+
+        return max(1, $until - time());
     }
 
     private function hasPendingForUser(User $user): bool
@@ -104,6 +133,57 @@ class MfaService
         $sessionUser = (int) session(self::SESSION_USER_ID);
         $expiresAt = (int) session(self::SESSION_EXPIRES_AT, 0);
         return $sessionUser === (int) $user->getAuthIdentifier() && time() <= $expiresAt;
+    }
+
+    private function registerVerifyFailure(User $user): void
+    {
+        $userId = (int) $user->getAuthIdentifier();
+        $failed = session(self::SESSION_FAILED_ATTEMPTS, []);
+        if (!is_array($failed) || (int) ($failed['user_id'] ?? 0) !== $userId) {
+            $failed = ['user_id' => $userId, 'count' => 0];
+        }
+
+        $failed['count'] = ((int) ($failed['count'] ?? 0)) + 1;
+        session()->put(self::SESSION_FAILED_ATTEMPTS, $failed);
+
+        $maxAttempts = max(1, (int) config('mfa.verify_max_attempts', 5));
+        if ((int) $failed['count'] < $maxAttempts) {
+            return;
+        }
+
+        $lockSeconds = $this->computeVerifyLockSeconds((int) $failed['count']);
+        session()->put(self::SESSION_BLOCKED_UNTIL, [
+            'user_id' => $userId,
+            'until' => Carbon::now()->addSeconds($lockSeconds)->timestamp,
+        ]);
+    }
+
+    private function clearVerifyFailures(User $user): void
+    {
+        $userId = (int) $user->getAuthIdentifier();
+
+        $failed = session(self::SESSION_FAILED_ATTEMPTS, []);
+        if (is_array($failed) && (int) ($failed['user_id'] ?? 0) === $userId) {
+            session()->forget(self::SESSION_FAILED_ATTEMPTS);
+        }
+
+        $blocked = session(self::SESSION_BLOCKED_UNTIL, []);
+        if (is_array($blocked) && (int) ($blocked['user_id'] ?? 0) === $userId) {
+            session()->forget(self::SESSION_BLOCKED_UNTIL);
+        }
+    }
+
+    private function computeVerifyLockSeconds(int $failures): int
+    {
+        if ($failures >= 12) {
+            return max(60, (int) config('mfa.verify_lock_tertiary_seconds', 1800));
+        }
+
+        if ($failures >= 8) {
+            return max(60, (int) config('mfa.verify_lock_secondary_seconds', 600));
+        }
+
+        return max(60, (int) config('mfa.verify_lock_primary_seconds', 120));
     }
 
     private function generateCode(): string

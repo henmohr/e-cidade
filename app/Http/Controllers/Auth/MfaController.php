@@ -32,6 +32,16 @@ class MfaController extends Controller
             abort(401);
         }
 
+        $blockSeconds = $mfaService->currentBlockSecondsForUser($user);
+        if ($blockSeconds > 0) {
+            app(AuthEventService::class)->registerCustomEvent($request, $user, 'mfa_verify_blocked', [
+                'blocked_seconds' => $blockSeconds,
+            ]);
+            return back()->withErrors([
+                'code' => sprintf('MFA temporariamente bloqueado. Tente novamente em %d segundos.', $blockSeconds),
+            ]);
+        }
+
         if (!$mfaService->verifyForUser($user, $request->input('code'))) {
             app(AuthEventService::class)->registerCustomEvent($request, $user, 'mfa_verify_failed');
             return back()->withErrors(['code' => 'Código MFA inválido ou expirado.']);
@@ -46,6 +56,13 @@ class MfaController extends Controller
         $user = Auth::user();
         if (!$user) {
             abort(401);
+        }
+
+        $blockSeconds = $mfaService->currentBlockSecondsForUser($user);
+        if ($blockSeconds > 0) {
+            return back()->withErrors([
+                'code' => sprintf('MFA temporariamente bloqueado. Aguarde %d segundos para reenviar.', $blockSeconds),
+            ]);
         }
 
         $mfaService->issueForUser($user, true);
