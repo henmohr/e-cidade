@@ -98,6 +98,48 @@ class IntegracaoGovernamentalRepository implements IntegracaoGovernamentalReposi
         $this->runUpdateWithFallback($codigo, $dados);
     }
 
+    public function buscarPorCodigo(int $codigo): ?array
+    {
+        $consulta = function (string $tabela) use ($codigo): ?array {
+            $registro = DB::table($tabela)
+                ->select([
+                    'igs01_codigo as codigo',
+                    'igs01_sistema as sistema',
+                    'igs01_referencia as referencia',
+                    'igs01_status as status',
+                    'igs01_payload as payload',
+                    'igs01_protocolo_externo as protocolo_externo',
+                    'igs01_mensagem as mensagem',
+                    'igs01_tentativas_reprocessamento as tentativas_reprocessamento',
+                    'igs01_atualizado_em as atualizado_em',
+                ])
+                ->where('igs01_codigo', $codigo)
+                ->first();
+
+            if ($registro === null) {
+                return null;
+            }
+
+            return [
+                'codigo' => (int) ($registro->codigo ?? 0),
+                'sistema' => (string) ($registro->sistema ?? ''),
+                'referencia' => (string) ($registro->referencia ?? ''),
+                'status' => (string) ($registro->status ?? ''),
+                'payload' => json_decode((string) ($registro->payload ?? '[]'), true) ?: [],
+                'protocolo_externo' => $registro->protocolo_externo,
+                'mensagem' => $registro->mensagem,
+                'tentativas_reprocessamento' => (int) ($registro->tentativas_reprocessamento ?? 0),
+                'atualizado_em' => $registro->atualizado_em,
+            ];
+        };
+
+        try {
+            return $consulta('integracao.integracao_envio_status');
+        } catch (QueryException $exception) {
+            return $consulta('integracao_envio_status');
+        }
+    }
+
     /**
      * @param array<string, mixed> $dados
      */

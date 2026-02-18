@@ -22,9 +22,13 @@ Evidencias minimas:
 
 ## Frente B - Homologacao externa assistida
 
-- [ ] Mapear lotes de homologacao por orgao (SICONFI, TCE/UF, Portal Transparencia).
-- [ ] Padronizar roteiro de coleta de protocolo externo (aceite/rejeicao) por envio.
+- [x] Mapear lotes de homologacao por orgao (SICONFI, TCE/UF, Portal Transparencia).
+- [x] Padronizar roteiro de coleta de protocolo externo (aceite/rejeicao) por envio.
 - [ ] Atualizar pacote documental com anexos de homologacao assinados.
+
+Referencia da frente B:
+- `docs/sprint8_homologacao_externa.md`
+- comandos: `financeiro:registrar-homologacao-integracao` e `financeiro:relatorio-homologacao-integracoes`
 
 ## Definicao de pronto da Sprint 8 (parcial)
 

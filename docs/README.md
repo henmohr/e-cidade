@@ -243,6 +243,16 @@ Plano de fechamento de evidencias para licitacao:
 
 ---
 
+#### [sprint8_homologacao_externa.md](./sprint8_homologacao_externa.md)
+**Roteiro de Homologacao Externa - Sprint 8**
+
+Guia operacional para fechamento com orgaos externos:
+- lotes por sistema (SICONFI, TCE/UF, Portal Transparencia);
+- comando para registro de protocolo por envio;
+- relatorio consolidado de pendencias por integracao.
+
+---
+
 #### [roteiro_oficial_demonstracao_poc.md](./roteiro_oficial_demonstracao_poc.md)
 **Roteiro Oficial de Demonstracao da PoC**
 

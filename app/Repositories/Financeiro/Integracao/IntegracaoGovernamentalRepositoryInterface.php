@@ -20,4 +20,9 @@ interface IntegracaoGovernamentalRepositoryInterface
     public function buscarPorStatus(array $status, ?string $sistema = null, int $limite = 100): array;
 
     public function incrementarTentativaReprocessamento(int $codigo): void;
+
+    /**
+     * @return array<string, mixed>|null
+     */
+    public function buscarPorCodigo(int $codigo): ?array;
 }
