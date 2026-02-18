@@ -87,7 +87,7 @@ class SessionController extends Controller
 
         $filters = SessionEventFilters::fromExportRequest($request);
         $events = $eventsQuery->rawFilteredEvents($user, $filters);
-        $filename = self::EXPORT_FILE_PREFIX . date('Ymd-His') . self::EXPORT_FILE_EXTENSION;
+        $filename = $this->exportFilename();
         $csv = $exportService->buildCsv($events);
         $sha256 = $exportService->computeSha256($csv);
 
@@ -133,5 +133,10 @@ class SessionController extends Controller
         }
 
         return $user;
+    }
+
+    private function exportFilename(): string
+    {
+        return self::EXPORT_FILE_PREFIX . date('Ymd-His') . self::EXPORT_FILE_EXTENSION;
     }
 }
