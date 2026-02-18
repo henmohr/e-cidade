@@ -40,4 +40,20 @@ class AuthEventPresenterTest extends TestCase
         $this->assertStringContainsString('file=backup_2026_02_18.sql', $details);
         $this->assertStringContainsString('blocked=120s', $details);
     }
+
+    public function testComposesDetailsForCsvExportEvent(): void
+    {
+        $presenter = new AuthEventPresenter();
+
+        $event = [
+            'type' => 'sessions_export_csv',
+            'row_count' => 12,
+            'export_sha256' => 'abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890',
+        ];
+
+        $this->assertSame('Exportacao CSV de eventos', $presenter->typeLabel($event));
+        $details = $presenter->details($event);
+        $this->assertStringContainsString('rows=12', $details);
+        $this->assertStringContainsString('sha256=abcdef1234567890...', $details);
+    }
 }

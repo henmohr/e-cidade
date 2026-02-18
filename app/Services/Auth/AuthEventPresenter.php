@@ -24,6 +24,7 @@ class AuthEventPresenter
             'session_revoke_others' => 'Sessoes anteriores revogadas',
             'backup_link_generated' => 'Link de backup gerado',
             'backup_download_executed' => 'Download de backup',
+            'sessions_export_csv' => 'Exportacao CSV de eventos',
         ];
 
         return $labels[$type] ?? ($type !== '' ? $type : '-');
@@ -58,6 +59,14 @@ class AuthEventPresenter
 
         if (!empty($event['blocked_seconds'])) {
             $parts[] = 'blocked=' . (int) $event['blocked_seconds'] . 's';
+        }
+
+        if (isset($event['row_count'])) {
+            $parts[] = 'rows=' . (int) $event['row_count'];
+        }
+
+        if (!empty($event['export_sha256'])) {
+            $parts[] = 'sha256=' . substr((string) $event['export_sha256'], 0, 16) . '...';
         }
 
         if (empty($parts)) {

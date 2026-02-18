@@ -8,10 +8,10 @@ use App\Services\Auth\AuthEventPresenter;
 use App\Services\Auth\SessionActivityService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class SessionController extends Controller
 {
@@ -79,7 +79,7 @@ class SessionController extends Controller
         return back()->with('status', 'Sessao encerrada com sucesso.');
     }
 
-    public function exportCsv(Request $request, AuthEventService $eventService): StreamedResponse
+    public function exportCsv(Request $request, AuthEventService $eventService): Response
     {
         $user = Auth::user();
         if (!$user) {
@@ -92,25 +92,18 @@ class SessionController extends Controller
 
         $events = $eventService->listRecentEventsForUserFiltered($user, $eventType, $eventRequestId, $eventLimit);
         $filename = 'auth-events-' . date('Ymd-His') . '.csv';
+        $csv = $this->buildCsv($events);
+        $sha256 = hash('sha256', $csv);
 
-        return response()->streamDownload(function () use ($events) {
-            $out = fopen('php://output', 'w');
-            fputcsv($out, ['type', 'request_id', 'timestamp', 'ip', 'provider', 'details']);
+        $eventService->registerCustomEvent($request, $user, 'sessions_export_csv', [
+            'row_count' => count($events),
+            'export_sha256' => $sha256,
+        ]);
 
-            foreach ($events as $event) {
-                fputcsv($out, [
-                    (string) ($event['type'] ?? ''),
-                    (string) ($event['request_id'] ?? ''),
-                    (string) ($event['timestamp'] ?? ''),
-                    (string) ($event['ip'] ?? ''),
-                    (string) ($event['provider'] ?? ''),
-                    $this->detailsCsvColumn($event),
-                ]);
-            }
-
-            fclose($out);
-        }, $filename, [
+        return response($csv, 200, [
             'Content-Type' => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+            'X-Export-SHA256' => $sha256,
         ]);
     }
 
@@ -142,5 +135,31 @@ class SessionController extends Controller
         }
 
         return implode(';', $parts);
+    }
+
+    /**
+     * @param array<int, array<string, mixed>> $events
+     */
+    private function buildCsv(array $events): string
+    {
+        $out = fopen('php://temp', 'r+');
+        fputcsv($out, ['type', 'request_id', 'timestamp', 'ip', 'provider', 'details']);
+
+        foreach ($events as $event) {
+            fputcsv($out, [
+                (string) ($event['type'] ?? ''),
+                (string) ($event['request_id'] ?? ''),
+                (string) ($event['timestamp'] ?? ''),
+                (string) ($event['ip'] ?? ''),
+                (string) ($event['provider'] ?? ''),
+                $this->detailsCsvColumn($event),
+            ]);
+        }
+
+        rewind($out);
+        $csv = stream_get_contents($out);
+        fclose($out);
+
+        return is_string($csv) ? $csv : '';
     }
 }
