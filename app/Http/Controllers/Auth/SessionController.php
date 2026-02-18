@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Services\Auth\AuthEventService;
+use App\Services\Auth\AuthEventPresenter;
 use App\Services\Auth\SessionActivityService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -13,16 +14,26 @@ use Illuminate\View\View;
 
 class SessionController extends Controller
 {
-    public function index(SessionActivityService $service, AuthEventService $eventService): View
+    public function index(
+        SessionActivityService $service,
+        AuthEventService $eventService,
+        AuthEventPresenter $presenter
+    ): View
     {
         $user = Auth::user();
         if (!$user) {
             abort(401);
         }
 
+        $events = array_map(function (array $event) use ($presenter) {
+            $event['type_label'] = $presenter->typeLabel($event);
+            $event['details'] = $presenter->details($event);
+            return $event;
+        }, $eventService->listRecentEventsForUser($user));
+
         return view('auth.sessions', [
             'sessions' => $service->listForUser($user),
-            'authEvents' => $eventService->listRecentEventsForUser($user),
+            'authEvents' => $events,
             'currentSessionId' => (string) session()->getId(),
         ]);
     }

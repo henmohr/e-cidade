@@ -80,6 +80,7 @@
             <thead>
                 <tr>
                     <th>Tipo</th>
+                    <th>Detalhes</th>
                     <th>Horario</th>
                     <th>IP</th>
                     <th>User-Agent</th>
@@ -88,7 +89,8 @@
             <tbody>
                 @foreach ($authEvents as $event)
                     <tr>
-                        <td>{{ $event['type'] ?? '-' }}</td>
+                        <td>{{ $event['type_label'] ?? ($event['type'] ?? '-') }}</td>
+                        <td>{{ $event['details'] ?? '-' }}</td>
                         <td>{{ $event['timestamp'] ?? '-' }}</td>
                         <td>{{ $event['ip'] ?? '-' }}</td>
                         <td>{{ $event['user_agent'] ?? '-' }}</td>

@@ -35,6 +35,10 @@ Resultado esperado:
    - `mfa_verify_blocked`
    - `mfa_code_resent`
    - `session_revoked`
+8. Validar coluna de detalhes no historico de eventos:
+   - `provider` para login externo;
+   - `revoked_count` para encerramento de sessoes anteriores;
+   - `tier/file` para acoes de backup.
 
 ## 4. Limites Conhecidos
 
