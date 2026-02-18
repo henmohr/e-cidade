@@ -1,4 +1,4 @@
-<?
+<?php
 $clrotulo = new rotulocampo;
 $clrotulo->label("e80_data");
 $clrotulo->label("e83_codtipo");
@@ -113,7 +113,7 @@ function js_valores(opcao,valortotal,valortipo,descrtipo,codtipo){
       <strong>Descrição da agenda:</strong>
     </td>
     <td width="35%" colspan='1' align='left'>
-     <?
+     <?php
      db_input('e87_descgera',40,$Ie87_descgera,true,'text',1);
      ?>
     </td>
@@ -122,7 +122,7 @@ function js_valores(opcao,valortotal,valortipo,descrtipo,codtipo){
         <tr>
 	  <td><b>Data geração:</b></td>
 	  <td>
-     <?
+     <?php
      if(!isset($dtin_dia)){
        $dtin_dia = date('d',db_getsession('DB_datausu'));
      }
@@ -139,7 +139,7 @@ function js_valores(opcao,valortotal,valortipo,descrtipo,codtipo){
         <tr>
 	  <td><b>Autoriza pgto.:</b></td>
 	  <td>
-     <?
+     <?php
      if(!isset($deposito_dia)){
        $deposito_dia = date('d',db_getsession('DB_datausu'));
      }
@@ -161,7 +161,7 @@ function js_valores(opcao,valortotal,valortipo,descrtipo,codtipo){
       <strong>Banco:</strong>
     </td>
     <td width="35%" colspan='1' align='left'>
-     <?
+     <?php
      $arr_bancos = Array();
      $result_bancos = $cldb_bancos->sql_record($cldb_bancos->sql_query_empage(null,"distinct db90_codban,db90_descr","db90_descr"," e90_codmov is null "));
      $numrows_bancos = $cldb_bancos->numrows;

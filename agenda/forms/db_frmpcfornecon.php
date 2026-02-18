@@ -1,4 +1,4 @@
-<?
+<?php
 //MODULO: compras
 include("dbforms/db_classesgenericas.php");
 $cliframe_alterar_excluir = new cl_iframe_alterar_excluir;
@@ -42,12 +42,12 @@ if($db_opcao == 1){
 <table border="0">
   <tr>
     <td nowrap title="<?=@$Tpc63_numcgm?>">
-       <?
+       <?php
        db_ancora(@$Lpc63_numcgm,"js_pesquisapc63_numcgm(true);",3);
        ?>
     </td>
     <td colspan="3">
-<?
+<?php
 if(isset($submita)){
   db_input('submita',6,0,true,'hidden',3,"");
 }
@@ -61,7 +61,7 @@ db_input('pc63_numcgm',8,$Ipc63_numcgm,true,'text',3," onchange='js_pesquisapc63
        <?=@$Lpc63_banco?>
     </td>
     <td colspan="3">
-<?
+<?php
 db_input('pc63_banco',5,$Ipc63_banco,true,'text',$db_opcao,"")
 ?>
     </td>
@@ -71,7 +71,7 @@ db_input('pc63_banco',5,$Ipc63_banco,true,'text',$db_opcao,"")
        <?=@$Lpc63_agencia?>
     </td>
     <td>
-<?
+<?php
 db_input('pc63_agencia',5,$Ipc63_agencia,true,'text',$db_opcao,"")
 ?>
 
@@ -80,7 +80,7 @@ db_input('pc63_agencia',5,$Ipc63_agencia,true,'text',$db_opcao,"")
     </td>
     <td>
 
-<?
+<?php
 db_input('pc63_agencia_dig',2,$Ipc63_agencia_dig,true,'text',$db_opcao,"");
 ?>
     </td>
@@ -90,7 +90,7 @@ db_input('pc63_agencia_dig',2,$Ipc63_agencia_dig,true,'text',$db_opcao,"");
        <?=@$Lpc63_conta?>
     </td>
     <td>
-<?
+<?php
 db_input('pc63_conta',14,$Ipc63_conta,true,'text',$db_opcao,"")
 ?>
     </td>
@@ -98,7 +98,7 @@ db_input('pc63_conta',14,$Ipc63_conta,true,'text',$db_opcao,"")
        <b><?=@$RLpc63_conta_dig?>:</b>
     </td>
     <td>
-<?
+<?php
 db_input('pc63_conta_dig',2,$Ipc63_conta_dig,true,'text',$db_opcao,"");
 ?>
     </td>
@@ -108,7 +108,7 @@ db_input('pc63_conta_dig',2,$Ipc63_conta_dig,true,'text',$db_opcao,"");
        <?=@$Lpc63_cnpjcpf?>
     </td>
     <td colspan="3">
-<?
+<?php
 db_input('pc63_cnpjcpf',15,@$Ipc63_cnpjcpf,true,'text',$db_opcao," onBlur='js_verificaCGCCPF(this)'")
 ?>
     </td>
@@ -118,16 +118,16 @@ db_input('pc63_cnpjcpf',15,@$Ipc63_cnpjcpf,true,'text',$db_opcao," onBlur='js_ve
     <b>Conta padrão:</b>
     </td>
     <td>
-<?
+<?php
 $x = array("t"=>"SIM","f"=>"NÃO");
 db_select('pc64_contabanco',$x,true,$db_opcao,"")
 ?>
     </td>
     <td nowrap title="<?=@$Tpc63_dataconf?>">
-    <b><?//=@$Lpc63_dataconf?>Conferido:</b>
+    <b><?php//=@$Lpc63_dataconf?>Conferido:</b>
     </td>
     <td>
-    <?
+    <?php
     $checked = "";
     if(isset($pc63_dataconf) && trim($pc63_dataconf)!=""){
       $checked = "checked";
@@ -149,7 +149,7 @@ db_select('pc64_contabanco',$x,true,$db_opcao,"")
     <td nowrap>
     </td>
     <td>
-<?
+<?php
 global $pc63_id_usuario ;
 $pc63_id_usuario = db_getsession("DB_id_usuario") ;
 
@@ -161,10 +161,10 @@ db_input('pc63_id_usuario',5,$Ipc63_id_usuario,true,'hidden',3," onchange='js_pe
     <td colspan="4" align="center">
  <input name="<?=($db_opcao==1?"incluir":($db_opcao==2||$db_opcao==22?"alterar":"excluir"))?>" type="submit" id="db_opcao" value="<?=($db_opcao==1?"Incluir":($db_opcao==2||$db_opcao==22?"Alterar":"Excluir"))?>" <?=($db_botao==false?"disabled":"")?> onclick="return js_ver()"  >
  <input name="novo" type="button" id="cancelar" value="Novo" onclick="js_cancelar();" <?=($db_opcao==1||isset($db_opcaoal)?"style='visibility:hidden;'":"")?> >
-<?
+<?php
    if(isset($novo)){?>
    <input name="fechar" type="button" value="Fechar" onclick="parent.db_iframe_pcfornecon.hide();">
-<?
+<?php
    }
 ?>
     </td>
@@ -173,7 +173,7 @@ db_input('pc63_id_usuario',5,$Ipc63_id_usuario,true,'hidden',3," onchange='js_pe
  <table>
   <tr>
     <td valign="top"  align="center">
-    <?
+    <?php
 	 $chavepri= array("pc63_numcgm"=>@$pc63_numcgm,"pc63_contabanco"=>@$pc63_contabanco);
 	 $cliframe_alterar_excluir->chavepri=$chavepri;
 	 $cliframe_alterar_excluir->sql     = $clpcfornecon->sql_query_file(null,'pc63_contabanco,pc63_numcgm,pc63_banco,pc63_agencia,pc63_agencia_dig,pc63_conta,pc63_conta_dig,pc63_cnpjcpf,pc63_id_usuario,pc63_dataconf','pc63_contabanco'," pc63_numcgm = $pc63_numcgm ");

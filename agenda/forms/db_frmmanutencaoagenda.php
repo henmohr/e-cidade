@@ -1,4 +1,4 @@
-<?
+<?php
 $clrotulo = new rotulocampo;
 $clrotulo->label("e80_data");
 $clrotulo->label("e83_codtipo");
@@ -62,20 +62,20 @@ function js_mascara(evt){
 
           <tr>
             <td nowrap title="<?=@$Te82_codord?>">
-             <?db_ancora(@$Le82_codord,"js_pesquisae82_codord(true);",$db_opcao);  ?>
+             <?php db_ancora(@$Le82_codord,"js_pesquisae82_codord(true);",$db_opcao);  ?>
             </td>
             <td nowrap>
-              <?
+              <?php
               db_input('e82_codord',10,$Ie82_codord,true,'text',$db_opcao," onchange='js_pesquisae82_codord(false);'");
               ?>
             </td>
             <td>
-              <?
+              <?php
               db_ancora("<b>até:</b>","js_pesquisae82_codord02(true);",$db_opcao);
               ?>
             </td>
             <td nowrap align="left">
-             <?
+             <?php
               db_input('e82_codord2',10,$Ie82_codord,true,'text',$db_opcao,
                      "onchange='js_pesquisae82_codord02(false);'","e82_codord02");
              ?>
@@ -83,7 +83,7 @@ function js_mascara(evt){
           </tr>
          <tr>
            <td  nowrap title="<?=$Te60_numemp?>">
-             <?
+             <?php
              db_ancora(@$Le60_codemp,"js_pesquisae60_codemp(true);",$db_opcao);
              ?>
            </td>
@@ -94,7 +94,7 @@ function js_mascara(evt){
            <td>
              <b>Recursos:</b></td>
            <td align="left">
-             <?
+             <?php
              if (!isset($recursos)){
                $recursos = "false";
              }
@@ -108,7 +108,7 @@ function js_mascara(evt){
              <b>Data Inicial:</b>
            </td>
            <td nowrap>
-             <?
+             <?php
              db_inputdata("dataordeminicial",null,null,null,true,"text", 1);
              ?>
            </td>
@@ -116,19 +116,19 @@ function js_mascara(evt){
              <b>Data Final:</b>
            </td>
            <td nowrap align="">
-             <?
+             <?php
              db_inputdata("dataordemfinal",null,null,null,true,"text", 1);
              ?>
            </td>
          </tr>
          <tr>
            <td nowrap title="<?=@$Tz01_numcgm?>">
-             <?
+             <?php
               db_ancora("<b>Credor:</b>","js_pesquisaz01_numcgm(true);",$db_opcao);
              ?>
            </td>
            <td  colspan='4' nowrap>
-             <?
+             <?php
              db_input('z01_numcgm',10,$Iz01_numcgm,true,'text',$db_opcao," onchange='js_pesquisaz01_numcgm(false);'");
              db_input('z01_nome',40,$Iz01_nome,true,'text',3,'')
              ?>
@@ -136,11 +136,11 @@ function js_mascara(evt){
          </tr>
          <tr nowrap>
             <td nowrap title="<?=@$To15_codigo?>">
-              <? db_ancora(@$Lo15_codigo,"js_pesquisac62_codrec(true);",$db_opcao); ?>
+              <?php db_ancora(@$Lo15_codigo,"js_pesquisac62_codrec(true);",$db_opcao); ?>
             </td>
             <td colspan=3 nowrap>
-              <? db_input('o15_codigo',10,$Io15_codigo,true,'text',$db_opcao," onchange='js_pesquisac62_codrec(false);'") ?>
-              <? db_input('o15_descr',40,$Io15_descr,true,'text',3,'')   ?>
+              <?php db_input('o15_codigo',10,$Io15_codigo,true,'text',$db_opcao," onchange='js_pesquisac62_codrec(false);'") ?>
+              <?php db_input('o15_descr',40,$Io15_descr,true,'text',3,'')   ?>
             </td>
          </tr>
          <tr>
@@ -148,7 +148,7 @@ function js_mascara(evt){
               <b>Conta pagadora padrão:</b>
            </td>
            <td colspan=3 nowrap>
-             <?
+             <?php
              $result05  = $clempagetipo->sql_record($clempagetipo->sql_query(null,
                                                                   "e83_conta, e83_codtipo as codtipo,
                                                                    e83_descr, c61_codigo",
@@ -170,7 +170,7 @@ function js_mascara(evt){
            <td nowrap>
              <b>Forma de Pagamento padrão:</b></td>
            <td colspan=3 nowrap>
-             <?
+             <?php
              $rsFormaPagamento  = $clempageforma->sql_record($clempageforma->sql_query(null));
              $iNumRowsPagamento = $clempageforma->numrows;
              $aFormaPagamento['0']="NDA";
@@ -190,7 +190,7 @@ function js_mascara(evt){
              <b>Data de Pagamento: </b>
            </td>
            <td colspan='1'>
-             <?
+             <?php
               if ($lUsaData) {
 
                 $data = explode("-",date("d-m-Y",DB_getsession("DB_datausu")));
@@ -202,7 +202,7 @@ function js_mascara(evt){
              ?>
            <td>
              <b>
-              <? db_ancora("<b>OP auxiliar</b>","js_pesquisae42_sequencial(true);",$db_opcao);  ?>
+              <?php db_ancora("<b>OP auxiliar</b>","js_pesquisae42_sequencial(true);",$db_opcao);  ?>
              </b>
            </td>
            <td>
@@ -215,7 +215,7 @@ function js_mascara(evt){
              <b>Ordens Autorizadas:</b>
            </td>
            <td colspan='1' nowrap>
-             <?
+             <?php
               if (db_permissaomenu(db_getsession("DB_anousu"),39,6956) == "true") {
 
                 $aAutorizadas = array(
@@ -241,7 +241,7 @@ function js_mascara(evt){
          <tr>
            <td><b>Ordenar</b></td>
            <td>
-            <?
+            <?php
               $x = array("e82_codord"=>"Ordem",
                          "e60_numemp"=>"Empenho",
                          "cgm.z01_nome"=>"Credor",
@@ -279,7 +279,7 @@ function js_mascara(evt){
                 <pre>(+)</pre>
               </td>
               <td valign='top'>
-                <?
+                <?php
                  db_input("saldotesouraria",15,null,true,"text",3);
                 ?>
               </td>
@@ -292,7 +292,7 @@ function js_mascara(evt){
                 <pre>(-)</pre>
               </td>
               <td valign='top'>
-                <?
+                <?php
                 db_input("totalcheques",15,null,true,"text",3);
                ?>
               </td>
@@ -305,7 +305,7 @@ function js_mascara(evt){
                 <pre>(=)</pre>
               </td>
               <td valign='top'>
-                <?
+                <?php
                  db_input("saldoatual",15,null,true,"text",3);
                 ?>
               </td>
@@ -320,7 +320,7 @@ function js_mascara(evt){
             <tr>
               <td nowrap>
                 <b>
-                 <? db_ancora("<b>OP auxiliar</b>","js_pesquisae42_sequencialmanutencao(true);",$db_opcao);  ?>
+                 <?php db_ancora("<b>OP auxiliar</b>","js_pesquisae42_sequencialmanutencao(true);",$db_opcao);  ?>
                 </b>
               </td>
               <td>
@@ -331,7 +331,7 @@ function js_mascara(evt){
                 <b>Data:</b>
               </td>
               <td colspan='1'>
-                <?
+                <?php
                  db_inputdata("e42_dtpagamentomanutencao", null, null,null,true,"text", 3);
                 ?>
               </td>

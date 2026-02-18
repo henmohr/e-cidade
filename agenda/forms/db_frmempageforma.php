@@ -1,4 +1,4 @@
-<?
+<?php
 $clrotulo = new rotulocampo;
 $clrotulo->label("e80_data");
 $clrotulo->label("e83_codtipo");
@@ -115,7 +115,7 @@ function js_mostravalores(){
 <?=db_input('tords',40,'',true,'hidden',1);?>
 <?=db_input('dados',10,'',true,'hidden',1);?>
 <?=db_input('agens',40,'',true,'hidden',1);?>
-<?//=db_input('forma',40,'',true,'text',1);?>
+<?php//=db_input('forma',40,'',true,'text',1);?>
 <center>
   <div align="left" id="divlabel" style="position:absolute; z-index:1; top:400; left:420; visibility: hidden; border: 1px none #000000; background-color: #CCCCCC; background-color:#999999; font-weight:bold;">
       Pago:    <span id="uak1"></span><br>
@@ -132,7 +132,7 @@ function js_mostravalores(){
     <td width="15%" align='right'><b>Conta pagadora padrão:</b></td>
     <td width="25%">
 
-     <?
+     <?php
       $result05  = $clempagetipo->sql_record($clempagetipo->sql_query_file(null,"e83_codtipo as codtipo,e83_descr","e83_descr"));
       $numrows05 = $clempagetipo->numrows;
       $arr['0']="Nenhum";
@@ -147,7 +147,7 @@ function js_mostravalores(){
     <td width="15%" align='right'><b>Recursos:</b></td>
     <td width="15%">
 
-     <?
+     <?php
        if(!isset($recursos)){
          $recursos = "proprios";
        }

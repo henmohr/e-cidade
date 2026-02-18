@@ -1,4 +1,4 @@
-<?
+<?php
 //MODULO: contabilidade
 $clconplanoconta->rotulo->label();
 $clrotulo = new rotulocampo;
@@ -9,15 +9,15 @@ $clrotulo->label("c60_descr");
 <table border="0">
   <tr>
     <td nowrap title="<?=@$Tc63_codcon?>">
-       <?
+       <?php
        db_ancora(@$Lc63_codcon,"js_pesquisac63_codcon(true);",$db_opcao);
        ?>
     </td>
     <td>
-<?
+<?php
 db_input('c63_codcon',6,$Ic63_codcon,true,'text',$db_opcao," onchange='js_pesquisac63_codcon(false);'")
 ?>
-       <?
+       <?php
 db_input('c60_descr',50,$Ic60_descr,true,'text',3,'')
        ?>
     </td>
@@ -27,7 +27,7 @@ db_input('c60_descr',50,$Ic60_descr,true,'text',3,'')
        <?=@$Lc63_banco?>
     </td>
     <td>
-<?
+<?php
 db_input('c63_banco',5,$Ic63_banco,true,'text',$db_opcao,"")
 ?>
     </td>
@@ -37,7 +37,7 @@ db_input('c63_banco',5,$Ic63_banco,true,'text',$db_opcao,"")
        <?=@$Lc63_agencia?>
     </td>
     <td>
-<?
+<?php
 db_input('c63_agencia',5,$Ic63_agencia,true,'text',$db_opcao,"")
 ?>
     </td>
@@ -47,7 +47,7 @@ db_input('c63_agencia',5,$Ic63_agencia,true,'text',$db_opcao,"")
        <?=@$Lc63_conta?>
     </td>
     <td>
-<?
+<?php
 db_input('c63_conta',50,$Ic63_conta,true,'text',$db_opcao,"")
 ?>
     </td>
@@ -86,9 +86,9 @@ function js_pesquisa(){
 }
 function js_preenchepesquisa(chave){
   db_iframe_conplanoconta.hide();
-  <?
+  <?php
   if($db_opcao!=1){
-    echo " location.href = '".basename($GLOBALS["HTTP_SERVER_VARS"]["PHP_SELF"])."?chavepesquisa='+chave";
+    echo " location.href = '".basename($_SERVER["PHP_SELF"])."?chavepesquisa='+chave";
   }
   ?>
 }

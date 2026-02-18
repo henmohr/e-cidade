@@ -1,4 +1,4 @@
-<?
+<?php
 require("libs/db_stdlib.php");
 require("libs/db_conecta.php");
 include("libs/db_sessoes.php");
@@ -6,7 +6,7 @@ include("libs/db_usuariosonline.php");
 include("dbforms/db_funcoes.php");
 include("classes/db_db_bancos_classe.php");
 $cldb_bancos = new cl_db_bancos;
-db_postmemory($HTTP_POST_VARS);
+db_postmemory($_POST);
 ?>
 
 <html>
@@ -45,7 +45,7 @@ function js_emite(){
       <strong>Banco:</strong>
     </td>
     <td>
-     <?
+     <?php
      $arr_bancos = Array();
      $result_bancos = $cldb_bancos->sql_record($cldb_bancos->sql_query_empage(null,"distinct db90_codban,db90_descr","db90_descr"," e90_codmov is null "));
      $numrows_bancos = $cldb_bancos->numrows;
@@ -71,7 +71,7 @@ function js_emite(){
         <strong>Ordem :&nbsp;&nbsp;</strong>
         </td>
         <td>
-	  <? 
+	  <?php 
 	  $tipo_ordem = array("a"=>"Nome fornecedor","b"=>"CGM fornecedor","c"=>"Recurso");
 	  db_select("ordem",$tipo_ordem,true,2); ?>
         </td>
@@ -87,7 +87,7 @@ function js_emite(){
       </tr>
     </form>
   </table>
-<?
+<?php
   db_menu(db_getsession("DB_id_usuario"),db_getsession("DB_modulo"),db_getsession("DB_anousu"),db_getsession("DB_instit"));
 ?>
 </body>

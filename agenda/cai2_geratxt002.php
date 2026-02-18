@@ -1,4 +1,4 @@
-<?
+<?php
 include("fpdf151/pdf.php");
 include("libs/db_sql.php");
 include("classes/db_empagemov_classe.php");
@@ -24,7 +24,13 @@ $clrotulo->label("e53_vlranu");
 $clrotulo->label("e53_vlrpag");
 $clrotulo->label("e96_codigo");
 
-parse_str($HTTP_SERVER_VARS['QUERY_STRING']);
+$legacyQueryParams = [];
+parse_str((string) ($_SERVER['QUERY_STRING'] ?? ''), $legacyQueryParams);
+foreach ($legacyQueryParams as $legacyKey => $legacyValue) {
+  if (!isset($$legacyKey)) {
+    $$legacyKey = $legacyValue;
+  }
+}
 
 if($ordem == "a") {
   $desc_ordem = "Alfabética";

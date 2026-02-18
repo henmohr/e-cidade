@@ -1,4 +1,4 @@
-<?
+<?php
 require("libs/db_stdlib.php");
 require("libs/db_conecta.php");
 include("libs/db_sessoes.php");
@@ -28,7 +28,7 @@ $clconplanoexe = new cl_conplanoexe;
 $cldb_config= new cl_db_config;
 $clconplanoref= new cl_conplanoref;  
 
-db_postmemory($HTTP_POST_VARS);
+db_postmemory($_POST);
 $db_opcao = 1;
 $db_botao = true;
 $anousu = db_getsession("DB_anousu");
@@ -277,19 +277,19 @@ if(isset($incluir)){
     <td height="430" align="left" valign="top" bgcolor="#CCCCCC"> 
     <center>
     <br>
-	<?
+	<?php
 	include("forms/db_frmconplano.php");
 	?>
     </center>
 	</td>
   </tr>
 </table>
-     <? 
+     <?php 
   db_menu(db_getsession("DB_id_usuario"),db_getsession("DB_modulo"),db_getsession("DB_anousu"),db_getsession("DB_instit"));
      ?>
 </body>
 </html>
-<?
+<?php
 if(isset($incluir)){
   if(isset($perg_msg)){
      echo "<script>";

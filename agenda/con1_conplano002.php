@@ -1,4 +1,4 @@
-<?
+<?php
 require("libs/db_stdlib.php");
 require("libs/db_conecta.php");
 include("libs/db_sessoes.php");
@@ -33,7 +33,7 @@ $clconplanoref= new cl_conplanoref;
 $clconlancamval = new cl_conlancamval;  
 
 
-db_postmemory($HTTP_POST_VARS);
+db_postmemory($_POST);
 if(isset($tipo) && $tipo!=''){
   $db_opcao = 2;
   $db_botao = true;
@@ -404,19 +404,19 @@ if(isset($alterar)){
     <td height="430" align="left" valign="top" bgcolor="#CCCCCC"> 
     <center>
     <br>
-	<?
+	<?php
 	include("forms/db_frmconplano.php");
 	?>
     </center>
 	</td>
   </tr>
 </table>
-     <? 
+     <?php 
   db_menu(db_getsession("DB_id_usuario"),db_getsession("DB_modulo"),db_getsession("DB_anousu"),db_getsession("DB_instit"));
      ?>
 </body>
 </html>
-<?
+<?php
 if(isset($alterar)){
   if($sqlerro==true){
     db_msgbox($erro_msg);
