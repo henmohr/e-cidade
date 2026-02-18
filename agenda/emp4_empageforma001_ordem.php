@@ -1,4 +1,4 @@
-<?
+<?php
 require("libs/db_stdlib.php");
 require("libs/db_conecta.php");
 include("libs/db_sessoes.php");
@@ -27,9 +27,15 @@ $clpcfornecon  = new cl_pcfornecon;
 $clempageforma = new cl_empageforma;
 $clempagemovforma = new cl_empagemovforma;
 
-//echo ($HTTP_SERVER_VARS["QUERY_STRING"]);
-parse_str($HTTP_SERVER_VARS["QUERY_STRING"]);
-//db_postmemory($HTTP_POST_VARS);
+//echo ($_SERVER["QUERY_STRING"]);
+$legacyQueryParams = [];
+parse_str((string) ($_SERVER["QUERY_STRING"] ?? ""), $legacyQueryParams);
+foreach ($legacyQueryParams as $legacyKey => $legacyValue) {
+  if (!isset($$legacyKey)) {
+    $$legacyKey = $legacyValue;
+  }
+}
+//db_postmemory($_POST);
 $db_opcao = 1;
 $db_botao = false;
 
@@ -83,7 +89,7 @@ $numrows09= $clpagordem->numrows;
 <script language="JavaScript" type="text/javascript" src="scripts/scripts.js"></script>
 <link href="estilos.css" rel="stylesheet" type="text/css">
 <style>
-<?$cor="#999999"?>
+<?php$cor="#999999"?>
 .bordas02{
          border: 2px solid #cccccc;
          border-top-color: <?=$cor?>;
@@ -217,14 +223,14 @@ function js_conta(cgm,opcao,nomecampo){
           <th class='bordas02' align='center'><b>Conta pagadora</b></th>
           <th class='bordas02' align='center'><b>Recurso</b></th>
           <th class='bordas02' align='center'><b><?=$RLz01_nome?></b></th>
-          <th class='bordas02' align='center' nowrap><b><?/*=$RLe60_emiss*/?>Banco - Agência - Conta (credor)</b></th>
+          <th class='bordas02' align='center' nowrap><b><?php/*=$RLe60_emiss*/?>Banco - Agência - Conta (credor)</b></th>
           <th class='bordas02' align='center'><b>Forma pgto.</b></th>
           <th class='bordas02' align='center'><b>Total OP</b></th>
           <th class='bordas02' align='center'><b>Liberado OP</b></th>
           <th class='bordas02' align='center'><b>Valor a pagar</b></th>
           <th class='bordas02' align='center'><b><?=$RLe80_codage?></b></th>
 	</tr>
-        <?
+        <?php
 	   $nords =  '';
 	   $nvirg ='';
 	   $arr_forma = Array();
@@ -420,7 +426,7 @@ function js_conta(cgm,opcao,nomecampo){
         <tr>
           <td class='bordas' align='right'><input value="<?=$e50_codord?>" name="CHECK_<?=$e50_codord?>" type='checkbox' onclick='js_colocaval(this);'></td>
           <td class='bordas' align='right' title="<?=($RLe60_codemp)?> - Data de emissão:<?=$e60_emiss?>">
-	  <?
+	  <?php
 	  $codigoempenho = 'e60_numemp_'.$e50_codord;
 	  $$codigoempenho = $e60_numemp;
 	  db_input('e60_numemp_'.$e50_codord,5,$Ie60_numemp,true,'text',3);
@@ -430,7 +436,7 @@ function js_conta(cgm,opcao,nomecampo){
           <td class='bordas' title='Conta pagadora' align='left'><?=db_select("e83_codtipo_$e50_codord",$arr,true,1)?></td>
           <td class='bordas' align='left' title="Recurso"><?=$o15_descr?></td>
           <td class='bordas' title="<?=$RLz01_nome?>" label="Numcgm:<?=$z01_numcgm?>" id="ord_<?=$e50_codord?>"><?=$z01_nome?></td>
-	  <?
+	  <?php
 	  $cpfcgc = "cpfcgc_$e50_codord";
 	  $$cpfcgc = $z01_cgccpf;
 	  if(sizeof($arr_contas)>2){
@@ -452,7 +458,7 @@ function js_conta(cgm,opcao,nomecampo){
 	  }
 	  ?>
           <td class='bordas' nowrap title='Forma de pagamento'><small>
-	  <?
+	  <?php
 	    echo "
 		  <script>
 		  function js_vercpfcgc$e50_codord(campo,valor,cgccpf){
@@ -488,14 +494,14 @@ function js_conta(cgm,opcao,nomecampo){
           <td class='bordas' title='Valor liberado OP' align='right'><?=db_input("disponivel_$e50_codord",10,$Iz01_numcgm,true,'text',3)?></td>
           <td class='bordas' title='Valor a pagar' align='right'><?=db_input("valor_$e50_codord",10,$Ie53_valor,true,'text',$db_opcao,"onChange='js_confere(this);'")?></td>
           <td class='bordas' align='center' title='<?=($RLe80_codage)?>'>
-	  <?
+	  <?php
 	  $codigodaagenda = 'e80_codage_'.$e50_codord;
 	  $$codigodaagenda = $e80_codage;
 	  db_input('e80_codage_'.$e50_codord,5,$Ie80_codage,true,'text',3);
 	  ?>
 	  </td>
 	</tr>
-        <?
+        <?php
 	  }
 	?>
 	<!--

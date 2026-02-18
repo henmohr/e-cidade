@@ -1,4 +1,4 @@
-<?
+<?php
 require("libs/db_stdlib.php");
 require("libs/db_conecta.php");
 include("libs/db_sessoes.php");
@@ -43,8 +43,14 @@ $clempageconf = new cl_empageconf;
 $clempageconfgera = new cl_empageconfgera;
 $clempagemod  = new cl_empagemod;
 
-parse_str($HTTP_SERVER_VARS["QUERY_STRING"]);
-db_postmemory($HTTP_POST_VARS);
+$legacyQueryParams = [];
+parse_str((string) ($_SERVER["QUERY_STRING"] ?? ""), $legacyQueryParams);
+foreach ($legacyQueryParams as $legacyKey => $legacyValue) {
+  if (!isset($$legacyKey)) {
+    $$legacyKey = $legacyValue;
+  }
+}
+db_postmemory($_POST);
 
 $db_opcao = 1;
 $db_botao = false;
@@ -197,7 +203,7 @@ if(isset($data)){
 <script language="JavaScript" type="text/javascript" src="scripts/scripts.js"></script>
 <link href="estilos.css" rel="stylesheet" type="text/css">
 <style>
-<?$cor="#999999"?>
+<?php$cor="#999999"?>
 .bordas02{
          border: 2px solid #cccccc;
          border-top-color: <?=$cor?>;
@@ -220,18 +226,18 @@ if(isset($data)){
 <table width="790" border="0" cellspacing="0" cellpadding="0">
   <tr> 
     <td height="450" align="left" valign="top" bgcolor="#CCCCCC"> 
-   <?
+   <?php
 	include("forms/db_frmempageforma.php");
    ?>
     </td>
   </tr>
 </table>
-<?
+<?php
 db_menu(db_getsession("DB_id_usuario"),db_getsession("DB_modulo"),db_getsession("DB_anousu"),db_getsession("DB_instit"));
 ?>
 </body>
 </html>
-<?
+<?php
 if(isset($atualizar) && $sqlerro==true){
   db_msgbox($erro_msg);
 }

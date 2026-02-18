@@ -1,4 +1,4 @@
-<?
+<?php
 require("libs/db_stdlib.php");
 require("libs/db_conecta.php");
 include("libs/db_sessoes.php");
@@ -27,9 +27,15 @@ $clpcfornecon  = new cl_pcfornecon;
 $clempageforma = new cl_empageforma;
 $clempagemovforma = new cl_empagemovforma;
 
-//echo ($HTTP_SERVER_VARS["QUERY_STRING"]);
-parse_str($HTTP_SERVER_VARS["QUERY_STRING"]);
-//db_postmemory($HTTP_POST_VARS);
+//echo ($_SERVER["QUERY_STRING"]);
+$legacyQueryParams = [];
+parse_str((string) ($_SERVER["QUERY_STRING"] ?? ""), $legacyQueryParams);
+foreach ($legacyQueryParams as $legacyKey => $legacyValue) {
+  if (!isset($$legacyKey)) {
+    $$legacyKey = $legacyValue;
+  }
+}
+//db_postmemory($_POST);
 $db_opcao = 1;
 $db_botao = false;
 
@@ -82,7 +88,7 @@ $numrows09= $clpagordem->numrows;
 <script language="JavaScript" type="text/javascript" src="scripts/scripts.js"></script>
 <link href="estilos.css" rel="stylesheet" type="text/css">
 <style>
-<?$cor="#999999"?>
+<?php$cor="#999999"?>
 .bordas02{
          border: 2px solid #cccccc;
          border-top-color: <?=$cor?>;
@@ -177,7 +183,7 @@ function js_padrao(val){
     <td height="100%" align="left" valign="top" bgcolor="#CCCCCC"> 
 <form name="form1" method="post" action="">
     <center>
-      <?
+      <?php
       if($numrows09){
       ?>
       <table  class='bordas'>
@@ -189,11 +195,11 @@ function js_padrao(val){
           <td class='bordas02' align='center'><b>Recurso</b></td>
           <td class='bordas02' align='center'><b><?=$RLz01_nome?></b></td>
           <td class='bordas02' align='center'><b>Cód. Pgto.</b></td>
-          <td class='bordas02' align='center' nowrap><b><?/*=$RLe60_emiss*/?>Banco - Agência - Conta (credor)</b></td>
+          <td class='bordas02' align='center' nowrap><b><?php/*=$RLe60_emiss*/?>Banco - Agência - Conta (credor)</b></td>
           <td class='bordas02' align='center' nowrap><b>Valor a pagar</b></td>
           <td class='bordas02' align='center'><b><?=$RLe80_codage?></b></td>
 	</tr>
-        <?
+        <?php
 	  $valortotal = 0;
 	  $arr_valtipo = Array();
 	  /*
@@ -227,7 +233,7 @@ function js_padrao(val){
           <td class='bordas' title='Conta pagadora' align='left' nowrap><?=($e83_descr)?></td>
           <td class='bordas' title='Recurso' align='right'><?=$o15_descr?></td>
           <td class='bordas' title='<?=($RLz01_nome)?> -  Numcgm:<?=$z01_numcgm?>'><?=$z01_nome?></td>
-	  <?
+	  <?php
 	  if(trim($db_banco)==trim($banco)){
 	    $codigopagamento = "DEP";
 	  }else if($e81_valor<5000){
@@ -239,7 +245,7 @@ function js_padrao(val){
           <td class='bordas' title='Código de pagamento' align='center' nowrap><b><?=($codigopagamento)?></b></td>
           <td class='bordas' title='Banco - Agência - Conta (credor)' align='left' nowrap><?=($banco)?> - <?=($agencia.$digito)?> - <?=($conta.$digitoc)?></td>
           <td class='bordas' title='Valor a pagar' align='right'><?=db_formatar($e81_valor,"f")?> </td>
-	  <?
+	  <?php
 	  /*
 	  $valores = "val_".$e81_codmov."_".$e83_codtipo;
 	  $$valores = $e81_valor;
@@ -248,11 +254,11 @@ function js_padrao(val){
 	  ?>
           <td class='bordas' title='<?=($RLe80_codage)?>' align='center'><?=($e80_codage)?></td>
 	</tr>
-        <?
+        <?php
 	  }
 	  ?>
       </table>
-      <?
+      <?php
       }else{
       ?>
       <BR><BR><BR><BR><BR><BR>
@@ -263,7 +269,7 @@ function js_padrao(val){
 	  </td>
 	</tr>
       </table>
-      <?
+      <?php
       }
       ?>
     </center>
