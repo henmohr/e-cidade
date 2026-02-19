@@ -29,7 +29,7 @@
             <?php if ($this->showFallbackButton) : ?>
               <li><a href="desktop/fallback/" id="fallback">Usar versão antiga</a></li>
             <?php endif; ?>
-            <li><a href="#" id="open-ppa-audiencias">PPA - Audiências Públicas</a></li>
+            <li><a href="#" id="open-ppa-audiencias">PPA - Cadastro de Indicadores</a></li>
             <li><a data-in-full-screen="false" id="fullscreen">Usar em tela cheia</a></li>
           </ul>
         </div>
@@ -136,6 +136,15 @@
 
       <div class="menu-list-container">
 
+        <div class="menu-list-title">Acessos rápidos</div>
+
+          <div id="atalhos" class="menu-list">
+            <span id="menu-shortcut-ppa-audiencias" class="action">PPA - Cadastro de Indicadores</span>
+          </div>
+      </div>
+
+      <div class="menu-list-container">
+
         <div class="menu-list-title">Instituições</div>
 
           <div id="instituicoes" class="menu-list"></div>
@@ -183,15 +192,31 @@
       });
 
       const btnPpaAudiencias = document.getElementById("open-ppa-audiencias");
+      const shortcutPpaAudiencias = document.getElementById("menu-shortcut-ppa-audiencias");
+      const openPpaAudiencias = function() {
+          var oParams = {
+              action: 'orc1_orcindica001.php',
+              iInstitId: instituicaoAtual,
+              iAreaId: 29,
+              iModuloId: 116,
+              lAtalhoDesktop: true
+          };
+          Desktop.Window.create('PPA - Cadastro de Indicadores', oParams);
+      };
+
       if (btnPpaAudiencias) {
           btnPpaAudiencias.addEventListener('click', (event) => {
               event.preventDefault();
-              var oParams = {
-                  action: 'ui-blade/planejamento/ppa/audiencias/',
-                  iInstitId: instituicaoAtual,
-                  lAtalhoDesktop: true
-              };
-              Desktop.Window.create('PPA - Audiências Públicas', oParams);
+              openPpaAudiencias();
+          });
+      }
+
+      if (shortcutPpaAudiencias) {
+          shortcutPpaAudiencias.addEventListener('click', () => {
+              openPpaAudiencias();
+              if (window.jQuery) {
+                  window.jQuery('#menu').trigger('menu.close');
+              }
           });
       }
     </script>

@@ -118,7 +118,14 @@ class Window extends Controller
         $window = Registry::get('app.window');
 
         $this->view->window = $window;
-        $this->view->pathBody = ECIDADE_REQUEST_PATH . 'w/' . $window->id() . '/' . $get->get('action');
+
+        $action = (string) $get->get("action");
+        if (strpos($action, "ui-blade/") === 0) {
+            // Rotas Laravel devem abrir fora do prefixo /w/{id}/ para evitar 404.
+            $this->view->pathBody = ECIDADE_REQUEST_PATH . $action;
+        } else {
+            $this->view->pathBody = ECIDADE_REQUEST_PATH . "w/" . $window->id() . "/" . $action;
+        }
         $this->view->pathStatus = ECIDADE_REQUEST_PATH . 'w/' . $window->id() . '/extension/desktop/window/bottom';
 
         if ($session->get('DB_DEBUG', false)) {
