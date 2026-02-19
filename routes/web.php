@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\ExternalIdentityController;
 use App\Http\Controllers\Auth\MfaController;
 use App\Http\Controllers\Auth\SessionController;
 use App\Http\Controllers\BackupAccessController;
+use App\Http\Controllers\Financeiro\Planejamento\PpaAudienciasWebController;
 use App\Http\Controllers\IptuFotosController;
 use App\Http\Controllers\RedesimController;
 use App\Http\Controllers\Modules\Patrimonial\Licitacoes\Procedimentos\JulgamentoPorLance\FaseDeLances\FaseDeLancesController;
@@ -67,6 +68,15 @@ Route::group(['middleware' => ['legacySession', 'authEcidadeUser', 'auth.basic',
             ->middleware(['signed'])
             ->name('backup.download');
     });
+});
+
+Route::prefix('ui-blade/planejamento/ppa/audiencias')->group(function () {
+    Route::get('/', [PpaAudienciasWebController::class, 'index'])->name('planejamento.ppa.audiencias.index');
+    Route::post('/', [PpaAudienciasWebController::class, 'store'])->name('planejamento.ppa.audiencias.store');
+    Route::post('/{audienciaId}/anexos', [PpaAudienciasWebController::class, 'storeAnexo'])
+        ->name('planejamento.ppa.audiencias.anexos.store');
+    Route::get('/anexos/{anexoId}/download', [PpaAudienciasWebController::class, 'downloadAnexo'])
+        ->name('planejamento.ppa.audiencias.anexos.download');
 });
 
 // Test route for modern/legacy routing

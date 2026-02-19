@@ -128,6 +128,11 @@ class Window extends Controller
         // Remoção de variaveis GET da url, para que a string possua apenas o nome do arquivo, para que assim, seja possivel fazer a verificação no banco do nome do arquivo.
         $nomeArquivo = $get->has('redirect') ? $get->get('redirectionFileName') : $get->get('action');
 
+        // Rotas ui-blade sao tratadas pelo Laravel e nao existem como item de menu legado.
+        if (is_string($nomeArquivo) && strpos($nomeArquivo, 'ui-blade/') === 0) {
+            return $this->render();
+        }
+
         // valida se usuario tem permissao para acessar rotina pelo anousu
 
         $idMenu = $menuModel->getMenuArquivo($this->request, $nomeArquivo);

@@ -29,6 +29,7 @@
             <?php if ($this->showFallbackButton) : ?>
               <li><a href="desktop/fallback/" id="fallback">Usar versão antiga</a></li>
             <?php endif; ?>
+            <li><a href="#" id="open-ppa-audiencias">PPA - Audiências Públicas</a></li>
             <li><a data-in-full-screen="false" id="fullscreen">Usar em tela cheia</a></li>
           </ul>
         </div>
@@ -167,6 +168,7 @@
     <script type="text/javascript">
       var ECIDADE_REQUEST_PATH = '<?php echo ECIDADE_REQUEST_PATH; ?>';
       var ECIDADE_DESKTOP = true;
+      var instituicaoAtual = <?php echo (int) ($this->request->session()->get('DB_instit') ?: 1); ?>;
       const btnDocumentos = document.getElementById("lista-documentos");
       btnDocumentos.addEventListener('click', () => {
           var oParams = {
@@ -179,6 +181,19 @@
           Desktop.Window.create('Lista de Documentos', oParams);
           document.querySelector("#lista-documentos .icon-document").innerHTML = "";
       });
+
+      const btnPpaAudiencias = document.getElementById("open-ppa-audiencias");
+      if (btnPpaAudiencias) {
+          btnPpaAudiencias.addEventListener('click', (event) => {
+              event.preventDefault();
+              var oParams = {
+                  action: 'ui-blade/planejamento/ppa/audiencias/',
+                  iInstitId: instituicaoAtual,
+                  lAtalhoDesktop: true
+              };
+              Desktop.Window.create('PPA - Audiências Públicas', oParams);
+          });
+      }
     </script>
     <?php echo $this->document->renderScripts(); ?>
   </body>
