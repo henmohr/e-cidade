@@ -59,3 +59,18 @@ aumento e diminuição de fonte e VLibras.
 
 
 
+
+
+## Mapeamento de funcionalidades ja existentes no legado
+
+Objetivo: evitar retrabalho, priorizando reaproveitamento das rotinas em `resources/legacy`.
+
+Diretorios legados relacionados a este modulo:
+- `resources/legacy/site` (arquivos no nivel do modulo: 3)
+- `resources/legacy/prefeitura` (arquivos no nivel do modulo: 57)
+
+Checklist de reaproveitamento antes de implementar novo codigo:
+- [ ] Inventariar rotinas existentes nesses diretorios (telas, relatorios, RPCs e integracoes).
+- [ ] Validar cobertura contra o TR/SPS do modulo e marcar gaps reais.
+- [ ] Reutilizar regra de negocio legada quando aderente (evitar reescrita desnecessaria).
+- [ ] Modernizar com abordagem incremental (estrangulamento), mantendo compatibilidade funcional.

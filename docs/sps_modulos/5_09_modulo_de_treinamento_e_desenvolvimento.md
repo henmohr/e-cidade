@@ -48,3 +48,18 @@ realização do curso.
 
 
 
+
+
+## Mapeamento de funcionalidades ja existentes no legado
+
+Objetivo: evitar retrabalho, priorizando reaproveitamento das rotinas em `resources/legacy`.
+
+Diretorios legados relacionados a este modulo:
+- `resources/legacy/recursoshumanos` (arquivos no nivel do modulo: 224)
+- `resources/legacy/pessoal` (arquivos no nivel do modulo: 1160)
+
+Checklist de reaproveitamento antes de implementar novo codigo:
+- [ ] Inventariar rotinas existentes nesses diretorios (telas, relatorios, RPCs e integracoes).
+- [ ] Validar cobertura contra o TR/SPS do modulo e marcar gaps reais.
+- [ ] Reutilizar regra de negocio legada quando aderente (evitar reescrita desnecessaria).
+- [ ] Modernizar com abordagem incremental (estrangulamento), mantendo compatibilidade funcional.

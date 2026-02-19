@@ -506,3 +506,20 @@ Contas do estado;
 
 
 
+
+
+## Mapeamento de funcionalidades ja existentes no legado
+
+Objetivo: evitar retrabalho, priorizando reaproveitamento das rotinas em `resources/legacy`.
+
+Diretorios legados relacionados a este modulo:
+- `resources/legacy/contabilidade` (arquivos no nivel do modulo: 1728)
+- `resources/legacy/empenho` (arquivos no nivel do modulo: 488)
+- `resources/legacy/caixa` (arquivos no nivel do modulo: 718)
+- `resources/legacy/sicom` (arquivos no nivel do modulo: 85)
+
+Checklist de reaproveitamento antes de implementar novo codigo:
+- [ ] Inventariar rotinas existentes nesses diretorios (telas, relatorios, RPCs e integracoes).
+- [ ] Validar cobertura contra o TR/SPS do modulo e marcar gaps reais.
+- [ ] Reutilizar regra de negocio legada quando aderente (evitar reescrita desnecessaria).
+- [ ] Modernizar com abordagem incremental (estrangulamento), mantendo compatibilidade funcional.

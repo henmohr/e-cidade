@@ -80,3 +80,19 @@ de acordo com as regras e sistema vigente.
 
 
 
+
+
+## Mapeamento de funcionalidades ja existentes no legado
+
+Objetivo: evitar retrabalho, priorizando reaproveitamento das rotinas em `resources/legacy`.
+
+Diretorios legados relacionados a este modulo:
+- `resources/legacy/licitacao` (arquivos no nivel do modulo: 317)
+- `resources/legacy/compras` (arquivos no nivel do modulo: 473)
+- `resources/legacy/protocolo` (arquivos no nivel do modulo: 395)
+
+Checklist de reaproveitamento antes de implementar novo codigo:
+- [ ] Inventariar rotinas existentes nesses diretorios (telas, relatorios, RPCs e integracoes).
+- [ ] Validar cobertura contra o TR/SPS do modulo e marcar gaps reais.
+- [ ] Reutilizar regra de negocio legada quando aderente (evitar reescrita desnecessaria).
+- [ ] Modernizar com abordagem incremental (estrangulamento), mantendo compatibilidade funcional.

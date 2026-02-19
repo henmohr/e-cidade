@@ -71,3 +71,19 @@ Fonte: `/home/mohr/Downloads/cidade/sps.pdf` (seção 5 do Termo de Referência)
 
 
 
+
+
+## Mapeamento de funcionalidades ja existentes no legado
+
+Objetivo: evitar retrabalho, priorizando reaproveitamento das rotinas em `resources/legacy`.
+
+Diretorios legados relacionados a este modulo:
+- `resources/legacy/calendario` (arquivos no nivel do modulo: 9)
+- `resources/legacy/educacao` (arquivos no nivel do modulo: 1082)
+- `resources/legacy/secretariadeeducacao` (arquivos no nivel do modulo: 6)
+
+Checklist de reaproveitamento antes de implementar novo codigo:
+- [ ] Inventariar rotinas existentes nesses diretorios (telas, relatorios, RPCs e integracoes).
+- [ ] Validar cobertura contra o TR/SPS do modulo e marcar gaps reais.
+- [ ] Reutilizar regra de negocio legada quando aderente (evitar reescrita desnecessaria).
+- [ ] Modernizar com abordagem incremental (estrangulamento), mantendo compatibilidade funcional.
