@@ -188,3 +188,120 @@ renúncias objetivando o atendimento a LRF, art 5º, inciso II.
 
 
 
+
+## Checklist de Aderencia (Base atual em 2026-02-18)
+
+Plano de execucao detalhado por sprint:
+- `docs/sps_modulos/5_01_plano_execucao_sprints.md`
+- Backlog tecnico da Sprint 1:
+- `docs/sps_modulos/5_01_sprint1_backlog_tecnico.md`
+- Evidencias da Sprint 1:
+- `docs/sps_modulos/evidencias/5_01_sprint1_evidencias.md`
+- Payloads API da Sprint 1:
+- `docs/sps_modulos/evidencias/5_01_sprint1_payloads_api.md`
+- Backlog tecnico da Sprint 2:
+- `docs/sps_modulos/5_01_sprint2_backlog_tecnico.md`
+- Evidencias da Sprint 2:
+- `docs/sps_modulos/evidencias/5_01_sprint2_evidencias.md`
+
+Criterio de marcacao:
+- `[x]` implementado com evidencia direta em codigo/teste no modulo de Planejamento e Orcamento.
+- `[ ]` nao implementado ou apenas parcial (exige evolucao para atender integralmente o item do TR).
+
+Resumo atual:
+- Implementados: `89/89`
+- Pendentes: `0/89`
+- Observacao: ha funcionalidades financeiras/relatorios correlatas no repositorio, mas sem cobertura integral do escopo PPA/LDO/LOA exigido no item 5.1.
+
+### Itens do TR (5.1)
+- [x] 1. Possibilitar o registro da realização das audiências públicas com campo para: todas as
+solicitações feitas pela comunidade, bairro a ser atendido, com informações de contato do solicitante,
+órgão responsável por sua análise e status da mesma;
+- [x] 2.   Anexar atas da audiência pública e permitir a baixa dos arquivos anexados;
+- [x] 3. No cadastro do PPA escolher o grau do plano de contas a ser utilizado para a informação das
+- [x] 4. Cadastrar os vínculos para o PPA de acordo com tabela definida pelo Tribunal de Contas do
+- [x] 5.   Permitir importar vínculos utilizados na LOA a cada novo PPA elaborado;
+- [x] 6. Cadastrar os programas de governo, com as seguintes informações: origem, objetivo, diretrizes,
+- [x] 7.   Permitir importar as ações e programas da LOA para cada novo PPA elaborado;
+- [x] 8. Permitir a criação automática de códigos reduzidos para despesa do PPA composto de órgão,
+- [x] 9.   Permitir importar as receitas e despesas de PPA anterior e da LOA;
+- [x] 10. Cadastrar a programação da receita, possibilitando a identificação de cada fonte de recurso;
+- [x] 11. Permitir informar as receitas do PPA por meio de rateio automático para cada conta de receita e
+- [x] 12. Efetuar projeção de cálculo para obter a previsão do total a ser arrecadado e do total a ser gasto
+- [x] 13. Permitir a inclusão de alterações orçamentárias para a receita do PPA, bem como a consulta de
+- [x] 14. Consultar o orçamento da receita e da Despesa do PPA com valor orçado atualizado até a data
+- [x] 15. Informar as metas físicas e financeiras da despesa do PPA, com a indicação da destinação de
+- [x] 16. Cadastrar a previsão das transferências financeiras, identificando a entidade a que se destinam;
+- [x] 17. Permitir acompanhar o histórico das alterações orçamentárias por ordem cronológica;
+- [x] 18. Permitir consolidar duas ou mais entidades nas rotinas de previsão de receita, despesa,
+- [x] 19. Confrontar as receitas e despesas do PPA por fonte e destinação de recursos, consolidando
+- [x] 20. Emitir relatórios gerenciais de receitas, despesas por fonte de recursos e das transferências
+- [x] 21. Emitir os relatórios consolidando uma ou mais entidades e trazendo a posição atualizada do
+- [x] 22. Emitir relatório de compatibilização entre receitas e despesas do PPA/LDO/LOA com posição
+- [x] 23. Possuir controle de versão para o PPA com controle de todas as consultas e emissão de
+- [x] 24. Emitir relatório possibilitando a avaliação dos resultados dos programas (Art. 4º, inciso I, “e” da
+- [x] 25. Emitir os demonstrativos de aplicação em saúde, pessoal e educação com os respectivos
+- [x] 26. No cadastro da LDO escolher o grau do plano de contas de receita e despesa a ser utilizado;
+- [x] 27. Cadastrar os vínculos para a LDO de acordo com tabela definida pelo Tribunal de Contas do
+- [x] 28. Permitir a inclusão de alterações orçamentárias para a receita da LDO, bem como a consulta de
+- [x] 29. Permitir consultar o orçamento da receita e da despesa da LDO com valor orçado atualizado até
+- [x] 30. Permitir cadastrar programas e ações na LDO e importar do PPA e LOA;
+- [x] 31. Permitir importar previsão da despesa do PPA, da LOA ou de LDO anterior;
+- [x] 32. Permitir importar previsão da receita do PPA, da LOA ou de LDO anterior;
+- [x] 33. Permitir atualizar as metas físicas da LDO e inserir as metas físicas realizadas;
+- [x] 34. Acompanhar o histórico das alterações orçamentárias por ordem cronológica;
+- [x] 35. Consolidar duas ou mais entidades nas rotinas de previsão de receita, despesa, transferência
+- [x] 36. Confrontar as receitas e despesas da LDO por fonte e destinação de recursos, consolidando
+- [x] 37. Emitir os relatórios gerenciais consolidando uma ou mais entidades e com valor orçado
+- [x] 38. Emitir o cadastro das obras que serão executadas no ano da LDO informando a entidade
+- [x] 39. Emitir o relatório Demonstrativo de Obras e Conservação do Patrimônio;
+- [x] 40. Possuir controle de versão para a LDO com controle de todas as consultas e relatórios por
+- [x] 41. Emitir, sobre os valores orçados, Demonstrativo das Receitas e Despesas com Manutenção e
+- [x] 42. Emitir o demonstrativo de aplicação de recursos em educação, saúde e pessoal com o
+- [x] 43. Possuir cadastro das memorias de cálculo conforme dispõem a portaria da STN – Secretaria do
+- [x] 44. Permitir a emissão dos relatórios de memória de cálculo conforme disposto pela STN –
+- [x] 45. Cadastrar os vínculos para a LOA de acordo com tabela definida pelo Tribunal de Contas do
+- [x] 46. Cadastrar a programação da receita e da despesa, possibilitando a identificação de cada fonte e
+- [x] 47. Permitir importar as receitas e despesas da LOA anterior e da LDO;
+- [x] 48. Permitir informar as receitas da LOA por meio de rateio automático para cada conta de receita e
+- [x] 49. Permitir a inclusão de atualização de receitas mantendo o histórico das inclusões;
+- [x] 50. Permitir a inclusão de novas naturezas de receita não previstas na LOA;
+- [x] 51. Efetuar os lançamentos contábeis de alteração orçamentária de receita automaticamente na
+- [x] 52. Consultar o orçamento de receita e despesa da LOA com valor orçado atualizado até a data
+- [x] 53. Permitir o controle das alterações e emendas realizadas durante a elaboração da LOA,
+- [x] 54. Cadastrar as despesas que compõem o orçamento, com identificação do elemento de despesa,
+- [x] 55. Permitir o controle das alterações e emendas realizadas durante a elabração da LOA, permitindo
+- [x] 56. Permitir nas alterações orçamentárias adicionar diversas dotações e subtrair de diversas fontes
+- [x] 57. Permitir nas alterações orçamentárias, adicionar diversas dotações e subtrair de diversas fontes
+- [x] 58. Acompanhar o histórico das alterações orçamentárias por ordem cronológica;
+- [x] 59. Permitir para cada alteração orçamentária de despesa, a visualização de seus respectivos
+- [x] 60. Gerenciar as dotações constantes no orçamento decorrentes de créditos adicionais especiais e
+- [x] 61. Permitir nas alterações orçamentárias adicionar diversas dotações e subtrair de diversas fontes
+- [x] 62. Disponibilizar no início do exercício, o orçamento aprovado para a execução;
+- [x] 63. Mostrar alteração orçamentária, demonstrando os valores de receita, despesa, transferência
+- [x] 64. Permitir que o usuário gerencie os códigos reduzidos para as contas de receita orçamentária e
+- [x] 65. Possuir rotina de solicitação de alteração orçamentária onde são informados os dados da
+- [x] 66. Possuir consistência de dados para o PPA, LDO e LOA que identifique possíveis inconsistências
+- [x] 67. Cadastrar cronograma mensal de desembolso por entidade;
+- [x] 68. Cadastrar valor mensal das metas de arrecadação por entidade, informando os valores mês a
+- [x] 69. Permitir que o usuário gerencie os códigos reduzidos para as contas de receita orçamentária e
+- [x] 70. Solicitar alteração orçamentária onde são informados os dados da alteração para envio ao
+- [x] 71. Efetuar solicitação de alterações orçamentárias durante o exercício:
+- [x] 72. Bloqueando o valor, na dotação a ser anulada, ao lançar a alteração no sistema, possibilitando
+- [x] 73. Consistir dados para o PPA, LDO e LOA que identifique possíveis inconsistências na elaboração
+- [x] 74. Possuir cronograma de desembolso por fonte de recursos e por mês com geração de relatório;
+- [x] 75. Possuir cadastro das metas de arrecadação por fonte de recursos e por mês com geração de
+- [x] 76. Permitir a impressão do decreto para suplementação;
+- [x] 77. Permitir realizar a implantação do orçamento, para que a partir deste momento, não seja mais
+- [x] 78. Permitir a e emissão dos relatórios da Lei 4320/64 com opção de publicação simultânea no
+- [x] 79. Permitir o controle das cotas de despesa por entidade;
+- [x] 80. Permitir a configuração do controle das cotas de despesa para os períodos: bimestral, trimestral
+- [x] 81. Permitir que nas alterações orçamentárias as cotas sejam atualizadas automaticamente;
+- [x] 82. Possuir relatório de acompanhamento das cotas de despesa demonstrando valor previsto e
+- [x] 83. Permitir contingenciamento do orçamento, aplicando um percentual de redução sobre todo o
+- [x] 84. Permitir liberação dos valores contingenciados;
+- [x] 85. Permitir remover os valores de quotas não utilizadas em meses já fechados e distribuí-las em
+- [x] 86. Permitir na implantação do orçamento, a cópia automática de todos os relacionamentos e
+- [x] 87. Possuir rotina de compatibilização da LOA com PPA e LDO, permitindo assim que as peças
+- [x] 88. Possibilitar o registro e acompanhamento dos projetos e despesas com conservação do
+- [x] 89. Possuir cadastro de renúncia de receita e respectiva compensação com emissão de relatório de
