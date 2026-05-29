@@ -2,6 +2,8 @@
 
 Fonte: `/home/mohr/Downloads/cidade/sps.pdf` (seção 5 do Termo de Referência).
 
+Data de referencia: `2026-03-17`
+
 
 1. Manter o Cadastro de Veículos, a manutenção de veículos abrange o cadastro de veículos. O
 cadastro de veículos possibilitará a vinculação dos trajetos do mesmo, sendo que um veículo pode
@@ -51,6 +53,20 @@ necessidade de continuar utilizando o transporte escolar.
 
 
 
+
+## Situacao atual do modulo
+Objetivo deste documento: registrar o escopo funcional do SPS, indicar o nivel atual de rastreabilidade no repositorio e explicitar a proxima trilha recomendada de modernizacao.
+Evidencias documentais disponiveis:
+- Ate a data de referencia, nao ha backlog tecnico nem evidencias de payload dedicadas a este modulo dentro de `docs/sps_modulos`.
+Estado atual:
+- Este modulo permanece principalmente como transcricao do SPS com mapeamento inicial de diretorios legados relacionados.
+- Nao ha, nesta pasta, evidencia suficiente para afirmar cobertura moderna do modulo; a abertura da trilha executavel ainda depende de backlog tecnico dedicado.
+
+## Diretriz de continuidade
+
+1. Inventariar as rotinas legadas realmente aderentes ao modulo e separar o que e especifico do que e transversal.
+2. Abrir um backlog tecnico executavel com recorte de sprint, criterios de aceite e evidencias esperadas.
+3. Publicar a primeira trilha moderna com contrato HTTP, payloads e testes antes de expandir o escopo.
 
 ## Mapeamento de funcionalidades ja existentes no legado
 
